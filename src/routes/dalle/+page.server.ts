@@ -18,7 +18,7 @@ export const actions = {
 		}
 
 		const model = 'dall-e-3';
-		let responses: APIPromise<ImagesResponse>[] = [];
+		const responses: APIPromise<ImagesResponse>[] = [];
 		for (let i = 0; i < number; i++) {
 			responses.push(
 				openai.images.generate({

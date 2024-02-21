@@ -1,4 +1,9 @@
 <script lang="ts">
+	interface Prompts {
+		system: { [key: string]: string };
+		user: { [key: string]: string };
+	}
+
 	export let systemPrompt: string = '';
 	export let presets: Prompts;
 	export let disabled: boolean = false;

@@ -1,0 +1,50 @@
+name: Run tests and lint
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  testing:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    env:
+      OPENAI_API_KEY: fake_key
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - name: Install dependencies
+        run: |
+          npm install
+          npx playwright install --with-deps
+      - name: Run tests
+        run: |
+          npm run test
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: video-files
+          path: test-results/**/*.webm
+
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - run: |
+          npm install
+          npm run lint
