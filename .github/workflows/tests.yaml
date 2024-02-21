@@ -6,8 +6,6 @@ on:
       - main
   pull_request:
 
-    
-
 jobs:
   testing:
     runs-on: ubuntu-latest
@@ -15,7 +13,7 @@ jobs:
       contents: read
       pull-requests: write
     env:
-        OPENAI_API_KEY: fake_key
+      OPENAI_API_KEY: fake_key
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
