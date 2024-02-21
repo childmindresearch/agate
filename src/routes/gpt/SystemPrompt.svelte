@@ -1,8 +1,5 @@
 <script lang="ts">
-	interface Prompts {
-		system: { [key: string]: string };
-		user: { [key: string]: string };
-	}
+	import type { Prompts } from '$lib/types';
 
 	export let systemPrompt: string = '';
 	export let presets: Prompts;
