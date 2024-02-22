@@ -4,6 +4,7 @@
 	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 	import LoadingBar from '$lib/components/LoadingBar.svelte';
 	import { downloadBlob } from '$lib/utils';
+	import { languages } from './whisperLanguages';
 
 	let loading = false;
 
@@ -44,13 +45,18 @@
 		}}
 	>
 		<label for="file">Transcribe an audio file.</label>
-		<input class="input" id="file" name="file" type="file" />
+		<input
+			class="input"
+			id="file"
+			name="file"
+			type="file"
+			accept=".aac, .avi, .flac, .flv, .m4a, .m4v, .mkv, .mov, .mp3, .mp4, .mpga, .mpeg, .ogg, .wav, .wma, .webm, .wmv, .3gp"
+		/>
 		<label for="language">Language</label>
-		<select id="language" value="en" class="select">
-			<option value="en">English</option>
-			<option value="fr">French</option>
-			<option value="de">German</option>
-			<option value="es">Spanish</option>
+		<select name="language" id="language" value="en" class="select">
+			{#each languages as language}
+				<option value={language.value}>{language.label}</option>
+			{/each}
 		</select>
 		<button type="submit" class="btn variant-soft-primary">Submit</button>
 	</form>

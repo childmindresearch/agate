@@ -51,6 +51,7 @@
 		"@floating-ui/dom": "1.6.3",
 		"@sveltejs/adapter-node": "^4.0.1",
 		"flowbite-svelte-icons": "^1.4.0",
+		"fluent-ffmpeg": "^2.1.2",
 		"js-yaml": "^4.1.0",
 		"openai": "^4.28.0"
 	}
