@@ -25,6 +25,12 @@
 </svelte:head>
 
 <h3 class="h3">Image Generation</h3>
+
+<p>
+	This tool lets you create images with DALL-E 3. Simply write what you want to see and select the
+	desired size and number of images.
+</p>
+<hr class="!border-t-2 m-3" />
 <form
 	method="POST"
 	class="space-y-2"
