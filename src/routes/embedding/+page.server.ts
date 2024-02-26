@@ -6,7 +6,6 @@ import { spawnSync } from 'child_process';
 import * as pdfjsLib from 'pdfjs-dist';
 import { fail } from '@sveltejs/kit';
 import type { CreateEmbeddingResponse } from 'openai/resources/embeddings.mjs';
-import type { TextItem } from 'pdfjs-dist/types/src/display/api';
 
 const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
 
@@ -35,7 +34,8 @@ export const actions = {
 				input,
 				encoding_format: 'float'
 			});
-		} catch (error: any) {
+		} catch (error) {
+			// @ts-expect-error as error is unknown.
 			return fail(500, { message: error.message });
 		}
 
@@ -79,8 +79,8 @@ async function pdfToText(filepath: string): Promise<string> {
 		const page = await pdfDocument.getPage(i + 1);
 		const textContent = await page.getTextContent();
 		text += textContent.items
-			.filter((item) => item.hasOwnProperty('str')) // @ts-ignore
-			.filter((item) => item.str.trim() !== '') // @ts-ignore
+			.filter((item) => Object.prototype.hasOwnProperty.call(item, 'str')) // @ts-expect-error str is filtered for.
+			.filter((item) => item.str.trim() !== '') // @ts-expect-error str is filtered for.
 			.map((item) => item.str)
 			.join(' ');
 	}
