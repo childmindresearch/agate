@@ -41,6 +41,9 @@
 </svelte:head>
 
 <h3 class="h3">Text to Speech</h3>
+<p>This tool generates artificial speech from a given text.</p>
+<hr class="!border-t-2 m-3" />
+
 <label for="text">Text</label>
 <textarea
 	id="text"

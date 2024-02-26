@@ -1,0 +1,27 @@
+<script lang="ts">
+	import { page } from '$app/stores';
+	import { getDrawerStore } from '@skeletonlabs/skeleton';
+
+	const drawerStore = getDrawerStore();
+	const pages = [
+		{ name: 'Chatbot', href: '/gpt' },
+		{ name: 'Embedding', href: '/embedding' },
+		{ name: 'Image Generation', href: '/dalle' },
+		{ name: 'Text To Speech', href: '/text-to-speech' },
+		{ name: 'Transcription', href: '/transcription' }
+	];
+
+	function drawerClose(): void {
+		drawerStore.close();
+	}
+
+	$: classesActive = (href: string) => (href === $page.url.pathname ? '!bg-primary-500/40' : '');
+</script>
+
+<nav class="list-nav p-4 flex flex-col">
+	<ul style="flex-grow: 1;">
+		{#each pages as { name, href }}
+			<li><a {href} class={classesActive(href)} on:click={drawerClose}>{name}</a></li>
+		{/each}
+	</ul>
+</nav>

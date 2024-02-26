@@ -2,6 +2,7 @@
 	import Chat from './Chat.svelte';
 	import SystemPrompt from './SystemPrompt.svelte';
 	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
+	import { fade } from 'svelte/transition';
 
 	export let data;
 
@@ -35,7 +36,19 @@
 	}
 </script>
 
-<SystemPrompt presets={data.systemPrompts} bind:systemPrompt disabled={disableSystemPrompt} />
+<svelte:head>
+	<title>Agate | Chatbot</title>
+</svelte:head>
+<h3 class="h3">Chatbot</h3>
+
+<p>
+	To start, please fill out the instructions for the Chatbot. You can either use a pre-set, or
+	create custom instructions.
+</p>
+<hr class="!border-t-2 m-3" />
+<div transition:fade hidden={disableSystemPrompt}>
+	<SystemPrompt presets={data.systemPrompts} bind:systemPrompt disabled={disableSystemPrompt} />
+</div>
 <button class="btn variant-soft-primary" on:click={onClick}>
 	{#if disableSystemPrompt}
 		End Chat

@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { Avatar } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
 
 	export let systemPrompt: string;
@@ -12,9 +11,6 @@
 	let loading = false;
 
 	const model = 'gpt-4';
-
-	const user_avatar = 'https://i.pravatar.cc/150?img=31';
-	const server_avatar = 'https://i.pravatar.cc/150?img=54';
 
 	async function addUserMessage(event: KeyboardEvent) {
 		if (event.key !== 'Enter') return;
@@ -73,36 +69,22 @@
 	});
 </script>
 
-<div class="chat w-full h-full">
+<div class="chat w-full">
 	<section
 		bind:this={elemChat}
 		id="chat-container"
-		class="w-full max-h-[600px] min-h-[600px] p-4 overflow-y-auto space-y-4"
+		class="w-full max-h-[400px] min-h-[100px] p-4 overflow-y-auto space-y-4"
 	>
-		{#each messages as bubble}
-			{#if bubble.role === 'assistant'}
-				<div class="grid grid-cols-[auto_1fr] gap-2">
-					<Avatar src={server_avatar} width="w-12" />
-					<div class="card p-4 rounded-tl-none space-y-2 bg-primary-200/30">
-						<header class="flex justify-between items-center">
-							<p class="font-bold">Agate</p>
-							<small class="opacity-50">{bubble.timestamp}</small>
-						</header>
-						<p class="whitespace-pre">{bubble.content}</p>
-					</div>
+		{#each messages.slice(1) as bubble}
+			<div class="grid grid-cols-[auto_1fr] gap-2 min-w-full">
+				<div class="card p-4 rounded-tl-none space-y-2 bg-primary-200/30">
+					<header class="flex justify-between items-center">
+						<p class="font-bold">{bubble.role === 'assistant' ? 'Agate' : 'You'}</p>
+						<small class="opacity-50">{bubble.timestamp}</small>
+					</header>
+					<p>{bubble.content}</p>
 				</div>
-			{:else if bubble.role === 'user'}
-				<div class="grid grid-cols-[1fr_auto] gap-2">
-					<div class="card p-4 rounded-tr-none space-y-2 bg-primary-500/30">
-						<header class="flex justify-between items-center">
-							<p class="font-bold">You</p>
-							<small class="opacity-50">{bubble.timestamp}</small>
-						</header>
-						<p class="whitespace-pre">{bubble.content}</p>
-					</div>
-					<Avatar src={user_avatar} width="w-12" />
-				</div>
-			{/if}
+			</div>
 		{/each}
 		{#if loading}
 			<p>Agate is typing...</p>

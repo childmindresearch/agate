@@ -1,5 +1,5 @@
 import { redirect } from '@sveltejs/kit';
 
 export function load() {
-	redirect(308, '/text-to-speech');
+	redirect(308, '/gpt');
 }
