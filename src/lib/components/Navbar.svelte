@@ -21,7 +21,7 @@
 				</span>
 			</button>
 			<a href="/" class="hidden md:block">
-				<img src="/cmi.svg" alt="Clioweb" class="w-28" />
+				<img src="/cmi.svg" alt="Agate" class="w-28" />
 			</a>
 		</div>
 	</svelte:fragment>
