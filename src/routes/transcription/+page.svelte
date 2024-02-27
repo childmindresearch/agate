@@ -1,64 +1,30 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { enhance } from '$app/forms';
-	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
-	import LoadingBar from '$lib/components/LoadingBar.svelte';
+	import FormActionPage from '$lib/components/PageTemplates/FormActionPage.svelte';
 	import { downloadBlob } from '$lib/utils';
 	import { whisperLanguages } from './whisperLanguages';
+	import type { SubmitFunction } from '@sveltejs/kit';
 
-	let loading = false;
-	let files: FileList;
-	let lastFilename: string;
-
-	const toastStore = getToastStore();
-
-	function downloadTranscript() {
-		const blob = new Blob([$page.form.text], { type: 'text/plain' });
-		const filename = `${lastFilename.split('.')[0]}_transcript.txt`;
-		downloadBlob(blob, filename);
-	}
-
-	$: {
-		if ($page.status >= 400) {
-			const toast: ToastSettings = {
-				message: $page.form.message,
-				background: 'variant-filled-error'
-			};
-			toastStore.trigger(toast);
-		}
-	}
-
-	$: {
-		if (!loading && $page.form && $page.form.text) {
-			downloadTranscript();
-		}
-	}
+	const title = 'Transcription';
+	const description = `
+		Transcribes an audio or video file.
+	`;
+	const enhancer: SubmitFunction = ({ formData }) => {
+		return async ({ update }) => {
+			await update();
+			if ($page.status < 400) {
+				const inputFilename = (formData.get('file') as File)?.name;
+				const filename = inputFilename.split('.').slice(0, -1).join('.') + '_transcript.txt';
+				const blob = new Blob([$page.form.text], { type: 'text/plain' });
+				downloadBlob(blob, filename);
+			}
+		};
+	};
 </script>
 
-<svelte:head>
-	<title>Agate | Transcription</title>
-</svelte:head>
-
-<h3 class="h3">Transcription</h3>
-<p>Transcribes an audio or video file.</p>
-<hr class="!border-t-2 m-3" />
-
-<div class="mb-2">
-	<form
-		method="POST"
-		enctype="multipart/form-data"
-		class="space-y-2"
-		use:enhance={() => {
-			lastFilename = files[0].name;
-			loading = true;
-			return async ({ update }) => {
-				await update();
-				loading = false;
-			};
-		}}
-	>
+<FormActionPage {title} {description} {enhancer}>
+	<svelte:fragment slot="form">
 		<input
-			bind:files
 			class="input"
 			id="file"
 			name="file"
@@ -72,9 +38,5 @@
 			{/each}
 		</select>
 		<button type="submit" class="btn variant-soft-primary">Submit</button>
-	</form>
-</div>
-
-{#if loading}
-	<LoadingBar />
-{/if}
+	</svelte:fragment>
+</FormActionPage>

@@ -33,7 +33,7 @@
 	<div class="max-w-screen-md mx-auto mt-5 px-5 min-w-[332px]">
 		<slot />
 	</div>
-	<svelte:fragment slot="footer">
+	<svelte:fragment slot="pageFooter">
 		<div class="bg-surface-500/5 p-4 text-center">
 			<p class="text-sm">
 				All submitted data is sent to OpenAI. Please do not upload any protected data.

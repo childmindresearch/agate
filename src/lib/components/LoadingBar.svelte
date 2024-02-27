@@ -1,13 +1,15 @@
 <script>
 	import { ProgressRadial } from '@skeletonlabs/skeleton';
+
+	export let show = true;
 </script>
 
-<div class="flex items-center justify-center mt-3">
+<div class={`flex items-center justify-center m-3 ${show ? '' : 'hidden'}`}>
 	<ProgressRadial
 		stroke={60}
 		meter="stroke-primary-500"
 		track="stroke-primary-500/30"
 		strokeLinecap="round"
-		class="w-15 h-15"
+		width="w-16"
 	/>
 </div>

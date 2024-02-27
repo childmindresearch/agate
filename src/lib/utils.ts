@@ -19,5 +19,9 @@ export function diskFileToMemoryFile(filepath: string, type: string): File {
 }
 
 export async function memoryFileToDiskFile(file: File, filepath: string): Promise<void> {
-	fs.writeFileSync(filepath, Buffer.from(await file.arrayBuffer()));
+	fs.writeFile(filepath, Buffer.from(await file.arrayBuffer()), (err) => {
+		if (err) {
+			throw err;
+		}
+	});
 }
