@@ -3,7 +3,7 @@
 
 	export let title: string;
 	export let description: string;
-	export let onSubmit: Function;
+	export let onSubmit: () => void;
 	export let isLoading = false;
 
 	async function onSubmitLoading() {

@@ -30,7 +30,7 @@
 		});
 		isLoading = true;
 		return async ({ update }) => {
-			// @ts-expect-error
+			// @ts-expect-error because enhancer returns a maybe promise. This should always work.
 			await updateFunction({ update });
 			isLoading = false;
 		};
