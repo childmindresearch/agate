@@ -2,9 +2,9 @@ import OpenAI from 'openai';
 import { OPENAI_API_KEY } from '$lib/server/secrets.js';
 import type { Message } from '$lib/types';
 
-const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
-
 export async function POST({ request }) {
+	const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
+
 	const json = await request.json();
 	const messages = json.messages as Message[];
 	const messagesOpenai = messages.map((message) => {

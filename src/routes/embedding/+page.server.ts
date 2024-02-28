@@ -7,10 +7,10 @@ import * as pdfjsLib from 'pdfjs-dist';
 import { fail } from '@sveltejs/kit';
 import type { CreateEmbeddingResponse } from 'openai/resources/embeddings.mjs';
 
-const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
-
 export const actions = {
 	default: async (event) => {
+		const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
+
 		const formData = await event.request.formData();
 		const file = formData.get('file') as File;
 		const model = formData.get('model') as

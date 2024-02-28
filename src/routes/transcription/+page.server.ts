@@ -8,13 +8,14 @@ import { whisperLanguages } from './whisperLanguages';
 import { memoryFileToDiskFile, diskFileToMemoryFile } from '$lib/utils';
 import type { whisperLanguagesTypes } from '$lib/types';
 
-const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
 const VALID_FILE_FORMATS = ['mp3', 'mp4', 'mpeg', 'mpga', 'm4a', 'wav', 'webm'];
 const OPENAI_MAX_SIZE = 24000000; // OpenAI limit is 25MB, but lets keep a margin.
 const LOCAL_MAX_SIZE = 500000000; // 500MB
 
 export const actions = {
 	default: async (event) => {
+		const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
+
 		const formData = await event.request.formData();
 		let files = [formData.get('file')] as File[];
 		const language = formData.get('language') as whisperLanguagesTypes;

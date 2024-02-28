@@ -4,10 +4,10 @@ import type { ImagesResponse } from 'openai/resources/images.mjs';
 import type { APIPromise } from 'openai/core.mjs';
 import { fail } from '@sveltejs/kit';
 
-const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
-
 export const actions = {
 	default: async (event) => {
+		const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
+
 		const formData = await event.request.formData();
 		const prompt = formData.get('text') as string;
 		const size = formData.get('size') as '1024x1024' | '1024x1792' | '1792x1024';

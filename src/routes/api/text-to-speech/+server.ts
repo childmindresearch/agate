@@ -1,9 +1,9 @@
 import OpenAI from 'openai';
 import { OPENAI_API_KEY } from '$lib/server/secrets.js';
 
-const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
-
 export async function POST({ request }) {
+	const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
+
 	const formData = await request.formData();
 	const input = formData.get('text') as string;
 	const voice = formData.get('voice') as 'alloy' | 'echo' | 'fable' | 'onyx' | 'nova' | 'shimmer';
