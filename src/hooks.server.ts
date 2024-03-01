@@ -9,12 +9,10 @@ export async function handle({ event, resolve }) {
 	const requestId = randomUUID();
 	const startTime = performance.now();
 
-	let user: string | undefined;
+	let user: string;
 	if (!dev) {
-		const decoded = decodeJwt(event);
-		if (decoded && decoded.sub) {
-			user = decoded.sub;
-		} else {
+		user = event.request.headers.get('X-MS-CLIENT-PRINCIPAL-NAME') as string;
+		if (!user) {
 			return new Response('Unauthorized', { status: 401 });
 		}
 	} else {
