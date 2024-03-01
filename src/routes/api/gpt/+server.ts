@@ -1,6 +1,7 @@
 import OpenAI from 'openai';
 import { OPENAI_API_KEY } from '$lib/server/secrets.js';
 import type { Message } from '$lib/types';
+import { logger } from '$lib/server/utils';
 
 export async function POST({ request }) {
 	const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
@@ -22,6 +23,14 @@ export async function POST({ request }) {
 		return new Response('Last message must be from user.', { status: 422 });
 	}
 
+	const requestId = request.headers.get('X-Request-ID');
+	const user = request.headers.get('X-User');
+	logger.info({
+		type: 'OpenAI Request',
+		model,
+		requestId,
+		user
+	});
 	const response = await openai.chat.completions.create({
 		model,
 		messages: messagesOpenai

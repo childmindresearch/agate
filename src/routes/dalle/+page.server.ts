@@ -3,6 +3,7 @@ import { OPENAI_API_KEY } from '$lib/server/secrets.js';
 import type { ImagesResponse } from 'openai/resources/images.mjs';
 import type { APIPromise } from 'openai/core.mjs';
 import { fail } from '@sveltejs/kit';
+import { logger } from '$lib/server/utils';
 
 export const actions = {
 	default: async (event) => {
@@ -18,6 +19,14 @@ export const actions = {
 		}
 
 		const model = 'dall-e-3';
+		const requestId = event.request.headers.get('X-Request-ID');
+		const user = event.request.headers.get('X-User');
+		logger.info({
+			type: 'OpenAI Request',
+			model,
+			requestId,
+			user
+		});
 		const responses: APIPromise<ImagesResponse>[] = [];
 		for (let i = 0; i < number; i++) {
 			responses.push(

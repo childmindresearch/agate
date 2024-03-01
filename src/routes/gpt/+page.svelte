@@ -4,8 +4,6 @@
 	import SystemPrompt from './SystemPrompt.svelte';
 	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 
-	export let data;
-
 	let systemPrompt = '';
 	let disableSystemPrompt = false;
 
@@ -42,7 +40,7 @@
 
 <FormBasePage {title} {description} />
 <div hidden={disableSystemPrompt}>
-	<SystemPrompt presets={data.systemPrompts} bind:systemPrompt disabled={disableSystemPrompt} />
+	<SystemPrompt bind:systemPrompt disabled={disableSystemPrompt} />
 </div>
 <button class="btn variant-soft-primary" on:click={onClick}>
 	{#if disableSystemPrompt}

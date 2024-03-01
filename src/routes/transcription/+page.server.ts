@@ -7,6 +7,7 @@ import path from 'node:path';
 import { whisperLanguages } from './whisperLanguages';
 import { memoryFileToDiskFile, diskFileToMemoryFile } from '$lib/utils';
 import type { whisperLanguagesTypes } from '$lib/types';
+import { logger } from '$lib/server/utils';
 
 const VALID_FILE_FORMATS = ['mp3', 'mp4', 'mpeg', 'mpga', 'm4a', 'wav', 'webm'];
 const OPENAI_MAX_SIZE = 24000000; // OpenAI limit is 25MB, but lets keep a margin.
@@ -43,6 +44,14 @@ export const actions = {
 
 		const model = 'whisper-1';
 		const transcriptions: string[] = [];
+		const requestId = event.request.headers.get('X-Request-ID');
+		const user = event.request.headers.get('X-User');
+		logger.info({
+			type: 'OpenAI Request',
+			model,
+			requestId,
+			user
+		});
 		for (const f of files) {
 			const transcription = await openai.audio.transcriptions.create({
 				file: f,

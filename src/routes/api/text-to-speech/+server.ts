@@ -1,5 +1,6 @@
 import OpenAI from 'openai';
 import { OPENAI_API_KEY } from '$lib/server/secrets.js';
+import { logger } from '$lib/server/utils';
 
 export async function POST({ request }) {
 	const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
@@ -14,6 +15,14 @@ export async function POST({ request }) {
 		return new Response('Missing input.', { status: 422 });
 	}
 
+	const requestId = request.headers.get('X-Request-ID');
+	const user = request.headers.get('X-User');
+	logger.info({
+		type: 'OpenAI Request',
+		model,
+		requestId,
+		user
+	});
 	const audio = await openai.audio.speech.create({
 		input,
 		voice,

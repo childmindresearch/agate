@@ -6,6 +6,7 @@ import { spawnSync } from 'child_process';
 import * as pdfjsLib from 'pdfjs-dist';
 import { fail } from '@sveltejs/kit';
 import type { CreateEmbeddingResponse } from 'openai/resources/embeddings.mjs';
+import { logger } from '$lib/server/utils';
 
 export const actions = {
 	default: async (event) => {
@@ -26,6 +27,15 @@ export const actions = {
 		if (!input) {
 			return fail(422, { message: 'Empty file.' });
 		}
+
+		const requestId = event.request.headers.get('X-Request-ID');
+		const user = event.request.headers.get('X-User');
+		logger.info({
+			type: 'OpenAI Request',
+			model,
+			requestId,
+			user
+		});
 
 		let response: CreateEmbeddingResponse;
 		try {
