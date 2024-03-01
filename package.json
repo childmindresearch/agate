@@ -3,6 +3,7 @@
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
+		"start": "ORIGIN=0.0.0.0:3000; npm run build; node ./build",
 		"dev": "vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
@@ -16,9 +17,9 @@
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.28.1",
+		"@rollup/plugin-yaml": "^4.1.2",
 		"@skeletonlabs/skeleton": "2.8.0",
 		"@skeletonlabs/tw-plugin": "0.3.1",
-		"@sveltejs/adapter-auto": "^3.0.0",
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
 		"@tailwindcss/forms": "0.5.7",
@@ -26,7 +27,7 @@
 		"@types/eslint": "8.56.2",
 		"@types/ffmpeg": "^1.0.7",
 		"@types/fluent-ffmpeg": "^2.1.24",
-		"@types/js-yaml": "^4.0.9",
+		"@types/jsonwebtoken": "^9.0.6",
 		"@types/node": "20.11.19",
 		"@typescript-eslint/eslint-plugin": "^7.0.2",
 		"@typescript-eslint/parser": "^7.0.2",
@@ -52,8 +53,9 @@
 		"@sveltejs/adapter-node": "^4.0.1",
 		"flowbite-svelte-icons": "^1.4.0",
 		"fluent-ffmpeg": "^2.1.2",
-		"js-yaml": "^4.1.0",
+		"jsonwebtoken": "^9.0.2",
 		"openai": "^4.28.0",
-		"pdfjs-dist": "^4.0.379"
+		"pdfjs-dist": "^4.0.379",
+		"winston": "^3.11.0"
 	}
 }

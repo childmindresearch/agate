@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { Prompts } from '$lib/types';
+	// @ts-expect-error - this import is correct.
+	import prompts from '$lib/assets/prompts.yaml';
 
 	export let systemPrompt: string = '';
-	export let presets: Prompts;
 	export let disabled: boolean = false;
 
 	function capitalizeFirstLetter(string: string) {
@@ -16,13 +16,13 @@
 		}
 		const target = e.target as HTMLSelectElement;
 		const promptName = target.value;
-		systemPrompt = presets.system[promptName];
+		systemPrompt = prompts.system[promptName];
 	}
 </script>
 
 <select value={null} class="select" on:change={onSelectionChange} {disabled}>
 	<option value={null}>Select a system prompt</option>
-	{#each Object.keys(presets.system) as name}
+	{#each Object.keys(prompts.system) as name}
 		<option value={name}>{capitalizeFirstLetter(name)}</option>
 	{/each}
 </select>
