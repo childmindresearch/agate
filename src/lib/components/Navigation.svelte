@@ -18,10 +18,14 @@
 	$: classesActive = (href: string) => (href === $page.url.pathname ? '!bg-primary-500/40' : '');
 </script>
 
-<nav class="list-nav p-4 flex flex-col">
+<nav class="list-nav p-4 flex flex-col" data-testid="div-navigation">
 	<ul style="flex-grow: 1;">
 		{#each pages as { name, href }}
-			<li><a {href} class={classesActive(href)} on:click={drawerClose}>{name}</a></li>
+			<li>
+				<a {href} class={classesActive(href)} data-testid="a-navigation" on:click={drawerClose}
+					>{name}</a
+				>
+			</li>
 		{/each}
 	</ul>
 </nav>
