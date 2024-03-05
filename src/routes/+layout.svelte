@@ -1,15 +1,13 @@
 <script lang="ts">
 	import '../app.postcss';
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
-	import { AppShell, Drawer, Toast, modeCurrent, storePopup } from '@skeletonlabs/skeleton';
+	import { AppShell, Drawer, Toast, storePopup } from '@skeletonlabs/skeleton';
 	import Navbar from '$lib/components/Navbar.svelte';
 	import { initializeStores } from '@skeletonlabs/skeleton';
 	import Navigation from '$lib/components/Navigation.svelte';
 
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 	initializeStores();
-
-	$modeCurrent = true;
 </script>
 
 <svelte:head>
