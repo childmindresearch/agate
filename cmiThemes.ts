@@ -6,17 +6,17 @@ export const cmiLight: CustomThemeConfig = {
 		// =~= Theme Properties =~=
 		'--theme-font-family-base': `system-ui`,
 		'--theme-font-family-heading': `system-ui`,
-		'--theme-font-color-base': 'var(--color-tertiary-700)',
+		'--theme-font-color-base': '19 42 76',
 		'--theme-font-color-dark': '255 255 255',
 		'--theme-rounded-base': '8px',
 		'--theme-rounded-container': '4px',
 		'--theme-border-base': '1px',
 		// =~= Theme On-X Colors =~=
 		'--on-primary': '255 255 255',
-		'--on-secondary': 'var(--color-tertiary-700)',
+		'--on-secondary': '19 42 76',
 		'--on-tertiary': '255 255 255',
 		'--on-success': '255 255 255',
-		'--on-warning': 'var(--color-tertiary-700)',
+		'--on-warning': '23 23 23',
 		'--on-error': '255 255 255',
 		'--on-surface': 'var(--color-tertiary-700)',
 		// =~= Theme Colors  =~=
@@ -96,6 +96,8 @@ export const cmiLight: CustomThemeConfig = {
 		'--color-surface-600': '225 224 221', // #e1e0dd
 		'--color-surface-700': '188 187 184', // #bcbbb8
 		'--color-surface-800': '150 149 147', // #969593
-		'--color-surface-900': '123 122 120' // #7b7a78
+		'--color-surface-900': '123 122 120', // #7b7a78
+		// neutral | #767676
+		'--color-neutral-500': '255 0 0' // #ff0000
 	}
 };
