@@ -49,6 +49,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@cmi-dair/skeleton-themes": "^0.0.2",
 		"@floating-ui/dom": "1.6.3",
 		"@sveltejs/adapter-node": "^4.0.1",
 		"flowbite-svelte-icons": "^1.4.0",
