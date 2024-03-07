@@ -6,9 +6,7 @@
 	import type { SubmitFunction } from '@sveltejs/kit';
 
 	const title = 'Transcription';
-	const description = `
-		Transcribes an audio or video file.
-	`;
+	const description = 'Transcribes an audio or video file.';
 	const enhancer: SubmitFunction = ({ formData }) => {
 		return async ({ update }) => {
 			await update();
