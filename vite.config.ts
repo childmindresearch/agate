@@ -13,5 +13,8 @@ export default defineConfig({
 				greedy: [/^hljs-/]
 			}
 		})
-	]
+	],
+	test: {
+		include: ['src/**/*.test.ts']
+	}
 });

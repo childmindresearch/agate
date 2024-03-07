@@ -1,6 +1,5 @@
-import { diskFileToMemoryFile, downloadBlob, memoryFileToDiskFile } from '$lib/utils';
+import { diskFileToMemoryFile, downloadBlob } from '$lib/utils';
 import { describe, it, expect, vi } from 'vitest';
-import fs from 'fs';
 
 describe('downloadBlob', () => {
 	it('should download a blob and clean up', async () => {
