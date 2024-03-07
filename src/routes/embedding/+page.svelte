@@ -31,6 +31,7 @@
 			class="input"
 			accept=".md, .docx, .txt, .rst, .html, .pdf"
 			required
+			data-testid="embedding-file-input"
 		/>
 		<label for="model">Model</label>
 		<select id="model" name="model" class="select" value="text-embedding-3-small">
