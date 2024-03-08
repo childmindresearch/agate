@@ -1,7 +1,6 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-
 	export let systemPrompt: string;
+	export let user: string = 'You';
 
 	let messages = [
 		{ role: 'system', content: systemPrompt, timestamp: new Date().toLocaleTimeString() }
@@ -9,14 +8,14 @@
 	let currentMessage = '';
 	let elemChat: HTMLElement;
 	let loading = false;
-	let names: { [key: string]: string } = {
-		assistant: 'Agate',
-		user: 'You',
-		system: 'System'
-	};
 
 	const model = 'gpt-4';
 
+	const names: { [key: string]: string } = {
+		assistant: 'Agate',
+		user: capitalizeFirstLetter(user.split('.')[0]),
+		system: 'System'
+	};
 	const roleCss: { [key: string]: string } = {
 		assistant: 'bg-primary-500/30 mr-auto w-10/12',
 		user: 'bg-primary-200/30 ml-auto w-10/12',
@@ -45,7 +44,6 @@
 			})
 			.then((data) => {
 				addMessage(data.message, 'assistant');
-				names.user = capitalizeFirstLetter(data.user.split('.')[0]);
 				loading = false;
 			})
 			.catch((error) => {
@@ -79,10 +77,6 @@
 	function capitalizeFirstLetter(string: string) {
 		return string.charAt(0).toUpperCase() + string.slice(1);
 	}
-
-	onMount(() => {
-		scrollChatBottom();
-	});
 </script>
 
 <div class="chat w-full">
