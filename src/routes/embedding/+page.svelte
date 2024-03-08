@@ -30,6 +30,8 @@
 			name="file"
 			class="input"
 			accept=".md, .docx, .txt, .rst, .html, .pdf"
+			required
+			data-testid="embedding-file-input"
 		/>
 		<label for="model">Model</label>
 		<select id="model" name="model" class="select" value="text-embedding-3-small">
@@ -37,7 +39,11 @@
 			<option value="text-embedding-3-large">text-embedding-3-large</option>
 			<option value="text-embedding-ada-002">text-embedding-ada-002</option>
 		</select>
-		<button type="submit" class="btn hover:variant-filled-primary variant-soft-primary">
+		<button
+			data-testid="embedding-submit-button"
+			type="submit"
+			class="btn hover:variant-filled-primary variant-soft-primary"
+		>
 			Submit
 		</button>
 	</svelte:fragment>

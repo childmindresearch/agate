@@ -8,7 +8,7 @@
 	}
 </script>
 
-<AppBar>
+<AppBar data-testid="app-bar">
 	<svelte:fragment slot="lead">
 		<div class="flex items-center">
 			<button class="md:hidden btn btn-sm mr-4" on:click={drawerOpen}>
@@ -20,20 +20,25 @@
 					</svg>
 				</span>
 			</button>
-			<a href="/" class="hidden md:block">
+			<a href="/" data-testid="a-cmi-logo" class="hidden md:block">
 				<img src="/cmi.svg" alt="Agate" class="w-28" />
 			</a>
 		</div>
 	</svelte:fragment>
 	<svelte:fragment slot="trail">
 		<button class="btn hover:variant-soft-primary">
-			<a href="https://github.com/childmindresearch/agate" target="_blank" rel="noreferrer">
+			<a
+				data-testid="a-github"
+				href="https://github.com/childmindresearch/agate"
+				target="_blank"
+				rel="noreferrer"
+			>
 				<i class="fa-brands fa-github text-lg" />
 				<span>GitHub</span>
 			</a>
 		</button>
 		<button class="btn hover:variant-soft-primary">
-			<a href="mailto:dair@childmind.org" target="_blank" rel="noreferrer">
+			<a data-testid="a-mailto" href="mailto:dair@childmind.org" target="_blank" rel="noreferrer">
 				<i class="fa-solid fa-envelope text-lg" />
 				<span>Contact</span>
 			</a>
