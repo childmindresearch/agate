@@ -42,3 +42,5 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+      - run: curl ${{ secrets.AZURE_DEPLOYMENT_WEBHOOK }} -H "" -d ""
