@@ -31,6 +31,7 @@ export async function POST({ request }) {
 		requestId,
 		user
 	});
+
 	const response = await openai.chat.completions.create({
 		model,
 		messages: messagesOpenai
@@ -40,7 +41,7 @@ export async function POST({ request }) {
 		return new Response('No response from OpenAI.', { status: 500 });
 	}
 
-	return new Response(JSON.stringify({ message: response_message }), {
+	return new Response(JSON.stringify({ message: response_message, user }), {
 		status: 200,
 		headers: { 'Content-Type': 'application/json' }
 	});

@@ -13,14 +13,6 @@
 
 	const toastStore = getToastStore();
 
-	function onClick() {
-		if (disableSystemPrompt) {
-			endChat();
-		} else {
-			startChat();
-		}
-	}
-
 	function startChat() {
 		if (systemPrompt === '') {
 			const noPromptToast: ToastSettings = {
@@ -38,18 +30,21 @@
 	}
 </script>
 
-<FormBasePage {title} {description} />
 <div hidden={disableSystemPrompt}>
+	<FormBasePage {title} {description} />
 	<SystemPrompt bind:systemPrompt disabled={disableSystemPrompt} />
 </div>
-<button class="btn variant-soft-primary" on:click={onClick}>
-	{#if disableSystemPrompt}
-		End Chat
-	{:else}
-		Start Chat
-	{/if}
-</button>
+
+{#if !disableSystemPrompt}
+	<button class="btn variant-filled-primary" on:click={startChat}> Start Chat </button>
+{/if}
 
 {#if systemPrompt !== '' && disableSystemPrompt}
 	<Chat {systemPrompt} />
+{/if}
+
+{#if disableSystemPrompt}
+	<button class="btn mt-5 float-right variant-filled-tertiary" on:click={endChat}>
+		End Chat
+	</button>
 {/if}

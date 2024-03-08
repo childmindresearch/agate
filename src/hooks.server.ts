@@ -6,7 +6,8 @@ export async function handle({ event, resolve }) {
 	const requestId = randomUUID();
 	const startTime = performance.now();
 
-	const user = event.request.headers.get('X-MS-CLIENT-PRINCIPAL-NAME') || 'development';
+	const user =
+		event.request.headers.get('X-MS-CLIENT-PRINCIPAL-NAME') || 'development.user@example.com';
 	logger.info({
 		type: `Request`,
 		method: event.request.method,
