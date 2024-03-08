@@ -13,6 +13,7 @@ export const actions = {
 		const prompt = formData.get('text') as string;
 		const size = formData.get('size') as '1024x1024' | '1024x1792' | '1792x1024';
 		const number = Number(formData.get('number'));
+		const quality = formData.get('quality') as 'standard' | 'hd';
 
 		if (!prompt || !size || !number) {
 			return fail(422, { message: 'Missing input.' });
@@ -32,6 +33,7 @@ export const actions = {
 			responses.push(
 				openai.images.generate({
 					prompt,
+					quality,
 					model,
 					size,
 					n: 1

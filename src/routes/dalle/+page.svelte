@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import FormPage from '$lib/components/PageTemplates/FormActionPage.svelte';
+	import FormActionPage from '$lib/components/PageTemplates/FormActionPage.svelte';
+	import type { SubmitFunction } from '@sveltejs/kit';
 
 	const maxImages = 4;
 	const title = 'Image Generation';
@@ -8,9 +9,14 @@
 		This tool lets you create images with DALL-E 3. Simply write what you want to see and select the
 		desired size and number of images.
 	`;
+	const enhancer: SubmitFunction = () => {
+		return async ({ update }) => {
+			await update({ reset: false });
+		};
+	};
 </script>
 
-<FormPage {title} {description}>
+<FormActionPage {title} {description} {enhancer}>
 	<svelte:fragment slot="form">
 		<label for="file">Prompt</label>
 		<textarea
@@ -22,6 +28,18 @@
 			placeholder="Describe what you want to see..."
 			required
 		/>
+		<label for="quality">Quality</label>
+		<select
+			data-testid="dalle-quality-select"
+			class="select"
+			id="quality"
+			name="quality"
+			value="standard"
+		>
+			<option value="standard">Standard</option>
+			<option value="hd">HD</option>
+		</select>
+
 		<label for="size">Size</label>
 		<select data-testid="dalle-size-select" class="select" id="size" name="size" value="1024x1024">
 			<option value="1024x1024">1024x1024</option>
@@ -39,7 +57,7 @@
 			Submit
 		</button>
 	</svelte:fragment>
-</FormPage>
+</FormActionPage>
 
 {#if $page.form && $page.form.urls}
 	<div class="grid grid-cols-2 gap-4 mt-5">
