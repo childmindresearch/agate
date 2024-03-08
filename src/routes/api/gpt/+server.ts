@@ -31,16 +31,17 @@ export async function POST({ request }) {
 		requestId,
 		user
 	});
+
 	const response = await openai.chat.completions.create({
 		model,
 		messages: messagesOpenai
 	});
-	const response_message = response.choices[0].message.content;
-	if (!response_message) {
+	const responseMessage = response.choices[0].message.content;
+	if (!responseMessage) {
 		return new Response('No response from OpenAI.', { status: 500 });
 	}
 
-	return new Response(JSON.stringify({ message: response_message }), {
+	return new Response(JSON.stringify({ message: responseMessage, user }), {
 		status: 200,
 		headers: { 'Content-Type': 'application/json' }
 	});

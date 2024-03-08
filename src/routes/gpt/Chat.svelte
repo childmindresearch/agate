@@ -9,11 +9,22 @@
 	let currentMessage = '';
 	let elemChat: HTMLElement;
 	let loading = false;
+	let names: { [key: string]: string } = {
+		assistant: 'Agate',
+		user: 'You',
+		system: 'System'
+	};
 
 	const model = 'gpt-4';
 
+	const roleCss: { [key: string]: string } = {
+		assistant: 'bg-primary-500/30 mr-auto w-10/12',
+		user: 'bg-primary-200/30 ml-auto w-10/12',
+		system: 'bg-primary-800/30 w-full'
+	};
+
 	async function addUserMessage(event: KeyboardEvent) {
-		if (event.key !== 'Enter') return;
+		if (event.key !== 'Enter' || (event.key === 'Enter' && event.shiftKey)) return;
 		if (currentMessage === '') return;
 		if (loading) return;
 		event.preventDefault();
@@ -34,6 +45,7 @@
 			})
 			.then((data) => {
 				addMessage(data.message, 'assistant');
+				names.user = capitalizeFirstLetter(data.user.split('.')[0]);
 				loading = false;
 			})
 			.catch((error) => {
@@ -64,6 +76,10 @@
 		elemChat.scrollTo({ top: elemChat.scrollHeight, behavior: 'smooth' });
 	}
 
+	function capitalizeFirstLetter(string: string) {
+		return string.charAt(0).toUpperCase() + string.slice(1);
+	}
+
 	onMount(() => {
 		scrollChatBottom();
 	});
@@ -73,17 +89,15 @@
 	<section
 		bind:this={elemChat}
 		id="chat-container"
-		class="w-full max-h-[400px] min-h-[100px] p-4 overflow-y-auto space-y-4"
+		class="w-full max-h-[70vh] min-h-[100px] p-4 overflow-y-auto space-y-4"
 	>
-		{#each messages.slice(1) as bubble}
-			<div class="grid grid-cols-[auto_1fr] gap-2 min-w-full">
-				<div class="card p-4 rounded-tl-none space-y-2 bg-primary-200/30">
-					<header class="flex justify-between items-center">
-						<p class="font-bold">{bubble.role === 'assistant' ? 'Agate' : 'You'}</p>
-						<small class="opacity-50">{bubble.timestamp}</small>
-					</header>
-					<p>{bubble.content}</p>
-				</div>
+		{#each messages as bubble}
+			<div class={`${roleCss[bubble.role]} card p-4 rounded-tl-none space-y-2 `}>
+				<header class="flex justify-between items-center">
+					<p class="font-bold">{names[bubble.role]}</p>
+					<small class="opacity-50">{bubble.timestamp}</small>
+				</header>
+				<p>{bubble.content}</p>
 			</div>
 		{/each}
 		{#if loading}

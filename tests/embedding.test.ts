@@ -20,7 +20,7 @@ test('a file downloads after an API request', async ({ page }) => {
 
 	await page.goto('/embedding');
 	page.getByTestId('embedding-file-input').setInputFiles('tests/fixtures/empty.txt');
-	await page.getByTestId('embedding-submit-button').click();
+	page.getByTestId('embedding-submit-button').click();
 
 	const download = await page.waitForEvent('download');
 	const filepath = await download.path();
