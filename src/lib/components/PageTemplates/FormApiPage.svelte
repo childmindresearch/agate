@@ -15,11 +15,9 @@
 
 <FormBasePage {title} {description} {isLoading}>
 	<svelte:fragment slot="form">
-		<form class="space-y-2">
+		<form class="space-y-2" on:submit={onSubmitLoading}>
 			<slot name="form" />
-			<button type="submit" class="btn variant-soft-primary" on:click={onSubmitLoading}>
-				Submit
-			</button>
+			<button type="submit" class="btn variant-soft-primary"> Submit </button>
 		</form>
 	</svelte:fragment>
 </FormBasePage>

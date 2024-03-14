@@ -23,13 +23,21 @@ export async function POST({ request }) {
 		requestId,
 		user
 	});
-	const audio = await openai.audio.speech.create({
+	const audioResponse = await openai.audio.speech.create({
 		input,
 		voice,
 		model
 	});
 
-	const bodyBlob = await audio.blob();
+	if (audioResponse.status !== 200) {
+		logger.error({
+			type: 'OpenAI Error',
+			error: audioResponse
+		});
+		return new Response('OpenAI error.', { status: 500 });
+	}
+
+	const bodyBlob = await audioResponse.blob();
 	const body = await bodyBlob.arrayBuffer();
 
 	return new Response(body, {

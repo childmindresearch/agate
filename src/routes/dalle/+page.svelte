@@ -1,7 +1,8 @@
 <script lang="ts">
-	import { page } from '$app/stores';
 	import FormActionPage from '$lib/components/PageTemplates/FormActionPage.svelte';
 	import type { SubmitFunction } from '@sveltejs/kit';
+
+	export let form;
 
 	const maxImages = 4;
 	const title = 'Image Generation';
@@ -59,9 +60,9 @@
 	</svelte:fragment>
 </FormActionPage>
 
-{#if $page.form && $page.form.urls}
+{#if form?.urls}
 	<div class="grid grid-cols-2 gap-4 mt-5">
-		{#each $page.form.urls as url, index}
+		{#each form.urls as url, index}
 			<img
 				data-testid={`dalle-img-${index}`}
 				src={url}
