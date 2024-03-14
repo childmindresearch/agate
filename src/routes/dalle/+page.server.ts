@@ -40,7 +40,16 @@ export const actions = {
 				})
 			);
 		}
-		const images = await Promise.all(responses);
+		let images: ImagesResponse[];
+		try {
+			images = await Promise.all(responses);
+		} catch (error) {
+			logger.error({
+				type: 'OpenAI Error',
+				error
+			});
+			return fail(500, { message: 'OpenAI error.' });
+		}
 		const urls = images.map((image) => image.data[0].url);
 
 		return { urls };

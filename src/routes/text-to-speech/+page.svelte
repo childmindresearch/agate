@@ -1,6 +1,7 @@
 <script lang="ts">
 	import FormApiPage from '$lib/components/PageTemplates/FormApiPage.svelte';
 	import { downloadBlob } from '$lib/utils';
+	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 
 	let text = '';
 	let voice = 'onyx';
@@ -11,6 +12,7 @@
 	const description = `
 		Converts text to speech. Please be aware that OpenAI Usage Policy requires you to disclose that the audio was AI generated.
 	`;
+	const toastStore = getToastStore();
 
 	async function onSubmit() {
 		const form = new FormData();
@@ -19,15 +21,22 @@
 		form.append('format', format);
 		form.append('model', model);
 
-		await fetch('/api/text-to-speech', {
+		const response = await fetch('/api/text-to-speech', {
 			method: 'POST',
 			body: form
-		})
-			.then((response) => response.blob())
-			.then((blob) => {
-				const filename = `${text.slice(0, 20)}.${format}`;
-				downloadBlob(blob, filename);
-			});
+		});
+		if (!response.ok) {
+			const message = (await response.json())['message'];
+			const toast: ToastSettings = {
+				message: message,
+				background: 'variant-filled-error'
+			};
+			toastStore.trigger(toast);
+		}
+
+		const blob = await response.blob();
+		const filename = `${text.slice(0, 20)}.${format}`;
+		downloadBlob(blob, filename);
 		text = '';
 	}
 </script>
@@ -41,6 +50,7 @@
 			bind:value={text}
 			placeholder="Type your text here."
 			class="textarea"
+			required
 		/>
 
 		<label for="voice">Voice</label>
