@@ -2,19 +2,20 @@ import OpenAI from 'openai';
 import { OPENAI_API_KEY } from '$lib/server/secrets.js';
 import type { Message } from '$lib/types';
 import { logger } from '$lib/server/utils';
+import { json } from '@sveltejs/kit';
 
 export async function POST({ request }) {
 	const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
 
-	const json = await request.json();
-	const messages = json.messages as Message[];
+	const data = await request.json();
+	const messages = data.messages as Message[];
 	const messagesOpenai = messages.map((message) => {
 		return {
 			role: message.role,
 			content: message.content
 		};
 	});
-	const model = json.model as string;
+	const model = data.model as string;
 
 	if (messages.length === 0) {
 		return new Response('Missing input.', { status: 422 });
@@ -41,8 +42,5 @@ export async function POST({ request }) {
 		return new Response('No response from OpenAI.', { status: 500 });
 	}
 
-	return new Response(JSON.stringify({ message: responseMessage, user }), {
-		status: 200,
-		headers: { 'Content-Type': 'application/json' }
-	});
+	return json({ message: responseMessage, user });
 }
