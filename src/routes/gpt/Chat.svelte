@@ -91,7 +91,7 @@
 					<p class="font-bold">{names[bubble.role]}</p>
 					<small class="opacity-50">{bubble.timestamp}</small>
 				</header>
-				<p class="whitespace-pre">{bubble.content}</p>
+				<p class="whitespace-pre-wrap">{bubble.content}</p>
 			</div>
 		{/each}
 		{#if loading}
