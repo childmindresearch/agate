@@ -9,7 +9,7 @@
 	let elemChat: HTMLElement;
 	let loading = false;
 
-	const model = 'gpt-4';
+	const model = 'gpt-4-turbo-preview';
 
 	const names: { [key: string]: string } = {
 		assistant: 'Agate',
