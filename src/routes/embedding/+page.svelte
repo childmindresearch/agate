@@ -42,7 +42,7 @@
 		<button
 			data-testid="embedding-submit-button"
 			type="submit"
-			class="btn hover:variant-filled-primary variant-soft-primary"
+			class="btn variant-filled-primary"
 		>
 			Submit
 		</button>
