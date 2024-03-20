@@ -97,7 +97,5 @@ export const cmiLight: CustomThemeConfig = {
 		'--color-surface-700': '188 187 184', // #bcbbb8
 		'--color-surface-800': '150 149 147', // #969593
 		'--color-surface-900': '123 122 120', // #7b7a78
-		// neutral | #767676
-		'--color-neutral-500': '255 0 0' // #ff0000
 	}
 };
