@@ -39,7 +39,7 @@
 		<button
 			data-testid="transcription-submit-button"
 			type="submit"
-			class="btn variant-soft-primary"
+			class="btn variant-filled-primary"
 		>
 			Submit
 		</button>
