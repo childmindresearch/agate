@@ -39,11 +39,7 @@
 			<option value="text-embedding-3-large">text-embedding-3-large</option>
 			<option value="text-embedding-ada-002">text-embedding-ada-002</option>
 		</select>
-		<button
-			data-testid="embedding-submit-button"
-			type="submit"
-			class="btn hover:variant-filled-primary variant-soft-primary"
-		>
+		<button data-testid="embedding-submit-button" type="submit" class="btn variant-filled-primary">
 			Submit
 		</button>
 	</svelte:fragment>

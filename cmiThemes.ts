@@ -6,17 +6,17 @@ export const cmiLight: CustomThemeConfig = {
 		// =~= Theme Properties =~=
 		'--theme-font-family-base': `system-ui`,
 		'--theme-font-family-heading': `system-ui`,
-		'--theme-font-color-base': 'var(--color-tertiary-700)',
+		'--theme-font-color-base': '19 42 76',
 		'--theme-font-color-dark': '255 255 255',
 		'--theme-rounded-base': '8px',
 		'--theme-rounded-container': '4px',
 		'--theme-border-base': '1px',
 		// =~= Theme On-X Colors =~=
 		'--on-primary': '255 255 255',
-		'--on-secondary': 'var(--color-tertiary-700)',
+		'--on-secondary': '19 42 76',
 		'--on-tertiary': '255 255 255',
 		'--on-success': '255 255 255',
-		'--on-warning': 'var(--color-tertiary-700)',
+		'--on-warning': '23 23 23',
 		'--on-error': '255 255 255',
 		'--on-surface': 'var(--color-tertiary-700)',
 		// =~= Theme Colors  =~=

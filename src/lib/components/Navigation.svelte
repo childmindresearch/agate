@@ -15,7 +15,8 @@
 		drawerStore.close();
 	}
 
-	$: classesActive = (href: string) => (href === $page.url.pathname ? '!bg-primary-500/40' : '');
+	$: classesActive = (href: string) =>
+		href === $page.url.pathname ? 'bg-primary-100 dark:bg-primary-700' : '';
 </script>
 
 <nav class="list-nav p-4 flex flex-col" data-testid="div-navigation">

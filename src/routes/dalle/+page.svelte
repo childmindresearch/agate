@@ -54,7 +54,7 @@
 			{/each}
 		</select>
 
-		<button data-testid="dalle-submit-button" type="submit" class="btn variant-soft-primary">
+		<button data-testid="dalle-submit-button" type="submit" class="btn variant-filled-primary">
 			Submit
 		</button>
 	</svelte:fragment>
