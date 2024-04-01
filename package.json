@@ -52,10 +52,10 @@
 	"dependencies": {
 		"@floating-ui/dom": "1.6.3",
 		"@sveltejs/adapter-node": "^5.0.1",
-		"flowbite-svelte-icons": "^1.4.3",
+		"flowbite-svelte-icons": "^1.5.0",
 		"fluent-ffmpeg": "^2.1.2",
-		"openai": "^4.28.4",
+		"openai": "^4.31.0",
 		"pdfjs-dist": "^4.0.379",
-		"winston": "^3.12.0"
+		"winston": "^3.13.0"
 	}
 }
