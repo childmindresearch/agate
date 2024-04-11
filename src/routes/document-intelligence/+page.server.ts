@@ -6,7 +6,7 @@ import { memoryFileToDiskFile } from '$lib/utils.js';
 import {
 	AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT,
 	AZURE_DOCUMENT_INTELLIGENCE_KEY
-} from '$env/static/private';
+} from '$lib/server/secrets.js';
 
 export const actions = {
 	default: async (event) => {
