@@ -8,6 +8,8 @@ RUN npm ci && npm run build
 FROM node:18-alpine
 
 ENV OPENAI_API_KEY=overwrite-me
+ENV AZURE_DOCUMENT_INTELlIGENCE_KEY=overwrite-me
+ENV AZURE_DOCUMENT_INTELlIGENCE_ENDPOINT=overwrite-me
 # Maximum request body size of 512MB - required for large audio files. 
 ENV BODY_SIZE_LIMIT=512000000
 
