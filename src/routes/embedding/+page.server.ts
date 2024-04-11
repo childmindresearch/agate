@@ -1,5 +1,4 @@
 import OpenAI from 'openai';
-import { OPENAI_API_KEY } from '$lib/server/secrets';
 import fs from 'fs';
 import { memoryFileToDiskFile, diskFileToMemoryFile } from '$lib/utils';
 import { spawnSync } from 'child_process';
@@ -7,10 +6,11 @@ import * as pdfjsLib from 'pdfjs-dist';
 import { fail } from '@sveltejs/kit';
 import type { CreateEmbeddingResponse } from 'openai/resources/embeddings.mjs';
 import { logger } from '$lib/server/utils';
+import { env } from '$env/dynamic/private';
 
 export const actions = {
 	default: async (event) => {
-		const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
+		const openai = new OpenAI({ apiKey: env.OPENAI_API_KEY });
 
 		const formData = await event.request.formData();
 		const file = formData.get('file') as File;
