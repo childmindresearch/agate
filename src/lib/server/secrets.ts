@@ -1,2 +1,5 @@
-// @ts-expect-error because vite will throw an error if env variable is not defined.
-export const OPENAI_API_KEY: string = process.env.OPENAI_API_KEY;
+import { env } from '$env/dynamic/private';
+
+export const OPENAI_API_KEY = env.OPENAI_API_KEY || '';
+export const AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT = env.AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT || '';
+export const AZURE_DOCUMENT_INTELLIGENCE_KEY = env.AZURE_DOCUMENT_INTELLIGENCE_KEY || '';

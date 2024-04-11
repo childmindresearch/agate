@@ -1,8 +1,8 @@
 import OpenAI from 'openai';
-import { OPENAI_API_KEY } from '$lib/server/secrets.js';
 import type { Message } from '$lib/types';
 import { logger } from '$lib/server/utils';
 import { json } from '@sveltejs/kit';
+import { OPENAI_API_KEY } from '$lib/server/secrets';
 
 export async function POST({ request }) {
 	const openai = new OpenAI({ apiKey: OPENAI_API_KEY });

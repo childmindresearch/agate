@@ -5,6 +5,7 @@
 	const drawerStore = getDrawerStore();
 	const pages = [
 		{ name: 'Chatbot', href: '/gpt' },
+		{ name: 'Document Intelligence', href: '/document-intelligence' },
 		{ name: 'Embedding', href: '/embedding' },
 		{ name: 'Image Generation', href: '/dalle' },
 		{ name: 'Text To Speech', href: '/text-to-speech' },

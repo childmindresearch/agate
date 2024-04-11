@@ -1,5 +1,4 @@
 import OpenAI from 'openai';
-import { OPENAI_API_KEY } from '$lib/server/secrets';
 import fs from 'fs';
 import { memoryFileToDiskFile, diskFileToMemoryFile } from '$lib/utils';
 import { spawnSync } from 'child_process';
@@ -7,6 +6,7 @@ import * as pdfjsLib from 'pdfjs-dist';
 import { fail } from '@sveltejs/kit';
 import type { CreateEmbeddingResponse } from 'openai/resources/embeddings.mjs';
 import { logger } from '$lib/server/utils';
+import { OPENAI_API_KEY } from '$lib/server/secrets';
 
 export const actions = {
 	default: async (event) => {

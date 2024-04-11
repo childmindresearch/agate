@@ -1,5 +1,5 @@
 import OpenAI from 'openai';
-import { OPENAI_API_KEY } from '$lib/server/secrets.js';
+import { OPENAI_API_KEY } from '$lib/server/secrets';
 import type { ImagesResponse } from 'openai/resources/images.mjs';
 import type { APIPromise } from 'openai/core.mjs';
 import { fail } from '@sveltejs/kit';
