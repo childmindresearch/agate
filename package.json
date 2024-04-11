@@ -50,6 +50,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@azure/ai-form-recognizer": "^5.0.0",
 		"@floating-ui/dom": "1.6.3",
 		"@sveltejs/adapter-node": "^5.0.1",
 		"flowbite-svelte-icons": "^1.5.0",
