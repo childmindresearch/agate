@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { downloadBlob } from '$lib/utils';
+	import { downloadBlob } from '$lib/fileHandling';
 	import FormPage from '$lib/components/PageTemplates/FormActionPage.svelte';
 	import type { SubmitFunction } from '@sveltejs/kit';
 

@@ -20,7 +20,9 @@
 	<svelte:fragment slot="form">
 		<form class="space-y-2" on:submit={onSubmitLoading}>
 			<slot name="form" />
-			<button type="submit" class="btn variant-filled-primary"> Submit </button>
+			<button type="submit" class="btn variant-filled-primary" data-testid="form-api-page-button">
+				Submit
+			</button>
 		</form>
 	</svelte:fragment>
 </FormBasePage>

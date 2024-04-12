@@ -1,4 +1,4 @@
-import { diskFileToMemoryFile, downloadBlob } from '$lib/utils';
+import { diskFileToMemoryFile, downloadBlob } from '$lib/fileHandling';
 import { describe, it, expect, vi } from 'vitest';
 
 describe('downloadBlob', () => {

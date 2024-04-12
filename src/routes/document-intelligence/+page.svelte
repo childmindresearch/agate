@@ -1,29 +1,52 @@
 <script lang="ts">
-	import { page } from '$app/stores';
-	import { downloadBlob } from '$lib/utils';
-	import FormActionPage from '$lib/components/PageTemplates/FormActionPage.svelte';
-	import type { SubmitFunction } from '@sveltejs/kit';
+	import { downloadBlob } from '$lib/fileHandling';
+	import FormApiPage from '$lib/components/PageTemplates/FormApiPage.svelte';
+	import { getToastStore } from '@skeletonlabs/skeleton';
 
-	let file: string;
+	let files: FileList;
 	const title = 'Document Intelligence';
 	const description = `
 		This tool can parse the text in a variety of documents. Simply upload a file containing typed or handwritten text, 
         and the tool will return the text in a Word document.
 	`;
 
-	const enhancer: SubmitFunction = () => {
-		return async ({ update }) => {
-			await update();
-			if ($page.status < 400) {
-				const blob = new Blob([$page.form.text], { type: 'text/plain' });
-				const filename = file.split('\\').pop()?.split('.')?.slice(0, -1).join('.') + '.txt';
-				downloadBlob(blob, filename);
-			}
-		};
-	};
+	const toastStore = getToastStore();
+
+	async function onSubmit() {
+		if (!files) {
+			const toast = {
+				message: 'Please select a file to upload.',
+				background: 'variant-filled-error'
+			};
+			toastStore.trigger(toast);
+			return;
+		}
+
+		const file = files[0];
+		const formData = new FormData();
+		formData.append('file', file);
+		const response = await fetch('/api/document-intelligence', {
+			method: 'POST',
+			body: formData
+		});
+
+		if (response.ok) {
+			const text = await response.text();
+			const blob = new Blob([text], { type: 'text/plain' });
+			const filename = file.name.split('\\').pop()?.split('.')?.slice(0, -1).join('.') + '.txt';
+			downloadBlob(blob, filename);
+		} else {
+			const toast = {
+				message:
+					'Something went wrong while processing the document. Please try again. If the problem persists, please contact support.',
+				background: 'variant-filled-error'
+			};
+			toastStore.trigger(toast);
+		}
+	}
 </script>
 
-<FormActionPage {title} {description} {enhancer} azureBaa>
+<FormApiPage {title} {description} {onSubmit} azureBaa>
 	<svelte:fragment slot="form">
 		<label for="file">File</label>
 		<input
@@ -34,14 +57,7 @@
 			accept=".pdf, .jpg, .jpeg, .png, .bmp, .tiff, .heif, .docx, .xlsx, .pptx, .html"
 			required
 			data-testid="document-intelligence-file-input"
-			bind:value={file}
+			bind:files
 		/>
-		<button
-			data-testid="document-intelligence-submit-button"
-			type="submit"
-			class="btn variant-filled-primary"
-		>
-			Submit
-		</button>
 	</svelte:fragment>
-</FormActionPage>
+</FormApiPage>
