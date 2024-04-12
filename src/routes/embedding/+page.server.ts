@@ -1,6 +1,6 @@
 import OpenAI from 'openai';
 import fs from 'fs';
-import { memoryFileToDiskFile, diskFileToMemoryFile } from '$lib/utils';
+import { memoryFileToDiskFile, diskFileToMemoryFile } from '$lib/fileHandling';
 import { spawnSync } from 'child_process';
 import * as pdfjsLib from 'pdfjs-dist';
 import { fail } from '@sveltejs/kit';

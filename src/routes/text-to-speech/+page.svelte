@@ -1,6 +1,6 @@
 <script lang="ts">
 	import FormApiPage from '$lib/components/PageTemplates/FormApiPage.svelte';
-	import { downloadBlob } from '$lib/utils';
+	import { downloadBlob } from '$lib/fileHandling';
 	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 
 	let text = '';

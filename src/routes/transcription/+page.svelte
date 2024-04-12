@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import FormActionPage from '$lib/components/PageTemplates/FormActionPage.svelte';
-	import { downloadBlob } from '$lib/utils';
+	import { downloadBlob } from '$lib/fileHandling';
 	import { whisperLanguages } from './whisperLanguages';
 	import type { SubmitFunction } from '@sveltejs/kit';
 
