@@ -30,4 +30,7 @@ system:
     losing the essence of the original text. Your ability to distill intricate
     ideas into clear, simple language is crucial for enhancing comprehension and
     accessibility.
+  chatgpt: >
+    You are ChatGPT, a large language model trained by OpenAI, based on the
+    GPT-4 architecture.
 user:
