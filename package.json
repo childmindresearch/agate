@@ -50,14 +50,18 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@cmi-dair/skeleton-themes": "^0.0.3",
 		"@azure/ai-form-recognizer": "^5.0.0",
+		"@cmi-dair/skeleton-themes": "^0.0.3",
 		"@floating-ui/dom": "1.6.3",
 		"@sveltejs/adapter-node": "^5.0.1",
-		"flowbite-svelte-icons": "^1.5.0",
 		"fluent-ffmpeg": "^2.1.2",
 		"openai": "^4.31.0",
 		"pdfjs-dist": "^4.0.379",
 		"winston": "^3.13.0"
+	},
+	"overrides": {
+		"vite": {
+			"rollup": "npm:@rollup/wasm-node"
+		}
 	}
 }
