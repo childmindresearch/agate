@@ -1,5 +1,6 @@
 <script lang="ts">
 	import '../app.postcss';
+	import '@cmi-dair/skeleton-themes/cmi.postcss';
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
 	import { AppShell, Drawer, Toast, storePopup } from '@skeletonlabs/skeleton';
 	import Navbar from '$lib/components/Navbar.svelte';

@@ -3,7 +3,7 @@ import type { Config } from 'tailwindcss';
 import forms from '@tailwindcss/forms';
 import typography from '@tailwindcss/typography';
 import { skeleton } from '@skeletonlabs/tw-plugin';
-import { cmiLight } from './cmiThemes';
+import { cmiLight } from '@cmi-dair/skeleton-themes';
 
 export default {
 	darkMode: 'class',
