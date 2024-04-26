@@ -6,6 +6,9 @@
 	export let onSubmit: () => void;
 	export let isLoading = false;
 
+	export let openAiBaa = false;
+	export let azureBaa = false;
+
 	async function onSubmitLoading() {
 		isLoading = true;
 		await onSubmit();
@@ -13,11 +16,11 @@
 	}
 </script>
 
-<FormBasePage {title} {description} {isLoading}>
+<FormBasePage {title} {description} {isLoading} {azureBaa} {openAiBaa}>
 	<svelte:fragment slot="form">
-		<form class="space-y-2">
+		<form class="space-y-2" on:submit={onSubmitLoading}>
 			<slot name="form" />
-			<button type="submit" class="btn variant-soft-primary" on:click={onSubmitLoading}>
+			<button type="submit" class="btn variant-filled-primary" data-testid="form-api-page-button">
 				Submit
 			</button>
 		</form>

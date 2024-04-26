@@ -5,6 +5,7 @@
 	const drawerStore = getDrawerStore();
 	const pages = [
 		{ name: 'Chatbot', href: '/gpt' },
+		{ name: 'Document Intelligence', href: '/document-intelligence' },
 		{ name: 'Embedding', href: '/embedding' },
 		{ name: 'Image Generation', href: '/dalle' },
 		{ name: 'Text To Speech', href: '/text-to-speech' },
@@ -15,13 +16,18 @@
 		drawerStore.close();
 	}
 
-	$: classesActive = (href: string) => (href === $page.url.pathname ? '!bg-primary-500/40' : '');
+	$: classesActive = (href: string) =>
+		href === $page.url.pathname ? 'bg-primary-100 dark:bg-primary-700' : '';
 </script>
 
-<nav class="list-nav p-4 flex flex-col">
+<nav class="list-nav p-4 flex flex-col" data-testid="div-navigation">
 	<ul style="flex-grow: 1;">
 		{#each pages as { name, href }}
-			<li><a {href} class={classesActive(href)} on:click={drawerClose}>{name}</a></li>
+			<li>
+				<a {href} class={classesActive(href)} data-testid="a-navigation" on:click={drawerClose}
+					>{name}</a
+				>
+			</li>
 		{/each}
 	</ul>
 </nav>

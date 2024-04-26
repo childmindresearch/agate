@@ -12,6 +12,9 @@
 	};
 	export let isLoading = false;
 
+	export let azureBaa = false;
+	export let openAiBaa = false;
+
 	const loadingEnhancer: SubmitFunction = ({
 		formElement,
 		formData,
@@ -30,14 +33,17 @@
 		});
 		isLoading = true;
 		return async ({ update }) => {
-			// @ts-expect-error because enhancer returns a maybe promise. This should always work.
-			await updateFunction({ update });
-			isLoading = false;
+			try {
+				// @ts-expect-error because enhancer returns a maybe promise. This should always work.
+				await updateFunction({ update });
+			} finally {
+				isLoading = false;
+			}
 		};
 	};
 </script>
 
-<FormBasePage {title} {description} {isLoading}>
+<FormBasePage {title} {description} {isLoading} {azureBaa} {openAiBaa}>
 	<svelte:fragment slot="form">
 		<form
 			method="POST"

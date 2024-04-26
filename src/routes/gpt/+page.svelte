@@ -4,22 +4,16 @@
 	import SystemPrompt from './SystemPrompt.svelte';
 	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 
+	export let data;
+
 	let systemPrompt = '';
 	let disableSystemPrompt = false;
 
 	const title = 'Chatbot';
 	const description =
 		'To start, please fill out the instructions for the Chatbot. You can either use a pre-set, or create custom instructions.';
-
+	const user = data.user;
 	const toastStore = getToastStore();
-
-	function onClick() {
-		if (disableSystemPrompt) {
-			endChat();
-		} else {
-			startChat();
-		}
-	}
 
 	function startChat() {
 		if (systemPrompt === '') {
@@ -38,18 +32,21 @@
 	}
 </script>
 
-<FormBasePage {title} {description} />
 <div hidden={disableSystemPrompt}>
+	<FormBasePage {title} {description} />
 	<SystemPrompt bind:systemPrompt disabled={disableSystemPrompt} />
 </div>
-<button class="btn variant-soft-primary" on:click={onClick}>
-	{#if disableSystemPrompt}
-		End Chat
-	{:else}
-		Start Chat
-	{/if}
-</button>
+
+{#if !disableSystemPrompt}
+	<button class="btn variant-filled-primary" on:click={startChat}> Start Chat </button>
+{/if}
 
 {#if systemPrompt !== '' && disableSystemPrompt}
-	<Chat {systemPrompt} />
+	<Chat {systemPrompt} {user} />
+{/if}
+
+{#if disableSystemPrompt}
+	<button class="btn mt-5 float-right variant-filled-tertiary" on:click={endChat}>
+		End Chat
+	</button>
 {/if}

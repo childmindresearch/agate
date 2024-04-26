@@ -1,7 +1,8 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { getToastStore } from '@skeletonlabs/skeleton';
 
 	export let systemPrompt: string;
+	export let user = 'You';
 
 	let messages = [
 		{ role: 'system', content: systemPrompt, timestamp: new Date().toLocaleTimeString() }
@@ -9,15 +10,49 @@
 	let currentMessage = '';
 	let elemChat: HTMLElement;
 	let loading = false;
+	let uploading = false;
 
-	const model = 'gpt-4';
+	const model = 'gpt-4-turbo-preview';
+	const toastStore = getToastStore();
+
+	const names: { [key: string]: string } = {
+		assistant: 'Agate',
+		user: capitalizeFirstLetter(user.split('.')[0]),
+		system: 'System'
+	};
+	const roleCss: { [key: string]: string } = {
+		assistant: 'bg-primary-500/30 mr-auto w-10/12',
+		user: 'bg-primary-200/30 ml-auto w-10/12',
+		system: 'bg-primary-800/30 w-full'
+	};
 
 	async function addUserMessage(event: KeyboardEvent) {
-		if (event.key !== 'Enter') return;
+		if (event.key !== 'Enter' || (event.key === 'Enter' && event.shiftKey)) return;
 		if (currentMessage === '') return;
 		if (loading) return;
 		event.preventDefault();
 		addMessage(currentMessage, 'user');
+		addResponse();
+	}
+
+	function addMessage(content: string, role: 'assistant' | 'user') {
+		const timestamp = new Date().toLocaleTimeString();
+		messages = [
+			...messages,
+			{
+				content,
+				role,
+				timestamp
+			}
+		];
+		currentMessage = '';
+		// Timeout prevents race condition
+		setTimeout(() => {
+			scrollChatBottom();
+		}, 0);
+	}
+
+	async function addResponse() {
 		loading = true;
 		await fetch('/api/gpt', {
 			method: 'POST',
@@ -42,64 +77,94 @@
 		loading = false;
 	}
 
-	function addMessage(content: string, role: 'assistant' | 'user') {
-		const timestamp = new Date().toLocaleTimeString();
-		messages = [
-			...messages,
-			{
-				content,
-				role,
-				timestamp
-			}
-		];
-		currentMessage = '';
-		// Timeout prevents race condition
-		setTimeout(() => {
-			scrollChatBottom();
-		}, 0);
-	}
-
 	function scrollChatBottom(): void {
 		if (!elemChat) return;
 		elemChat.scrollTo({ top: elemChat.scrollHeight, behavior: 'smooth' });
 	}
 
-	onMount(() => {
-		scrollChatBottom();
-	});
+	function capitalizeFirstLetter(string: string) {
+		return string.charAt(0).toUpperCase() + string.slice(1);
+	}
+
+	function uploadFile() {
+		const input = document.createElement('input');
+		input.type = 'file';
+		input.accept = '.pdf, .jpg, .jpeg, .png, .bmp, .tiff, .heif, .docx, .xlsx, .pptx, .html';
+		input.onchange = async (event) => {
+			const files = (event.target as HTMLInputElement).files;
+			if (!files) return;
+			const file = files[0];
+			const formData = new FormData();
+			formData.append('file', file);
+			uploading = true;
+			const response = await fetch('/api/document-intelligence', {
+				method: 'POST',
+				body: formData
+			});
+
+			if (response.ok) {
+				const text = await response.text();
+				addMessage(text, 'user');
+				uploading = false;
+				await addResponse();
+			} else {
+				uploading = false;
+				const toast = {
+					message:
+						'Something went wrong while processing the document. Please try again. If the problem persists, please contact support.',
+					background: 'variant-filled-error'
+				};
+				toastStore.trigger(toast);
+			}
+		};
+		input.click();
+	}
+
+	function resizeTextArea(event: Event) {
+		const target = event.target as HTMLTextAreaElement;
+		target.style.height = 'auto';
+		target.style.height = Math.min(target.scrollHeight, 200) + 'px';
+	}
 </script>
 
 <div class="chat w-full">
 	<section
 		bind:this={elemChat}
 		id="chat-container"
-		class="w-full max-h-[400px] min-h-[100px] p-4 overflow-y-auto space-y-4"
+		class="w-full max-h-[70vh] min-h-[100px] p-4 overflow-y-auto space-y-4"
 	>
-		{#each messages.slice(1) as bubble}
-			<div class="grid grid-cols-[auto_1fr] gap-2 min-w-full">
-				<div class="card p-4 rounded-tl-none space-y-2 bg-primary-200/30">
-					<header class="flex justify-between items-center">
-						<p class="font-bold">{bubble.role === 'assistant' ? 'Agate' : 'You'}</p>
-						<small class="opacity-50">{bubble.timestamp}</small>
-					</header>
-					<p>{bubble.content}</p>
-				</div>
+		{#each messages as bubble}
+			<div class={`${roleCss[bubble.role]} card p-4 rounded-tl-none space-y-2 `}>
+				<header class="flex justify-between items-center">
+					<p class="font-bold">{names[bubble.role]}</p>
+					<small class="opacity-90">{bubble.timestamp}</small>
+				</header>
+				<p class="whitespace-pre-wrap">{bubble.content}</p>
 			</div>
 		{/each}
 		{#if loading}
 			<p>Agate is typing...</p>
 		{/if}
+		{#if uploading}
+			<p>Agate is processing the document.</p>
+		{/if}
 	</section>
-	<div class="input-group input-group-divider grid-cols-[auto_1fr_auto] rounded-container-token">
-		<button class="input-group-shim">+</button>
+	<div
+		class="input-group input-group-divider grid-cols-[auto_1fr_auto] rounded-container-token border-surface-700 border-2"
+	>
+		<button class="input-group-shim border-r-2" on:click={uploadFile}
+			><i class="fas fa-file-upload text-lg text-black"></i></button
+		>
 		<textarea
 			bind:value={currentMessage}
 			class="bg-transparent border-0 ring-0"
 			name="prompt"
 			id="prompt"
 			placeholder="Write a message..."
-			rows="4"
+			rows="1"
+			disabled={loading || uploading}
 			on:keydown={addUserMessage}
+			on:input={resizeTextArea}
 		/>
 	</div>
 </div>

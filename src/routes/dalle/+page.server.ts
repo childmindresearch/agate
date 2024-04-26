@@ -1,5 +1,5 @@
 import OpenAI from 'openai';
-import { OPENAI_API_KEY } from '$lib/server/secrets.js';
+import { OPENAI_API_KEY } from '$lib/server/secrets';
 import type { ImagesResponse } from 'openai/resources/images.mjs';
 import type { APIPromise } from 'openai/core.mjs';
 import { fail } from '@sveltejs/kit';
@@ -13,6 +13,7 @@ export const actions = {
 		const prompt = formData.get('text') as string;
 		const size = formData.get('size') as '1024x1024' | '1024x1792' | '1792x1024';
 		const number = Number(formData.get('number'));
+		const quality = formData.get('quality') as 'standard' | 'hd';
 
 		if (!prompt || !size || !number) {
 			return fail(422, { message: 'Missing input.' });
@@ -32,13 +33,23 @@ export const actions = {
 			responses.push(
 				openai.images.generate({
 					prompt,
+					quality,
 					model,
 					size,
 					n: 1
 				})
 			);
 		}
-		const images = await Promise.all(responses);
+		let images: ImagesResponse[];
+		try {
+			images = await Promise.all(responses);
+		} catch (error) {
+			logger.error({
+				type: 'OpenAI Error',
+				error
+			});
+			return fail(500, { message: 'OpenAI error.' });
+		}
 		const urls = images.map((image) => image.data[0].url);
 
 		return { urls };

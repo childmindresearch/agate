@@ -1,13 +1,13 @@
 import OpenAI from 'openai';
-import { OPENAI_API_KEY } from '$lib/server/secrets';
 import { fail } from '@sveltejs/kit';
 import ffmpeg from 'fluent-ffmpeg';
 import fs from 'fs';
 import path from 'node:path';
 import { whisperLanguages } from './whisperLanguages';
-import { memoryFileToDiskFile, diskFileToMemoryFile } from '$lib/utils';
+import { memoryFileToDiskFile, diskFileToMemoryFile } from '$lib/fileHandling';
 import type { whisperLanguagesTypes } from '$lib/types';
 import { logger } from '$lib/server/utils';
+import { OPENAI_API_KEY } from '$lib/server/secrets';
 
 const VALID_FILE_FORMATS = ['mp3', 'mp4', 'mpeg', 'mpga', 'm4a', 'wav', 'webm'];
 const OPENAI_MAX_SIZE = 24000000; // OpenAI limit is 25MB, but lets keep a margin.

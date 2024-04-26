@@ -1,6 +1,6 @@
 import OpenAI from 'openai';
-import { OPENAI_API_KEY } from '$lib/server/secrets.js';
 import { logger } from '$lib/server/utils';
+import { OPENAI_API_KEY } from '$lib/server/secrets';
 
 export async function POST({ request }) {
 	const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
@@ -23,13 +23,21 @@ export async function POST({ request }) {
 		requestId,
 		user
 	});
-	const audio = await openai.audio.speech.create({
+	const audioResponse = await openai.audio.speech.create({
 		input,
 		voice,
 		model
 	});
 
-	const bodyBlob = await audio.blob();
+	if (audioResponse.status !== 200) {
+		logger.error({
+			type: 'OpenAI Error',
+			error: audioResponse
+		});
+		return new Response('OpenAI error.', { status: 500 });
+	}
+
+	const bodyBlob = await audioResponse.blob();
 	const body = await bodyBlob.arrayBuffer();
 
 	return new Response(body, {
