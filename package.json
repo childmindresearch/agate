@@ -29,6 +29,7 @@
 		"@types/fluent-ffmpeg": "^2.1.24",
 		"@types/jsonwebtoken": "^9.0.6",
 		"@types/node": "20.12.2",
+		"@types/showdown": "^2.0.6",
 		"@typescript-eslint/eslint-plugin": "^7.4.0",
 		"@typescript-eslint/parser": "^7.4.0",
 		"autoprefixer": "10.4.19",
@@ -56,8 +57,10 @@
 		"@floating-ui/dom": "1.6.3",
 		"@sveltejs/adapter-node": "^5.0.1",
 		"fluent-ffmpeg": "^2.1.2",
+		"highlight.js": "^11.9.0",
 		"openai": "^4.31.0",
 		"pdfjs-dist": "^4.0.379",
+		"showdown": "^2.1.0",
 		"winston": "^3.13.0"
 	},
 	"optionalDependencies": {

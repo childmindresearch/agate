@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { getToastStore } from '@skeletonlabs/skeleton';
+	import { markdownToSkeletonHtml } from './markdownConverter';
 
 	export let systemPrompt: string;
 	export let user = 'You';
@@ -139,7 +140,9 @@
 					<p class="font-bold">{names[bubble.role]}</p>
 					<small class="opacity-90">{bubble.timestamp}</small>
 				</header>
-				<p class="whitespace-pre-wrap">{bubble.content}</p>
+				<div class="whitespace-pre-wrap space-y-0">
+					{@html markdownToSkeletonHtml(bubble.content)}
+				</div>
 			</div>
 		{/each}
 		{#if loading}
