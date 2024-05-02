@@ -52,7 +52,7 @@
 	"dependencies": {
 		"@azure/ai-form-recognizer": "^5.0.0",
 		"@cmi-dair/skeleton-themes": "^0.0.4",
-		"@floating-ui/dom": "1.6.3",
+		"@floating-ui/dom": "1.6.4",
 		"@sveltejs/adapter-node": "^5.0.1",
 		"fluent-ffmpeg": "^2.1.2",
 		"openai": "^4.31.0",
@@ -60,6 +60,6 @@
 		"winston": "^3.13.0"
 	},
 	"optionalDependencies": {
-		"@rollup/rollup-linux-x64-gnu": "4.6.1"
+		"@rollup/rollup-linux-x64-gnu": "4.17.2"
 	}
 }
