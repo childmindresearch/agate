@@ -51,7 +51,7 @@
 	"type": "module",
 	"dependencies": {
 		"@azure/ai-form-recognizer": "^5.0.0",
-		"@cmi-dair/skeleton-themes": "^0.0.3",
+		"@cmi-dair/skeleton-themes": "^0.0.4",
 		"@floating-ui/dom": "1.6.3",
 		"@sveltejs/adapter-node": "^5.0.1",
 		"fluent-ffmpeg": "^2.1.2",
