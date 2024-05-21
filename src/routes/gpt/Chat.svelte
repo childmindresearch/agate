@@ -12,7 +12,7 @@
 	let loading = false;
 	let uploading = false;
 
-	const model = 'gpt-4-turbo-preview';
+	const model = 'gpt-4o';
 	const toastStore = getToastStore();
 
 	const names: { [key: string]: string } = {
