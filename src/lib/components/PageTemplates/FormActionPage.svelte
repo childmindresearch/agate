@@ -12,8 +12,7 @@
 	};
 	export let isLoading = false;
 
-	export let azureBaa = false;
-	export let openAiBaa = false;
+	export let hasBusinessAssociateAgreemment = false;
 
 	const loadingEnhancer: SubmitFunction = ({
 		formElement,
@@ -43,7 +42,7 @@
 	};
 </script>
 
-<FormBasePage {title} {description} {isLoading} {azureBaa} {openAiBaa}>
+<FormBasePage {title} {description} {isLoading} {hasBusinessAssociateAgreemment}>
 	<svelte:fragment slot="form">
 		<form
 			method="POST"

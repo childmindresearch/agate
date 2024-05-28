@@ -2,7 +2,6 @@
 	import { page } from '$app/stores';
 	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 	import LoadingBar from '$lib/components/LoadingBar.svelte';
-	import AzureOpenAiBanner from '$lib/components/BAA/AzureOpenAiBanner.svelte';
 	import NoBaaBanner from '$lib/components/BAA/NoBaaBanner.svelte';
 	import AzureBanner from '$lib/components/BAA/AzureBanner.svelte';
 
@@ -10,8 +9,7 @@
 	export let description: string;
 	export let isLoading = false;
 
-	export let openAiBaa = false;
-	export let azureBaa = false;
+	export let hasBusinessAssociateAgreemment = false;
 
 	const toastStore = getToastStore();
 	$: {
@@ -29,9 +27,7 @@
 	<title>Agate | {title}</title>
 </svelte:head>
 
-{#if openAiBaa}
-	<AzureOpenAiBanner />
-{:else if azureBaa}
+{#if hasBusinessAssociateAgreemment}
 	<AzureBanner />
 {:else}
 	<NoBaaBanner />

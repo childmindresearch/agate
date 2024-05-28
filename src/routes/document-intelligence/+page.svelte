@@ -46,7 +46,7 @@
 	}
 </script>
 
-<FormApiPage {title} {description} {onSubmit} azureBaa>
+<FormApiPage {title} {description} {onSubmit} hasBusinessAssociateAgreemment>
 	<svelte:fragment slot="form">
 		<label for="file">File</label>
 		<input
