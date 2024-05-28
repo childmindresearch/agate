@@ -51,6 +51,7 @@
 	"type": "module",
 	"dependencies": {
 		"@azure/ai-form-recognizer": "^5.0.0",
+		"@azure/openai": "^1.0.0-beta.12",
 		"@cmi-dair/skeleton-themes": "^0.0.4",
 		"@floating-ui/dom": "1.6.3",
 		"@sveltejs/adapter-node": "^5.0.1",

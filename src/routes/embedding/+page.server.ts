@@ -1,26 +1,27 @@
-import OpenAI from 'openai';
-import fs from 'fs';
-import { memoryFileToDiskFile, diskFileToMemoryFile } from '$lib/fileHandling';
-import { spawnSync } from 'child_process';
-import * as pdfjsLib from 'pdfjs-dist';
-import { fail } from '@sveltejs/kit';
-import type { CreateEmbeddingResponse } from 'openai/resources/embeddings.mjs';
+import { diskFileToMemoryFile, memoryFileToDiskFile } from '$lib/fileHandling';
+import {
+	AZURE_OPENAI_API_KEY,
+	AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME,
+	AZURE_OPENAI_ENDPOINT
+} from '$lib/server/secrets';
 import { logger } from '$lib/server/utils';
-import { OPENAI_API_KEY } from '$lib/server/secrets';
+import { AzureKeyCredential, OpenAIClient, type Embeddings } from '@azure/openai';
+import { fail } from '@sveltejs/kit';
+import { spawnSync } from 'child_process';
+import fs from 'fs';
+import * as pdfjsLib from 'pdfjs-dist';
 
 export const actions = {
 	default: async (event) => {
-		const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
+		const openai = new OpenAIClient(
+			AZURE_OPENAI_ENDPOINT,
+			new AzureKeyCredential(AZURE_OPENAI_API_KEY)
+		);
 
 		const formData = await event.request.formData();
 		const file = formData.get('file') as File;
-		const model = formData.get('model') as
-			| 'text-embedding-3-small'
-			| 'text-embedding-3-large'
-			| 'text-embedding-ada-002';
-
-		if (file.size == 0 || !model) {
-			return fail(422, { message: 'Missing input.' });
+		if (file.size == 0) {
+			return fail(422, { message: 'Found an empty file.' });
 		}
 
 		const input = await extractText(file);
@@ -32,18 +33,13 @@ export const actions = {
 		const user = event.request.headers.get('X-User');
 		logger.info({
 			type: 'OpenAI Request',
-			model,
 			requestId,
 			user
 		});
 
-		let response: CreateEmbeddingResponse;
+		let response: Embeddings;
 		try {
-			response = await openai.embeddings.create({
-				model,
-				input,
-				encoding_format: 'float'
-			});
+			response = await openai.getEmbeddings(AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME, [input]);
 		} catch (error) {
 			// @ts-expect-error as error is unknown.
 			return fail(500, { message: error.message });

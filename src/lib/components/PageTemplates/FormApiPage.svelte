@@ -6,8 +6,7 @@
 	export let onSubmit: () => void;
 	export let isLoading = false;
 
-	export let openAiBaa = false;
-	export let azureBaa = false;
+	export let hasBusinessAssociateAgreemment = false;
 
 	async function onSubmitLoading() {
 		isLoading = true;
@@ -16,7 +15,7 @@
 	}
 </script>
 
-<FormBasePage {title} {description} {isLoading} {azureBaa} {openAiBaa}>
+<FormBasePage {title} {description} {isLoading} {hasBusinessAssociateAgreemment}>
 	<svelte:fragment slot="form">
 		<form class="space-y-2" on:submit={onSubmitLoading}>
 			<slot name="form" />

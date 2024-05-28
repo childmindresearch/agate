@@ -33,7 +33,7 @@
 </script>
 
 <div hidden={disableSystemPrompt}>
-	<FormBasePage {title} {description} />
+	<FormBasePage {title} {description} hasBusinessAssociateAgreemment />
 	<SystemPrompt bind:systemPrompt disabled={disableSystemPrompt} />
 </div>
 

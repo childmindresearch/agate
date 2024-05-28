@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { downloadBlob } from '$lib/fileHandling';
 	import FormPage from '$lib/components/PageTemplates/FormActionPage.svelte';
+	import { downloadBlob } from '$lib/fileHandling';
 	import type { SubmitFunction } from '@sveltejs/kit';
 
 	const title = 'Embedding';
@@ -21,7 +21,7 @@
 	};
 </script>
 
-<FormPage {title} {description} {enhancer}>
+<FormPage {title} {description} {enhancer} hasBusinessAssociateAgreemment>
 	<svelte:fragment slot="form">
 		<label for="file">File</label>
 		<input
@@ -33,12 +33,6 @@
 			required
 			data-testid="embedding-file-input"
 		/>
-		<label for="model">Model</label>
-		<select id="model" name="model" class="select" value="text-embedding-3-small">
-			<option value="text-embedding-3-small">text-embedding-3-small</option>
-			<option value="text-embedding-3-large">text-embedding-3-large</option>
-			<option value="text-embedding-ada-002">text-embedding-ada-002</option>
-		</select>
 		<button data-testid="embedding-submit-button" type="submit" class="btn variant-filled-primary">
 			Submit
 		</button>
