@@ -1,5 +1,8 @@
 <script lang="ts">
 	import { getToastStore } from '@skeletonlabs/skeleton';
+	import SvelteMarkdown from 'svelte-markdown';
+	import Code from './Code.svelte';
+	import './chat.postcss';
 
 	export let systemPrompt: string;
 	export let user = 'You';
@@ -139,7 +142,7 @@
 					<p class="font-bold">{names[bubble.role]}</p>
 					<small class="opacity-90">{bubble.timestamp}</small>
 				</header>
-				<p class="whitespace-pre-wrap">{bubble.content}</p>
+				<SvelteMarkdown source={bubble.content} renderers={{ code: Code }} />
 			</div>
 		{/each}
 		{#if loading}

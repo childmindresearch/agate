@@ -29,7 +29,7 @@
 	<svelte:fragment slot="sidebarLeft">
 		<Navigation />
 	</svelte:fragment>
-	<div class="max-w-screen-md mx-auto mt-5 px-5 min-w-[332px]">
+	<div class="max-w-screen-xl mx-auto mt-5 px-5 min-w-[332px]">
 		<slot />
 	</div>
 </AppShell>
