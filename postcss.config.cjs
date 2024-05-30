@@ -8,16 +8,16 @@ module.exports = {
 	module: {
 		rules: [
 			{
-        test: /\.(html|svelte)$/,
-        use: {
-          loader: 'svelte-loader',
-          options: {
-            preprocess: sveltePreprocess({
-              postcss: true
-            })
-          }
-        }
-      }
-	]
+				test: /\.(html|svelte)$/,
+				use: {
+					loader: 'svelte-loader',
+					options: {
+						preprocess: sveltePreprocess({
+							postcss: true
+						})
+					}
+				}
+			}
+		]
 	}
 };
