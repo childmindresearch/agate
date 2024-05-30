@@ -1,4 +1,6 @@
 <script lang="ts">
+	import EnvelopeIcon from '$lib/icons/EnvelopeIcon.svelte';
+	import GithubIcon from '$lib/icons/GithubIcon.svelte';
 	import { AppBar, LightSwitch, getDrawerStore } from '@skeletonlabs/skeleton';
 
 	const drawerStore = getDrawerStore();
@@ -33,13 +35,13 @@
 				target="_blank"
 				rel="noreferrer"
 			>
-				<i class="fa-brands fa-github text-lg" />
+				<GithubIcon />
 				<span>GitHub</span>
 			</a>
 		</button>
 		<button class="btn hover:variant-soft-primary">
 			<a data-testid="a-mailto" href="mailto:dair@childmind.org" target="_blank" rel="noreferrer">
-				<i class="fa-solid fa-envelope text-lg" />
+				<EnvelopeIcon />
 				<span>Contact</span>
 			</a>
 		</button>

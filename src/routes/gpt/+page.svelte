@@ -1,10 +1,8 @@
 <script lang="ts">
 	import FormBasePage from '$lib/components/PageTemplates/FormBasePage.svelte';
-	import Chat from './Chat.svelte';
+	import Chat from './Chat/Chat.svelte';
 	import SystemPrompt from './SystemPrompt.svelte';
 	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
-
-	export let data;
 
 	let systemPrompt = '';
 	let disableSystemPrompt = false;
@@ -12,7 +10,6 @@
 	const title = 'Chatbot';
 	const description =
 		'To start, please fill out the instructions for the Chatbot. You can either use a pre-set, or create custom instructions.';
-	const user = data.user;
 	const toastStore = getToastStore();
 
 	function startChat() {
@@ -42,7 +39,7 @@
 {/if}
 
 {#if systemPrompt !== '' && disableSystemPrompt}
-	<Chat {systemPrompt} {user} />
+	<Chat {systemPrompt} />
 {/if}
 
 {#if disableSystemPrompt}
