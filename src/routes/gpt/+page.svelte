@@ -46,7 +46,5 @@
 {/if}
 
 {#if disableSystemPrompt}
-	<button class="btn mt-5 float-right variant-filled-tertiary" on:click={endChat}>
-		End Chat
-	</button>
+	<button class="btn mt-5 float-right variant-filled-error" on:click={endChat}> End Chat </button>
 {/if}

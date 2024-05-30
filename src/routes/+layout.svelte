@@ -1,11 +1,10 @@
 <script lang="ts">
-	import '../app.postcss';
-	import '@cmi-dair/skeleton-themes/cmi.postcss';
-	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
-	import { AppShell, Drawer, Toast, storePopup } from '@skeletonlabs/skeleton';
 	import Navbar from '$lib/components/Navbar.svelte';
-	import { initializeStores } from '@skeletonlabs/skeleton';
 	import Navigation from '$lib/components/Navigation.svelte';
+	import '@cmi-dair/skeleton-themes/cmi.postcss';
+	import { arrow, autoUpdate, computePosition, flip, offset, shift } from '@floating-ui/dom';
+	import { AppShell, Drawer, Toast, initializeStores, storePopup } from '@skeletonlabs/skeleton';
+	import '../app.postcss';
 
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 	initializeStores();
@@ -29,7 +28,7 @@
 	<svelte:fragment slot="sidebarLeft">
 		<Navigation />
 	</svelte:fragment>
-	<div class="max-w-screen-md mx-auto mt-5 px-5 min-w-[332px]">
+	<div class="max-w-screen-xl mx-auto mt-5 px-5 min-w-[332px]">
 		<slot />
 	</div>
 </AppShell>
