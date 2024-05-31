@@ -79,6 +79,12 @@
 		input.onchange = async (event) => {
 			const files = (event.target as HTMLInputElement).files;
 			if (!files) return;
+			if (files[0].name.split('.').slice(-1)[0] === 'txt') {
+				const text = await files[0].text();
+				addMessage(text, 'user');
+				await addResponse();
+				return;
+			}
 			const file = files[0];
 			const formData = new FormData();
 			formData.append('file', file);
