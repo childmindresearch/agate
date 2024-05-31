@@ -75,7 +75,7 @@
 	function uploadFile() {
 		const input = document.createElement('input');
 		input.type = 'file';
-		input.accept = '.pdf, .jpg, .jpeg, .png, .bmp, .tiff, .heif, .docx, .xlsx, .pptx, .html';
+		input.accept = '.pdf, .jpg, .jpeg, .png, .bmp, .tiff, .heif, .docx, .xlsx, .pptx, .html, .txt';
 		input.onchange = async (event) => {
 			const files = (event.target as HTMLInputElement).files;
 			if (!files) return;
