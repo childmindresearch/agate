@@ -9,12 +9,7 @@ jobs:
   push_to_registry:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
-    env:
-      OPENAI_API_KEY: fake_key
-      AZURE_DOCUMENT_INTELLIGENCE_KEY: fake_key
-      AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT: fake_endpoint
-      AZURE_OPENAI_API_KEY: fake_key
-      AZURE_OPENAI_ENDPOINT: fake_endpoint
+    
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
@@ -48,3 +43,5 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          secret-envs: "AZURE_DOCUMENT_INTELLIGENCE_KEY=fake_key,AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT=fake_endpoint,AZURE_OPENAI_API_KEY=fake_key,AZURE_OPENAI_ENDPOINT=fake_endpoint"
+
