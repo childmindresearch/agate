@@ -1,4 +1,4 @@
-import { azureOpenai } from '$lib/server/azure';
+import { getAzureOpenAiClient } from '$lib/server/azure';
 import type { Message } from '$lib/types';
 import { logger } from '$lib/server/utils';
 import { AZURE_OPENAI_GPT_DEPLOYMENT_NAME } from '$lib/server/secrets';
@@ -6,6 +6,7 @@ import { AZURE_OPENAI_GPT_DEPLOYMENT_NAME } from '$lib/server/secrets';
 export async function POST({ request }) {
 	const data = await request.json();
 	const messages = data.messages as Message[];
+	const azureOpenai = getAzureOpenAiClient();
 
 	if (messages.length === 0) {
 		return new Response('Missing input.', { status: 422 });

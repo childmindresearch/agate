@@ -1,5 +1,5 @@
 import { diskFileToMemoryFile, memoryFileToDiskFile } from '$lib/fileHandling';
-import { azureOpenai } from '$lib/server/azure';
+import { getAzureOpenAiClient } from '$lib/server/azure';
 import { AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME } from '$lib/server/secrets';
 import { logger } from '$lib/server/utils';
 import { type Embeddings } from '@azure/openai';
@@ -10,6 +10,7 @@ import * as pdfjsLib from 'pdfjs-dist';
 
 export const actions = {
 	default: async (event) => {
+		const azureOpenai = getAzureOpenAiClient();
 		const formData = await event.request.formData();
 		const file = formData.get('file') as File;
 		if (file.size == 0) {

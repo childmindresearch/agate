@@ -43,5 +43,4 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          secret-envs: "AZURE_DOCUMENT_INTELLIGENCE_KEY=fake_key,AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT=fake_endpoint,AZURE_OPENAI_API_KEY=fake_key,AZURE_OPENAI_ENDPOINT=fake_endpoint"
 

@@ -5,7 +5,7 @@ import path from 'node:path';
 import { memoryFileToDiskFile, diskFileToMemoryFile } from '$lib/fileHandling';
 import type { whisperLanguagesTypes } from '$lib/types';
 import { logger } from '$lib/server/utils';
-import { azureOpenai } from '$lib/server/azure';
+import { getAzureOpenAiClient } from '$lib/server/azure';
 import { AZURE_OPENAI_WHISPER_DEPLOYMENT_NAME } from '$lib/server/secrets';
 
 const VALID_FILE_FORMATS = ['mp3', 'mp4', 'mpeg', 'mpga', 'm4a', 'wav', 'webm'];
@@ -14,6 +14,7 @@ const LOCAL_MAX_SIZE = 500000000; // 500MB
 
 export const actions = {
 	default: async (event) => {
+		const azureOpenai = getAzureOpenAiClient();
 		const formData = await event.request.formData();
 		let files = [formData.get('file')] as File[];
 		const language = formData.get('language') as whisperLanguagesTypes;
