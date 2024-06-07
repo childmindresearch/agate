@@ -59,5 +59,9 @@
 			<small class="opacity-90">{message.timestamp}</small>
 		</div>
 	</header>
-	<SvelteMarkdown source={message.content} renderers={{ code: CodeBlock }} />
+	{#if message.role === 'assistant'}
+		<SvelteMarkdown source={message.content} renderers={{ code: CodeBlock }} />
+	{:else}
+		<p>{message.content}</p>
+	{/if}
 </div>
