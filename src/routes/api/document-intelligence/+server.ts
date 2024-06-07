@@ -1,24 +1,12 @@
-import { logger } from '$lib/server/utils';
-import { AzureKeyCredential, DocumentAnalysisClient } from '@azure/ai-form-recognizer';
-import { PrebuiltDocumentModel } from './models';
-import fs, { createReadStream } from 'fs';
 import { memoryFileToDiskFile } from '$lib/fileHandling.js';
-import {
-	AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT,
-	AZURE_DOCUMENT_INTELLIGENCE_KEY
-} from '$lib/server/secrets';
+import { azureDocumentIntelligence } from '$lib/server/azure';
+import { logger } from '$lib/server/utils';
+import { type DocumentAnalysisClient } from '@azure/ai-form-recognizer';
+import fs, { createReadStream } from 'fs';
+import { PrebuiltDocumentModel } from './models';
 
 export const POST = async ({ request }) => {
 	logger.info('Document Intelligence API called');
-	if (!AZURE_DOCUMENT_INTELLIGENCE_KEY || !AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT) {
-		return new Response('Azure document intelligence environment varibales not set correctly.', {
-			status: 500
-		});
-	}
-	const client = new DocumentAnalysisClient(
-		AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT,
-		new AzureKeyCredential(AZURE_DOCUMENT_INTELLIGENCE_KEY)
-	);
 
 	const formData = await request.formData();
 	const file = formData.get('file') as File;
@@ -26,7 +14,7 @@ export const POST = async ({ request }) => {
 		return new Response('No file found.', { status: 422 });
 	}
 
-	const pages = await getPages(client, file);
+	const pages = await getPages(azureDocumentIntelligence, file);
 	if (!pages) {
 		return new Response('No pages found in document', { status: 400 });
 	}
