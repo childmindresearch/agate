@@ -1,7 +1,6 @@
 import { azureOpenai } from '$lib/server/azure';
 import type { Message } from '$lib/types';
 import { logger } from '$lib/server/utils';
-import { json } from '@sveltejs/kit';
 import { AZURE_OPENAI_GPT_DEPLOYMENT_NAME } from '$lib/server/secrets';
 
 export async function POST({ request }) {

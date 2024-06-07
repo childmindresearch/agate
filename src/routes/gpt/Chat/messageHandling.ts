@@ -55,7 +55,9 @@ export async function readMessage(
 			while (queue.length > 0 || !queue.closed) {
 				const value = await consumeBuffer(queue);
 				if (!value) continue;
-				let delay = queue.closed ? 0 : BASE_CHARACTER_DELAY / (queue.length + 1) ** DELAY_EXPONENT;
+				const delay = queue.closed
+					? 0
+					: BASE_CHARACTER_DELAY / (queue.length + 1) ** DELAY_EXPONENT;
 				for (const char of value) {
 					controller.enqueue(char);
 					await new Promise((resolve) => setTimeout(resolve, delay));
