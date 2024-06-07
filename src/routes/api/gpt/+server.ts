@@ -24,7 +24,10 @@ export async function POST({ request }) {
 		user
 	});
 
-	const completion = await openai.streamChatCompletions(AZURE_OPENAI_GPT_DEPLOYMENT_NAME, messages);
+	const completion = await azureOpenai.streamChatCompletions(
+		AZURE_OPENAI_GPT_DEPLOYMENT_NAME,
+		messages
+	);
 	const stream = new ReadableStream({
 		start(controller) {
 			const reader = completion.getReader();
