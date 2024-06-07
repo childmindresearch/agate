@@ -1,22 +1,19 @@
-import OpenAI from 'openai';
 import { fail } from '@sveltejs/kit';
 import ffmpeg from 'fluent-ffmpeg';
 import fs from 'fs';
 import path from 'node:path';
-import { whisperLanguages } from './whisperLanguages';
 import { memoryFileToDiskFile, diskFileToMemoryFile } from '$lib/fileHandling';
 import type { whisperLanguagesTypes } from '$lib/types';
 import { logger } from '$lib/server/utils';
-import { OPENAI_API_KEY } from '$lib/server/secrets';
+import { azureOpenai } from '$lib/server/azure';
+import { AZURE_OPENAI_WHISPER_DEPLOYMENT_NAME } from '$lib/server/secrets';
 
 const VALID_FILE_FORMATS = ['mp3', 'mp4', 'mpeg', 'mpga', 'm4a', 'wav', 'webm'];
-const OPENAI_MAX_SIZE = 24000000; // OpenAI limit is 25MB, but lets keep a margin.
+const WHISPER_MAX_SIZE = 24000000; // Whisper size limit is 25MB, but lets keep a margin.
 const LOCAL_MAX_SIZE = 500000000; // 500MB
 
 export const actions = {
 	default: async (event) => {
-		const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
-
 		const formData = await event.request.formData();
 		let files = [formData.get('file')] as File[];
 		const language = formData.get('language') as whisperLanguagesTypes;
@@ -38,7 +35,7 @@ export const actions = {
 			files[0] = await convertToMp3(files[0]);
 		}
 
-		if (files[0].size > OPENAI_MAX_SIZE) {
+		if (files[0].size > WHISPER_MAX_SIZE) {
 			files = await splitIntoMultipleFiles(files[0]);
 		}
 
@@ -53,11 +50,14 @@ export const actions = {
 			user
 		});
 		for (const f of files) {
-			const transcription = await openai.audio.transcriptions.create({
-				file: f,
-				language: whisperLanguages[language],
-				model
-			});
+			const fileContents = new Uint8Array(await f.arrayBuffer());
+			const transcription = await azureOpenai.getAudioTranscription(
+				AZURE_OPENAI_WHISPER_DEPLOYMENT_NAME,
+				fileContents,
+				{
+					language
+				}
+			);
 			transcriptions.push(transcription.text);
 		}
 
@@ -95,7 +95,7 @@ async function splitIntoMultipleFiles(
 ): Promise<File[]> {
 	const timestamp = new Date().getTime();
 	const fileExtension = file.name.split('.').pop();
-	const nFiles = Math.ceil(file.size / OPENAI_MAX_SIZE);
+	const nFiles = Math.ceil(file.size / WHISPER_MAX_SIZE);
 	const tempDir = fs.mkdtempSync('temp');
 	const inputName = path.join(tempDir, `tempInputFile_${timestamp}.${fileExtension}`);
 	const outputName = path.join(tempDir, `temp_${timestamp}_%d.${targetFormat}`);
