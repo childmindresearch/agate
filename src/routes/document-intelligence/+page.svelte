@@ -7,7 +7,7 @@
 	const title = 'Document Intelligence';
 	const description = `
 		This tool can parse the text in a variety of documents. Simply upload a file containing typed or handwritten text, 
-        and the tool will return the text in a Word document.
+        and the tool will return the text in a .txt document.
 	`;
 
 	const toastStore = getToastStore();
