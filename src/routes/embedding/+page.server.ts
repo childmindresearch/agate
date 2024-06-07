@@ -1,11 +1,8 @@
 import { diskFileToMemoryFile, memoryFileToDiskFile } from '$lib/fileHandling';
-import {
-	AZURE_OPENAI_API_KEY,
-	AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME,
-	AZURE_OPENAI_ENDPOINT
-} from '$lib/server/secrets';
+import { azureOpenai } from '$lib/server/azure';
+import { AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME } from '$lib/server/secrets';
 import { logger } from '$lib/server/utils';
-import { AzureKeyCredential, OpenAIClient, type Embeddings } from '@azure/openai';
+import { type Embeddings } from '@azure/openai';
 import { fail } from '@sveltejs/kit';
 import { spawnSync } from 'child_process';
 import fs from 'fs';
@@ -13,11 +10,6 @@ import * as pdfjsLib from 'pdfjs-dist';
 
 export const actions = {
 	default: async (event) => {
-		const openai = new OpenAIClient(
-			AZURE_OPENAI_ENDPOINT,
-			new AzureKeyCredential(AZURE_OPENAI_API_KEY)
-		);
-
 		const formData = await event.request.formData();
 		const file = formData.get('file') as File;
 		if (file.size == 0) {
@@ -39,7 +31,7 @@ export const actions = {
 
 		let response: Embeddings;
 		try {
-			response = await openai.getEmbeddings(AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME, [input]);
+			response = await azureOpenai.getEmbeddings(AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME, [input]);
 		} catch (error) {
 			// @ts-expect-error as error is unknown.
 			return fail(500, { message: error.message });

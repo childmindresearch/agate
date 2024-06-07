@@ -20,7 +20,7 @@
 	};
 </script>
 
-<FormActionPage {title} {description} {enhancer}>
+<FormActionPage {title} {description} {enhancer} hasBusinessAssociateAgreemment>
 	<svelte:fragment slot="form">
 		<input
 			class="input"
