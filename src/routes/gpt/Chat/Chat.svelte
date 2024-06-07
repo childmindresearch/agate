@@ -2,6 +2,8 @@
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import ChatBubble from './ChatBubble.svelte';
 	import UploadIcon from '$lib/icons/UploadIcon.svelte';
+	import hljs from 'highlight.js';
+	import { readMessage } from './messageHandling';
 
 	export let systemPrompt: string;
 
@@ -22,53 +24,63 @@
 		if (loading) return;
 		event.preventDefault();
 		addMessage(currentMessage, 'user');
+		currentMessage = '';
 		addResponse();
 	}
 
 	function addMessage(content: string, role: 'assistant' | 'user') {
 		const timestamp = new Date().toLocaleTimeString();
-		messages = [
-			...messages,
-			{
-				content,
-				role,
-				timestamp
-			}
-		];
-		currentMessage = '';
-		// Timeout prevents race condition
-		setTimeout(() => {
-			scrollChatBottom();
-		}, 0);
+		const newMessage = {
+			content,
+			role,
+			timestamp
+		};
+		messages = [...messages, newMessage];
+		scrollChatBottom();
+		return newMessage;
 	}
 
 	async function addResponse() {
 		loading = true;
 		await fetch('/api/gpt', {
 			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
 			body: JSON.stringify({ messages, model })
 		})
-			.then((response) => {
-				if (response.ok) {
-					return response.json();
+			.then(async (response) => {
+				if (!response.ok) {
+					throw new Error('Network response was not ok.');
 				}
-				throw new Error('Network response was not ok.');
-			})
-			.then((data) => {
-				addMessage(data.message, 'assistant');
-				loading = false;
+				const reader = response.body?.pipeThrough(new TextDecoderStream()).getReader();
+				if (!reader) return;
+				const stream = await readMessage(reader);
+				let message: { content: string; role: 'assistant' | 'user'; timestamp: string };
+				stream.pipeTo(
+					new WritableStream({
+						write(chunk) {
+							if (!message) {
+								message = addMessage('', 'assistant');
+							}
+							message.content += chunk;
+							messages = [...messages.slice(0, -1), message]; // Needed for svelte reactivity.
+							scrollChatBottom();
+						},
+						close() {
+							scrollChatBottom();
+							hljs.highlightAll();
+							loading = false;
+						}
+					})
+				);
 			})
 			.catch((error) => {
 				console.error('There was a problem with the fetch operation:', error);
 			});
-		loading = false;
 	}
 
 	function scrollChatBottom(): void {
 		if (!elemChat) return;
+		const isCloseToBottom = elemChat.scrollHeight - elemChat.scrollTop - elemChat.clientHeight < 50;
+		if (!isCloseToBottom) return;
 		elemChat.scrollTo({ top: elemChat.scrollHeight, behavior: 'smooth' });
 	}
 
@@ -126,9 +138,8 @@
 		class="w-full max-h-[70vh] min-h-[100px] p-4 overflow-y-auto space-y-4"
 	>
 		{#each messages as message}
-			<ChatBubble {message} />
+			<ChatBubble bind:message />
 		{/each}
-		<p class:hidden={!loading}>Agate is typing...</p>
 		<p class:hidden={!uploading}>Agate is processing the document...</p>
 	</section>
 	<div

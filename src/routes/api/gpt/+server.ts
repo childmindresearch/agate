@@ -1,7 +1,6 @@
 import { azureOpenai } from '$lib/server/azure';
 import type { Message } from '$lib/types';
 import { logger } from '$lib/server/utils';
-import { json } from '@sveltejs/kit';
 import { AZURE_OPENAI_GPT_DEPLOYMENT_NAME } from '$lib/server/secrets';
 
 export async function POST({ request }) {
@@ -24,9 +23,31 @@ export async function POST({ request }) {
 		user
 	});
 
-	const completion = await azureOpenai.getChatCompletions(
+	const completion = await azureOpenai.streamChatCompletions(
 		AZURE_OPENAI_GPT_DEPLOYMENT_NAME,
 		messages
 	);
-	return json({ message: completion.choices[0].message?.content });
+	const stream = new ReadableStream({
+		start(controller) {
+			const reader = completion.getReader();
+			reader.read().then(function processText({ done, value }) {
+				if (done) {
+					controller.close();
+					return;
+				}
+				controller.enqueue(JSON.stringify({ data: value.choices[0]?.delta }) + '\n\n');
+				reader.read().then(processText);
+			});
+		},
+		cancel(controller) {
+			logger.info('Stream cancelled');
+			controller.close();
+		}
+	});
+	return new Response(stream, {
+		headers: {
+			'cache-control': 'no-cache',
+			'content-type': 'text/event-stream'
+		}
+	});
 }
