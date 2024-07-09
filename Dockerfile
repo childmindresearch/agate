@@ -1,11 +1,11 @@
-FROM node:18-alpine as builder
+FROM node:22-alpine as builder
 
 WORKDIR /app
 COPY . .
 
 RUN npm ci && npm run build
 
-FROM node:18-alpine
+FROM node:22-alpine
 
 ENV OPENAI_API_KEY=overwrite-me
 ENV AZURE_DOCUMENT_INTELlIGENCE_KEY=overwrite-me
