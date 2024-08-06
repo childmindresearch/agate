@@ -4,7 +4,6 @@
 	import '@cmi-dair/skeleton-themes/cmi.postcss';
 	import { arrow, autoUpdate, computePosition, flip, offset, shift } from '@floating-ui/dom';
 	import { AppShell, Drawer, Toast, initializeStores, storePopup } from '@skeletonlabs/skeleton';
-	import '../app.postcss';
 
 	import hljs from 'highlight.js/lib/core';
 	import bash from 'highlight.js/lib/languages/bash';
