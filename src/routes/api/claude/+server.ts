@@ -28,7 +28,7 @@ export async function POST({ request }) {
 
 	const command = new ConverseStreamCommand({
 		modelId: model,
-		// @ts-ignore
+		// @ts-expect-error because our message type contains a 'system' role.
 		messages: conversationCommand,
 		system: [{ text: systemMessage.content }]
 	});
@@ -37,7 +37,7 @@ export async function POST({ request }) {
 		return new Response('No stream in response', { status: 500 });
 	}
 
-	let stream = new ReadableStream({
+	const stream = new ReadableStream({
 		async start(controller) {
 			if (!response.stream) {
 				controller.close();
