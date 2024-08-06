@@ -6,6 +6,22 @@
 
 	let systemPrompt = '';
 	let disableSystemPrompt = false;
+	let model = 'anthropic.claude-3-5-sonnet-20240620-v1:0';
+
+	const LLM_MODELS = [
+		{
+			name: 'GPT-4o',
+			tag: 'gpt-4o'
+		},
+		{
+			name: 'Claude 3 Opus',
+			tag: 'anthropic.claude-3-opus-20240229-v1:0'
+		},
+		{
+			name: 'Claude 3.5 Sonnet',
+			tag: 'anthropic.claude-3-5-sonnet-20240620-v1:0'
+		}
+	];
 
 	const title = 'Chatbot';
 	const description =
@@ -29,17 +45,23 @@
 	}
 </script>
 
-<div hidden={disableSystemPrompt}>
+<div hidden={disableSystemPrompt} class="space-y-2">
 	<FormBasePage {title} {description} hasBusinessAssociateAgreemment />
 	<SystemPrompt bind:systemPrompt disabled={disableSystemPrompt} />
+	<label>
+		Model
+		<br />
+		<select class="input w-72" bind:value={model}>
+			{#each LLM_MODELS as model}
+				<option value={model.tag}>{model.name}</option>
+			{/each}
+		</select>
+	</label>
+	<button class="btn variant-filled-primary" on:click={startChat}> Start Chat </button>
 </div>
 
-{#if !disableSystemPrompt}
-	<button class="btn variant-filled-primary" on:click={startChat}> Start Chat </button>
-{/if}
-
 {#if systemPrompt !== '' && disableSystemPrompt}
-	<Chat {systemPrompt} />
+	<Chat {systemPrompt} {model} />
 {/if}
 
 {#if disableSystemPrompt}

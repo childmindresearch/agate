@@ -3,7 +3,7 @@
 	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 	import LoadingBar from '$lib/components/LoadingBar.svelte';
 	import NoBaaBanner from '$lib/components/BAA/NoBaaBanner.svelte';
-	import AzureBanner from '$lib/components/BAA/AzureBanner.svelte';
+	import HasBaaBanner from '$lib/components/BAA/HasBaaBanner.svelte';
 
 	export let title: string;
 	export let description: string;
@@ -28,14 +28,13 @@
 </svelte:head>
 
 {#if hasBusinessAssociateAgreemment}
-	<AzureBanner />
+	<HasBaaBanner />
 {:else}
 	<NoBaaBanner />
 {/if}
 
 <h3 class="h3">{title}</h3>
 <p>{description}</p>
-<hr class="!border-t-2 m-3" />
 
 <slot name="form" />
 

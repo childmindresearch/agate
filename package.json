@@ -51,9 +51,10 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@aws-sdk/client-bedrock-runtime": "^3.624.0",
 		"@azure/ai-form-recognizer": "^5.0.0",
 		"@azure/openai": "^1.0.0-beta.12",
-		"@cmi-dair/skeleton-themes": "^0.0.4",
+		"@cmi-dair/skeleton-themes": "^0.1.1",
 		"@floating-ui/dom": "^1.6.7",
 		"@sveltejs/adapter-node": "^5.2.0",
 		"fluent-ffmpeg": "^2.1.3",

@@ -6,6 +6,7 @@
 	import { readMessage } from './messageHandling';
 
 	export let systemPrompt: string;
+	export let model: string;
 
 	let messages = [
 		{ role: 'system', content: systemPrompt, timestamp: new Date().toLocaleTimeString() }
@@ -15,7 +16,6 @@
 	let loading = false;
 	let uploading = false;
 
-	const model = 'gpt-4o';
 	const toastStore = getToastStore();
 
 	async function addUserMessage(event: KeyboardEvent) {
@@ -42,7 +42,13 @@
 
 	async function addResponse() {
 		loading = true;
-		await fetch('/api/gpt', {
+		let endpoint: string;
+		if (model === 'gpt-4o') {
+			endpoint = '/api/gpt';
+		} else {
+			endpoint = '/api/claude';
+		}
+		await fetch(endpoint, {
 			method: 'POST',
 			body: JSON.stringify({ messages, model })
 		})
