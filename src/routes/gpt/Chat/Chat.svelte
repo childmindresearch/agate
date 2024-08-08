@@ -85,7 +85,8 @@
 
 	function scrollChatBottom(): void {
 		if (!elemChat) return;
-		const isCloseToBottom = elemChat.scrollHeight - elemChat.scrollTop - elemChat.clientHeight < 50;
+		const isCloseToBottom =
+			elemChat.scrollHeight - elemChat.scrollTop - elemChat.clientHeight < 200;
 		if (!isCloseToBottom) return;
 		elemChat.scrollTo({ top: elemChat.scrollHeight, behavior: 'smooth' });
 	}
@@ -133,15 +134,15 @@
 	function resizeTextArea(event: Event) {
 		const target = event.target as HTMLTextAreaElement;
 		target.style.height = 'auto';
-		target.style.height = Math.min(target.scrollHeight, 200) + 'px';
+		target.style.height = Math.min(target.scrollHeight, 300) + 'px';
 	}
 </script>
 
-<div class="chat w-full">
+<div class="w-auto grid grid-rows-[auto_10rem] space-y-4">
 	<section
 		bind:this={elemChat}
 		id="chat-container"
-		class="w-full max-h-[70vh] min-h-[100px] p-4 overflow-y-auto space-y-4"
+		class="min-h-[70vh] max-h-[70vh] p-4 overflow-y-auto space-y-4"
 	>
 		{#each messages as message}
 			<ChatBubble bind:message />
@@ -149,7 +150,7 @@
 		<p class:hidden={!uploading}>Agate is processing the document...</p>
 	</section>
 	<div
-		class="input-group input-group-divider grid-cols-[auto_1fr_auto] rounded-container-token border-surface-700 border-2"
+		class="input-group input-group-divider grid-cols-[auto_1fr_auto] mx-auto max-w-[70%] rounded-container-token border-surface-700 border-2"
 	>
 		<button class="input-group-shim border-r-2" on:click={uploadFile}>
 			<UploadIcon class="text-lg text-black" />
@@ -162,6 +163,7 @@
 			placeholder="Write a message..."
 			rows="1"
 			disabled={loading || uploading}
+			style="resize: none;"
 			on:keydown={addUserMessage}
 			on:input={resizeTextArea}
 		/>

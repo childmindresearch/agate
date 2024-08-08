@@ -3,7 +3,7 @@
 	import Navigation from '$lib/components/Navigation.svelte';
 	import '@cmi-dair/skeleton-themes/cmi.postcss';
 	import { arrow, autoUpdate, computePosition, flip, offset, shift } from '@floating-ui/dom';
-	import { AppShell, Drawer, Toast, initializeStores, storePopup } from '@skeletonlabs/skeleton';
+	import { Drawer, Toast, initializeStores, storePopup } from '@skeletonlabs/skeleton';
 
 	import hljs from 'highlight.js/lib/core';
 	import bash from 'highlight.js/lib/languages/bash';
@@ -42,14 +42,14 @@
 	<Navigation />
 </Drawer>
 
-<AppShell slotSidebarLeft="bg-surface-500/5 w-0 md:w-64">
-	<svelte:fragment slot="header">
-		<Navbar />
-	</svelte:fragment>
-	<svelte:fragment slot="sidebarLeft">
-		<Navigation />
-	</svelte:fragment>
-	<div class="max-w-screen-xl mx-auto mt-5 px-5 min-w-[332px]">
-		<slot />
+<div class="grid grid-rows-[4rem_auto] min-h-screen">
+	<Navbar />
+	<div class="grid md:grid-cols-[15rem_auto]">
+		<div class="h-max w-max md:flex hidden">
+			<Navigation />
+		</div>
+		<div class="px-5 mt-5 w-auto min-w-[332px] min-h-[90%]">
+			<slot />
+		</div>
 	</div>
-</AppShell>
+</div>
