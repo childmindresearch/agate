@@ -60,10 +60,10 @@
 	<button class="btn variant-filled-primary" on:click={startChat}> Start Chat </button>
 </div>
 
-{#if systemPrompt !== '' && disableSystemPrompt}
-	<Chat {systemPrompt} {model} />
+{#if disableSystemPrompt}
+	<button class="btn mt-5 variant-filled-error" on:click={endChat}> End Chat </button>
 {/if}
 
-{#if disableSystemPrompt}
-	<button class="btn mt-5 float-right variant-filled-error" on:click={endChat}> End Chat </button>
+{#if systemPrompt !== '' && disableSystemPrompt}
+	<Chat {systemPrompt} {model} />
 {/if}

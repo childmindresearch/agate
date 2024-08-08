@@ -24,9 +24,9 @@
 	<ul style="flex-grow: 1;">
 		{#each pages as { name, href }}
 			<li>
-				<a {href} class={classesActive(href)} data-testid="a-navigation" on:click={drawerClose}
-					>{name}</a
-				>
+				<a {href} class={classesActive(href)} data-testid="a-navigation" on:click={drawerClose}>
+					{name}
+				</a>
 			</li>
 		{/each}
 	</ul>
