@@ -14,5 +14,5 @@
 </script>
 
 {#key text}
-	<CodeBlock code={text} language={lang} />
+	<CodeBlock code={text} language={lang ? lang : 'plaintext'} />
 {/key}
