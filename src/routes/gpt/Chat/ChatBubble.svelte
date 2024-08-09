@@ -2,8 +2,10 @@
 	import CopyIcon from '$lib/icons/CopyIcon.svelte';
 	import { getToastStore, popup, type PopupSettings } from '@skeletonlabs/skeleton';
 	import SvelteMarkdown from 'svelte-markdown';
-	import CodeBlock from './CodeBlock.svelte';
+	import CodeBlock from './Renderers/CodeBlock.svelte';
 	import './chat.postcss';
+	import OrderedListItem from './Renderers/OrderedListItem.svelte';
+	import UnorderedListItem from './Renderers/UnorderedListItem.svelte';
 
 	export let message: { role: string; content: string; timestamp: string };
 
@@ -60,7 +62,15 @@
 		</div>
 	</header>
 	{#if message.role === 'assistant'}
-		<SvelteMarkdown source={message.content} renderers={{ code: CodeBlock }} />
+		<SvelteMarkdown
+			source={message.content}
+			renderers={{
+				code: CodeBlock,
+				// @ts-expect-error - For some reason the IDDE doesn't think orderedlistitem exists, it does.
+				orderedlistitem: OrderedListItem,
+				unorderedlistitem: UnorderedListItem
+			}}
+		/>
 	{:else}
 		<p>{message.content}</p>
 	{/if}
