@@ -66,7 +66,7 @@
 			source={message.content}
 			renderers={{
 				code: CodeBlock,
-				// @ts-ignore
+				// @ts-expect-error - For some reason the IDDE doesn't think orderedlistitem exists, it does.
 				orderedlistitem: OrderedListItem,
 				unorderedlistitem: UnorderedListItem
 			}}
