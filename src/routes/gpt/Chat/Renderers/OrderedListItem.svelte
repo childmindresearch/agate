@@ -1,15 +1,15 @@
 <div>
-    <li>
-        <slot />
-    </li>
+	<li>
+		<slot />
+	</li>
 </div>
 
 <style>
-    li {
-        list-style-type: decimal;
-    }
+	li {
+		list-style-type: decimal;
+	}
 
-    div {
-        margin-left: 1.5em;
-    }
+	div {
+		margin-left: 1.5em;
+	}
 </style>

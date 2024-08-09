@@ -1,15 +1,15 @@
 <div>
-    <li>
-        <slot />
-    </li>
+	<li>
+		<slot />
+	</li>
 </div>
 
 <style>
-    li {
-        list-style-type: disc;
-    }
+	li {
+		list-style-type: disc;
+	}
 
-    div {
-        margin-left: 1.5em;
-    }
+	div {
+		margin-left: 1.5em;
+	}
 </style>
