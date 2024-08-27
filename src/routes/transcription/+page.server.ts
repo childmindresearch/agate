@@ -41,7 +41,6 @@ export const actions = {
 		}
 
 		const model = 'whisper-1';
-		const transcriptions: string[] = [];
 		const requestId = event.request.headers.get('X-Request-ID');
 		const user = event.request.headers.get('X-User');
 		logger.info({
@@ -50,21 +49,19 @@ export const actions = {
 			requestId,
 			user
 		});
-		for (const f of files) {
-			const fileContents = new Uint8Array(await f.arrayBuffer());
-			const transcription = await azureOpenai.getAudioTranscription(
-				AZURE_OPENAI_WHISPER_DEPLOYMENT_NAME,
-				fileContents,
-				{
-					language
-				}
-			);
-			transcriptions.push(transcription.text);
-		}
 
-		const text = transcriptions.join(' ');
+		const transcription = (
+			await Promise.all(
+				files.map(async (file) => {
+					const content = new Uint8Array(await file.arrayBuffer());
+					return azureOpenai.getAudioTranscription(AZURE_OPENAI_WHISPER_DEPLOYMENT_NAME, content, {
+						language
+					});
+				})
+			)
+		).join(' ');
 
-		return { text };
+		return { text: transcription };
 	}
 };
 
@@ -76,12 +73,17 @@ async function convertToMp3(file: File): Promise<File> {
 
 	try {
 		await memoryFileToDiskFile(file, inputName);
-		ffmpeg(inputName)
-			.format('mp3')
-			.on('error', (err) => {
-				throw err;
-			})
-			.saveToFile(convertedFileName);
+		await new Promise<void>((resolve, reject) => {
+			ffmpeg(inputName)
+				.setStartTime(0)
+				.output(convertedFileName)
+				.on('error', (err) => {
+					logger.error(err);
+					reject();
+				})
+				.on('end', () => resolve())
+				.run();
+		});
 		const outputFile = diskFileToMemoryFile(convertedFileName, 'audio/mp3');
 		return outputFile;
 	} finally {
@@ -94,34 +96,42 @@ async function splitIntoMultipleFiles(
 	file: File,
 	targetFormat: 'mp3' | 'mp4' | 'mpeg' | 'mpga' | 'm4a' | 'wav' | 'webm' = 'mp3'
 ): Promise<File[]> {
+	logger.info('Splitting into multiple files.');
+	const mp3File = await convertToMp3(file);
 	const timestamp = new Date().getTime();
-	const fileExtension = file.name.split('.').pop();
-	const nFiles = Math.ceil(file.size / WHISPER_MAX_SIZE);
+	const nFiles = Math.ceil(mp3File.size / WHISPER_MAX_SIZE);
+	if (nFiles == 1) {
+		// Conversion to .mp3 brought size below the limit.
+		return [mp3File];
+	}
 	const tempDir = fs.mkdtempSync('temp');
-	const inputName = path.join(tempDir, `tempInputFile_${timestamp}.${fileExtension}`);
+	const inputName = path.join(tempDir, `tempInputFile_${timestamp}.mp3`);
 	const outputName = path.join(tempDir, `temp_${timestamp}_%d.${targetFormat}`);
-	let clipDuration: number;
 
 	try {
-		memoryFileToDiskFile(file, inputName);
-		clipDuration = await new Promise<number>((resolve, reject) => {
+		await memoryFileToDiskFile(file, inputName);
+		const clipDuration = await new Promise<number>((resolve, reject) => {
 			ffmpeg.ffprobe(inputName, (err, metadata) => {
 				if (err) {
 					reject(err);
 				}
 				const duration = Number(metadata.format.duration);
-				return Math.ceil(duration / nFiles);
+				resolve(Math.ceil(duration / nFiles));
 			});
 		});
 
-		ffmpeg(inputName)
-			.setStartTime(0)
-			.outputOptions(['-map 0:a:0', '-f segment', `-segment_time ${clipDuration}`])
-			.output(outputName)
-			.on('error', (err) => {
-				throw err;
-			})
-			.run();
+		await new Promise<void>((resolve, reject) => {
+			ffmpeg(inputName)
+				.setStartTime(0)
+				.outputOptions(['-map 0:a:0', '-f segment', `-segment_time ${clipDuration}`])
+				.output(outputName)
+				.on('error', (err) => {
+					logger.error(err);
+					reject();
+				})
+				.on('end', () => resolve())
+				.run();
+		});
 
 		const outputFiles: File[] = [];
 		for (let i = 0; i < nFiles; i++) {
