@@ -59,7 +59,9 @@ export const actions = {
 					});
 				})
 			)
-		).join(' ');
+		)
+			.map((transcript) => transcript.text)
+			.join(' ');
 
 		return { text: transcription };
 	}
