@@ -43,9 +43,7 @@ export class DocumentAnalysis {
 			const getResponse = await fetch(operationLocation, {
 				headers: { 'Ocp-Apim-Subscription-Key': this.access_key }
 			});
-			console.log(getResponse);
 			const json = await getResponse.json();
-			console.log(json);
 			if (json.status !== 'running') {
 				return new Response(JSON.stringify(json), { status: 200 });
 			}
