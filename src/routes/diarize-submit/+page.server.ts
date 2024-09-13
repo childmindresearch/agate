@@ -21,7 +21,7 @@ export const actions = {
 
 		const mp3Files = await Promise.all(
 			files.map((file) => {
-				return convertToMp3(file);
+				return convertToMp3(file, true);
 			})
 		);
 
