@@ -24,7 +24,12 @@ function createResolve() {
 
 describe('handle requests', () => {
 	it('should set request headers and log request information', async () => {
-		const event = createEvent();
+		const event = {
+			locals: {},
+			request: new Request('https://example.com'),
+			resolve: async () => new Response()
+		};
+
 		const resolve = createResolve();
 
 		const response = await handle({ event, resolve });
