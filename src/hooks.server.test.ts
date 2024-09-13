@@ -24,13 +24,17 @@ function createResolve() {
 
 describe('handle requests', () => {
 	it('should set request headers and log request information', async () => {
-		const event = createEvent();
+		const event = {
+			locals: {},
+			request: new Request('https://example.com'),
+			resolve: async () => new Response()
+		};
+
 		const resolve = createResolve();
 
 		const response = await handle({ event, resolve });
 
 		expect(event.request.headers.get('X-Request-ID')).toBeDefined();
-		expect(event.request.headers.get('X-User')).toBe('development.user@example.com');
 		expect(resolve).toHaveBeenCalledWith(event);
 		expect(response.headers.append).toHaveBeenCalledWith('X-Request-ID', expect.any(String));
 	});

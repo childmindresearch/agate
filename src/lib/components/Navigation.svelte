@@ -6,6 +6,8 @@
 	const pages = [
 		{ name: 'Chatbot', href: '/gpt' },
 		{ name: 'Document Intelligence', href: '/document-intelligence' },
+		{ name: 'Diarize (Submit)', href: '/diarize-submit' },
+		{ name: 'Diarize (Retrieve)', href: '/diarize-retrieve' },
 		{ name: 'Embedding', href: '/embedding' },
 		{ name: 'Image Generation', href: '/dalle' },
 		{ name: 'Text To Speech', href: '/text-to-speech' },

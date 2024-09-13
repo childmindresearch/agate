@@ -9,9 +9,8 @@
 	let model = 'tts-1';
 
 	const title = 'Text to Speech';
-	const description = `
-		Converts text to speech. Please be aware that OpenAI Usage Policy requires you to disclose that the audio was AI generated.
-	`;
+	const description =
+		'Converts text to speech. Please be aware that OpenAI Usage Policy requires you to disclose that the audio was AI generated.';
 	const toastStore = getToastStore();
 
 	async function onSubmit() {

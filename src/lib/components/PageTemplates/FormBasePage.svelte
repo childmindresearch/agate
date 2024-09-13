@@ -2,8 +2,8 @@
 	import { page } from '$app/stores';
 	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 	import LoadingBar from '$lib/components/LoadingBar.svelte';
-	import NoBaaBanner from '$lib/components/BAA/NoBaaBanner.svelte';
-	import HasBaaBanner from '$lib/components/BAA/HasBaaBanner.svelte';
+	import NoBaaBanner from '$lib/components/banners/NoBaaBanner.svelte';
+	import HasBaaBanner from '$lib/components/banners/HasBaaBanner.svelte';
 
 	export let title: string;
 	export let description: string;
