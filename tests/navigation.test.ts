@@ -11,7 +11,7 @@ test('shows up', async ({ page }) => {
 
 test('has all links', async ({ page }) => {
 	await page.goto('/');
-	const n_expected_links = 6;
+	const n_expected_links = 8;
 
 	const locator = page.getByTestId('a-navigation');
 	const links = await locator.all();
