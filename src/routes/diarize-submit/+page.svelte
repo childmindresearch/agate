@@ -2,7 +2,7 @@
 	import BetaBanner from '$lib/components/banners/BetaBanner.svelte';
 	import FormActionPage from '$lib/components/PageTemplates/FormActionPage.svelte';
 
-	const title = 'Diarization )Submit)';
+	const title = 'Diarization (Submit)';
 	const description =
 		'Transcribe and diarize files. This process works in batches i.e. it may take several minutes or hours before your files are processed. Once submitted, please navigate to the Diarization retrieval page to download your results. Note that results are deleted one week after finishing.';
 </script>
