@@ -15,20 +15,21 @@ export const logger = winston.createLogger({
 	transports: [new winston.transports.Console()]
 });
 
-export async function convertToMp3(file: File): Promise<File> {
+export async function convertToMp3(file: File, toMono = false): Promise<File> {
 	const fileExtension = file.name.split('.').pop();
-	if (fileExtension == 'mp3') return file;
+	if (fileExtension == 'mp3' && !toMono) return file;
 
 	const timestamp = new Date().getTime();
 
 	const inputName = `tempInputFile_${timestamp}.${fileExtension}`;
-	const convertedFileName = `temp_${timestamp}.mp3`;
+	const convertedFileName = file.name.split('.')[0] + '.mp3';
 
 	try {
 		await memoryFileToDiskFile(file, inputName);
 		await new Promise<void>((resolve, reject) => {
 			ffmpeg(inputName)
 				.setStartTime(0)
+				.audioChannels(1)
 				.output(convertedFileName)
 				.on('error', (err) => {
 					logger.error(err);
