@@ -30,7 +30,6 @@ describe('handle requests', () => {
 		const response = await handle({ event, resolve });
 
 		expect(event.request.headers.get('X-Request-ID')).toBeDefined();
-		expect(event.request.headers.get('X-User')).toBe('development.user@example.com');
 		expect(resolve).toHaveBeenCalledWith(event);
 		expect(response.headers.append).toHaveBeenCalledWith('X-Request-ID', expect.any(String));
 	});

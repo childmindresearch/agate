@@ -3,7 +3,7 @@ import type { Message } from '$lib/types';
 import { logger } from '$lib/server/utils';
 import { AZURE_OPENAI_GPT_DEPLOYMENT_NAME } from '$lib/server/secrets';
 
-export async function POST({ request }) {
+export async function POST({ request, locals }) {
 	const data = await request.json();
 	const messages = data.messages as Message[];
 	const azureOpenai = getAzureOpenAiClient();
@@ -16,12 +16,11 @@ export async function POST({ request }) {
 	}
 
 	const requestId = request.headers.get('X-Request-ID');
-	const user = request.headers.get('X-User');
 	logger.info({
 		type: 'OpenAI Request',
 		AZURE_OPENAI_GPT_DEPLOYMENT_NAME,
 		requestId,
-		user
+		user: locals.user
 	});
 
 	const completion = await azureOpenai.streamChatCompletions(

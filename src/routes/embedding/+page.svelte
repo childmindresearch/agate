@@ -5,11 +5,9 @@
 	import type { SubmitFunction } from '@sveltejs/kit';
 
 	const title = 'Embedding';
-	const description = `
-		This tool creates embeddings of text files. Please be aware that, while this tool does accept .pdf
-		and .docx files, their conversion to plain text may not be perfect. For best results, use a plain
-		text file like .txt.
-	`;
+	const description = `This tool creates embeddings of text files. Please be aware that, while this tool does accept .pdf
+and .docx files, their conversion to plain text may not be perfect. For best results, use a plain
+text file like .txt.`;
 	const enhancer: SubmitFunction = () => {
 		return async ({ update }) => {
 			await update();
@@ -23,12 +21,11 @@
 
 <FormPage {title} {description} {enhancer} hasBusinessAssociateAgreemment>
 	<svelte:fragment slot="form">
-		<label for="file">File</label>
 		<input
 			type="file"
 			id="file"
 			name="file"
-			class="input"
+			class="input max-w-64 block"
 			accept=".md, .docx, .txt, .rst, .html, .pdf"
 			required
 			data-testid="embedding-file-input"

@@ -21,12 +21,11 @@ export const actions = {
 
 		const model = 'dall-e-3';
 		const requestId = event.request.headers.get('X-Request-ID');
-		const user = event.request.headers.get('X-User');
 		logger.info({
 			type: 'OpenAI Request',
 			model,
 			requestId,
-			user
+			user: event.locals.user
 		});
 		const responses: APIPromise<ImagesResponse>[] = [];
 		for (let i = 0; i < number; i++) {

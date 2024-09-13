@@ -2,7 +2,7 @@ import OpenAI from 'openai';
 import { logger } from '$lib/server/utils';
 import { OPENAI_API_KEY } from '$lib/server/secrets';
 
-export async function POST({ request }) {
+export async function POST({ request, locals }) {
 	const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
 
 	const formData = await request.formData();
@@ -16,12 +16,11 @@ export async function POST({ request }) {
 	}
 
 	const requestId = request.headers.get('X-Request-ID');
-	const user = request.headers.get('X-User');
 	logger.info({
 		type: 'OpenAI Request',
 		model,
 		requestId,
-		user
+		user: locals.user
 	});
 	const audioResponse = await openai.audio.speech.create({
 		input,

@@ -23,11 +23,10 @@ export const actions = {
 		}
 
 		const requestId = event.request.headers.get('X-Request-ID');
-		const user = event.request.headers.get('X-User');
 		logger.info({
 			type: 'OpenAI Request',
 			requestId,
-			user
+			user: event.locals.user
 		});
 
 		let response: Embeddings;

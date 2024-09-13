@@ -5,10 +5,7 @@
 
 	let files: FileList;
 	const title = 'Document Intelligence';
-	const description = `
-		This tool can parse the text in a variety of documents. Simply upload a file containing typed or handwritten text, 
-        and the tool will return the text in a .txt document.
-	`;
+	const description = `This tool can parse the text in a variety of documents. Simply upload a file containing typed or handwritten text, and the tool will return the text in a .txt document.`;
 
 	const toastStore = getToastStore();
 
@@ -48,12 +45,11 @@
 
 <FormApiPage {title} {description} {onSubmit} hasBusinessAssociateAgreemment>
 	<svelte:fragment slot="form">
-		<label for="file">File</label>
 		<input
 			type="file"
 			id="file"
 			name="file"
-			class="input"
+			class="input block max-w-64"
 			accept=".pdf, .jpg, .jpeg, .png, .bmp, .tiff, .heif, .docx, .xlsx, .pptx, .html"
 			required
 			data-testid="document-intelligence-file-input"

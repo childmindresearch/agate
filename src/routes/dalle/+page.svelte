@@ -6,10 +6,7 @@
 
 	const maxImages = 4;
 	const title = 'Image Generation';
-	const description = `
-		This tool lets you create images with DALL-E 3. Simply write what you want to see and select the
-		desired size and number of images.
-	`;
+	const description = `This tool lets you create images with DALL-E 3. Simply write what you want to see and select the desired size and number of images.`;
 	const enhancer: SubmitFunction = () => {
 		return async ({ update }) => {
 			await update({ reset: false });

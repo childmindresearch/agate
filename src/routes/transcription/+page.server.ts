@@ -42,12 +42,11 @@ export const actions = {
 
 		const model = 'whisper-1';
 		const requestId = event.request.headers.get('X-Request-ID');
-		const user = event.request.headers.get('X-User');
 		logger.info({
 			type: 'OpenAI Request',
 			model,
 			requestId,
-			user
+			user: event.locals.user
 		});
 
 		const transcription = (
