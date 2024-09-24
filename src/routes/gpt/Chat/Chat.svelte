@@ -46,7 +46,7 @@
 		if (model === 'gpt-4o') {
 			endpoint = '/api/gpt';
 		} else {
-			endpoint = '/api/claude';
+			endpoint = '/api/claude/stream';
 		}
 		await fetch(endpoint, {
 			method: 'POST',
