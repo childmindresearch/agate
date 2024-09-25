@@ -1,17 +1,28 @@
 <script lang="ts">
 	import FormBasePage from '$lib/components/PageTemplates/FormBasePage.svelte';
-	import Chat from './Chat/Chat.svelte';
+	import { Chat } from '$lib/chat';
+	import ChatInterface from './Chat/ChatInterface.svelte';
 	import SystemPrompt from './SystemPrompt.svelte';
 	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
+	import { browser } from '$app/environment';
+	import ChatHistory from './ChatHistory.svelte';
 
 	let systemPrompt = '';
-	let disableSystemPrompt = false;
 	let model = 'anthropic.claude-3-5-sonnet-20240620-v1:0';
+	let chat: Chat | null = null;
+
+	let priorChats = browser
+		? Object.keys({ ...localStorage }).filter((key) => key.startsWith('agate-chat'))
+		: [];
 
 	const LLM_MODELS = [
 		{
 			name: 'GPT-4o',
 			tag: 'gpt-4o'
+		},
+		{
+			name: 'GPT-o1',
+			tag: 'o1-preview'
 		},
 		{
 			name: 'Claude 3 Opus',
@@ -25,7 +36,7 @@
 
 	const title = 'Chatbot';
 	const description =
-		'To start, please fill out the instructions for the Chatbot. You can either use a pre-set, or create custom instructions.';
+		'To start, please select a previous chat or fill out the instructions for the Chatbot. You can either use a pre-set instruction, or create custom instructions. Please be aware, your chat history is stored locally on your device.';
 	const toastStore = getToastStore();
 
 	function startChat() {
@@ -37,33 +48,45 @@
 			toastStore.trigger(noPromptToast);
 			return;
 		}
-		disableSystemPrompt = true;
+		chat = new Chat({ systemPrompt });
+	}
+
+	function restartChat(c: Chat) {
+		chat = c;
 	}
 
 	function endChat() {
-		disableSystemPrompt = false;
+		chat = null;
+		priorChats = Object.keys({ ...localStorage }).filter((key) => key.startsWith('agate-chat'));
 	}
 </script>
 
-<div hidden={disableSystemPrompt} class="space-y-2">
+<div hidden={chat !== null} class="space-y-2">
 	<FormBasePage {title} {description} hasBusinessAssociateAgreemment />
-	<SystemPrompt bind:systemPrompt disabled={disableSystemPrompt} />
-	<label>
-		Model
-		<br />
-		<select class="input w-72" bind:value={model}>
-			{#each LLM_MODELS as model}
-				<option value={model.tag}>{model.name}</option>
-			{/each}
-		</select>
-	</label>
+	<div class="grid grid-cols-2 gap-4">
+		<div>
+			<p class="h4">Create a new chat.</p>
+			<SystemPrompt bind:systemPrompt />
+			<label>
+				Model
+				<br />
+				<select class="input w-72" bind:value={model}>
+					{#each LLM_MODELS as model}
+						<option value={model.tag}>{model.name}</option>
+					{/each}
+				</select>
+			</label>
+		</div>
+		<div>
+			<p class="h4">Continue a previous chat.</p>
+			{#key priorChats}
+				<ChatHistory chatIds={priorChats} onclick={restartChat} />
+			{/key}
+		</div>
+	</div>
 	<button class="btn variant-filled-primary" on:click={startChat}> Start Chat </button>
 </div>
 
-{#if disableSystemPrompt}
-	<button class="btn mt-5 variant-filled-error" on:click={endChat}> End Chat </button>
-{/if}
-
-{#if systemPrompt !== '' && disableSystemPrompt}
-	<Chat {systemPrompt} {model} />
+{#if chat !== null}
+	<ChatInterface {chat} {model} onclose={endChat} />
 {/if}

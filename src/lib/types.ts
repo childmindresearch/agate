@@ -1,9 +1,3 @@
-export interface Message {
-	role: 'user' | 'system' | 'assistant';
-	content: string;
-	timestamp: string;
-}
-
 export type whisperLanguagesTypes =
 	| 'af'
 	| 'ar'
