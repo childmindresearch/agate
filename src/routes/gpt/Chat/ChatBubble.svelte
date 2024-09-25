@@ -6,8 +6,9 @@
 	import './chat.postcss';
 	import OrderedListItem from './Renderers/OrderedListItem.svelte';
 	import UnorderedListItem from './Renderers/UnorderedListItem.svelte';
+	import type { Message } from '$lib/chat';
 
-	export let message: { role: string; content: string; timestamp: string };
+	export let message: Message;
 
 	const toastStore = getToastStore();
 
@@ -66,7 +67,7 @@
 			source={message.content}
 			renderers={{
 				code: CodeBlock,
-				// @ts-expect-error - For some reason the IDDE doesn't think orderedlistitem exists, it does.
+				// @ts-expect-error - For some reason the IDE doesn't think orderedlistitem exists, it does.
 				orderedlistitem: OrderedListItem,
 				unorderedlistitem: UnorderedListItem
 			}}
