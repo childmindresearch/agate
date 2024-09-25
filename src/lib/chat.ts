@@ -59,7 +59,7 @@ export class Chat {
 		onClose: () => void
 	) {
 		this.messages.push({ role, content: '', timestamp: new Date().toLocaleTimeString() });
-		const thisRef = this;
+		const thisRef = this; // eslint-disable-line @typescript-eslint/no-this-alias
 		const index = this.messages.length - 1;
 		await stream.pipeTo(
 			new WritableStream({
@@ -87,7 +87,7 @@ export class Chat {
 		if (typeof window !== 'undefined' && window.crypto) {
 			cryptoObj = window.crypto;
 		} else {
-			cryptoObj = require('crypto').webcrypto;
+			cryptoObj = require('crypto').webcrypto; // eslint-disable-line @typescript-eslint/no-var-requires
 		}
 
 		const buffer = new Uint8Array(16);
@@ -101,7 +101,7 @@ export class Chat {
 	}
 
 	private serialize() {
-		const serialized: { [key: string]: any } = {};
+		const serialized: { [key: string]: string | Message[] | Date } = {};
 		for (const [key, value] of Object.entries(this)) {
 			if (typeof value !== 'function') {
 				serialized[key] = value;
