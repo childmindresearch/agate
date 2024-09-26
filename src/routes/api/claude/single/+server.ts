@@ -1,5 +1,5 @@
 import { AWS_ACCESS_KEY, AWS_SECRET_ACCESS_KEY } from '$lib/server/secrets.js';
-import type { Message } from '$lib/types';
+import type { Message } from '$lib/chat';
 import { BedrockRuntimeClient, ConverseCommand } from '@aws-sdk/client-bedrock-runtime';
 
 export async function POST({ request }) {
