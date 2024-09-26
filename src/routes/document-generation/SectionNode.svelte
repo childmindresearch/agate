@@ -3,6 +3,7 @@
 	import PlusIcon from '$lib/icons/PlusIcon.svelte';
 	import SaveIcon from '$lib/icons/SaveIcon.svelte';
 	import TrashIcon from '$lib/icons/TrashIcon.svelte';
+	import { FileDropzone } from '@skeletonlabs/skeleton';
 	import { Section } from './section';
 
 	export let section: Section;
@@ -49,7 +50,6 @@
 	<section class="p-4 overflow-y-scroll max-h-96">
 		{#if editable}
 			<textarea class="input" bind:value={section.instructions} />
-			<input type="file" class="input" multiple bind:files={section.files} accept=".txt" />
 		{:else}
 			{#if (section.files?.length ?? 0) < section.n_required_files}
 				<aside class="alert variant-soft-error">
@@ -57,9 +57,15 @@
 						This section requires at least {section.n_required_files} file upload{section.n_required_files ==
 						1
 							? ''
-							: 's'}. Click the edit button to upload.
+							: 's'}.
 					</div>
 				</aside>
+			{/if}
+			<FileDropzone name="Section Files" bind:files={section.files} />
+			{#if section.files}
+				{#each section.files as file}
+					<button class="chip variant-filled" on:click={section.files}>{file.name}</button>
+				{/each}
 			{/if}
 			<div class="whitespace-pre-wrap">
 				{section.instructions}
