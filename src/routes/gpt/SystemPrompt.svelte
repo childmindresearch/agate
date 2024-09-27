@@ -2,8 +2,7 @@
 	// @ts-expect-error - this import is correct.
 	import prompts from '$lib/assets/prompts.yaml';
 
-	export let systemPrompt: string = '';
-	export let disabled: boolean = false;
+	let { systemPrompt = $bindable('') }: { systemPrompt: string } = $props();
 
 	function capitalizeFirstLetter(string: string) {
 		return string.charAt(0).toUpperCase() + string.slice(1);
@@ -20,7 +19,7 @@
 	}
 </script>
 
-<select value={null} class="select" on:change={onSelectionChange} {disabled}>
+<select value={null} class="select" onchange={onSelectionChange}>
 	<option value={null}>Select a system prompt</option>
 	{#each Object.keys(prompts.system) as name}
 		<option value={name}>{capitalizeFirstLetter(name)}</option>
@@ -34,6 +33,5 @@
 		rows="8"
 		placeholder="Lorem ipsum dolor sit amet consectetur adipisicing elit."
 		bind:value={systemPrompt}
-		{disabled}
-	/>
+	></textarea>
 </label>

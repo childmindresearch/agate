@@ -1,10 +1,8 @@
 <script lang="ts">
-	import { Chat } from '$lib/chat';
+	import { Chat } from '$lib/chat.svelte';
 
-	export let chatIds: string[];
-	export let onclick: (chat: Chat) => void;
-
-	let searchString: string = '';
+	let { chatIds, onclick }: { chatIds: string[]; onclick: (chat: Chat) => void } = $props();
+	let searchString: string = $state('');
 
 	const chatOptions = chatIds
 		.map((id) => {
@@ -37,7 +35,7 @@
 			<li class="w-full">
 				<button
 					class="btn hover:variant-ghost-primary flex justify-start text-left w-full"
-					on:click={() => onselection(option)}
+					onclick={() => onselection(option)}
 				>
 					{option.label}
 				</button>

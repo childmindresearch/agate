@@ -1,16 +1,6 @@
 import { handle } from '../src/hooks.server';
 import { describe, it, expect, vi } from 'vitest';
 
-function createEvent() {
-	return {
-		request: {
-			headers: new Map(),
-			method: 'GET',
-			url: 'https://example.com'
-		}
-	};
-}
-
 function createResolve() {
 	return vi.fn().mockResolvedValue({
 		status: 200,

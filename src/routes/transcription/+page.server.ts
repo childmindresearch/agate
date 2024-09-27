@@ -3,7 +3,7 @@ import ffmpeg from 'fluent-ffmpeg';
 import fs from 'fs';
 import path from 'node:path';
 import { memoryFileToDiskFile, diskFileToMemoryFile } from '$lib/fileHandling';
-import type { whisperLanguagesTypes } from '$lib/types';
+import type { whisperLanguagesTypes } from './whisperLanguages';
 import { logger } from '$lib/server/utils';
 import { getAzureOpenAiClient } from '$lib/server/azure';
 import { AZURE_OPENAI_WHISPER_DEPLOYMENT_NAME } from '$lib/server/secrets';

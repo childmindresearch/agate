@@ -20,18 +20,16 @@ text file like .txt.`;
 </script>
 
 <FormPage {title} {description} {enhancer} hasBusinessAssociateAgreemment>
-	<svelte:fragment slot="form">
-		<input
-			type="file"
-			id="file"
-			name="file"
-			class="input max-w-64 block"
-			accept=".md, .docx, .txt, .rst, .html, .pdf"
-			required
-			data-testid="embedding-file-input"
-		/>
-		<button data-testid="embedding-submit-button" type="submit" class="btn variant-filled-primary">
-			Submit
-		</button>
-	</svelte:fragment>
+	<input
+		type="file"
+		id="file"
+		name="file"
+		class="input max-w-64 block"
+		accept=".md, .docx, .txt, .rst, .html, .pdf"
+		required
+		data-testid="embedding-file-input"
+	/>
+	<button data-testid="embedding-submit-button" type="submit" class="btn variant-filled-primary">
+		Submit
+	</button>
 </FormPage>

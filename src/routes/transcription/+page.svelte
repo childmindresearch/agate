@@ -21,27 +21,25 @@
 </script>
 
 <FormActionPage {title} {description} {enhancer} hasBusinessAssociateAgreemment>
-	<svelte:fragment slot="form">
-		<input
-			class="input"
-			id="file"
-			name="file"
-			type="file"
-			accept=".aac, .avi, .flac, .flv, .m4a, .m4v, .mkv, .mov, .mp3, .mp4, .mpga, .mpeg, .ogg, .wav, .wma, .webm, .wmv, .3gp"
-			data-testid="transcription-file-input"
-		/>
-		<label for="language">Language</label>
-		<select name="language" id="language" value={whisperLanguages['English']} class="select">
-			{#each Object.entries(whisperLanguages) as [name, abbreviation]}
-				<option value={abbreviation}>{name}</option>
-			{/each}
-		</select>
-		<button
-			data-testid="transcription-submit-button"
-			type="submit"
-			class="btn variant-filled-primary"
-		>
-			Submit
-		</button>
-	</svelte:fragment>
+	<input
+		class="input"
+		id="file"
+		name="file"
+		type="file"
+		accept=".aac, .avi, .flac, .flv, .m4a, .m4v, .mkv, .mov, .mp3, .mp4, .mpga, .mpeg, .ogg, .wav, .wma, .webm, .wmv, .3gp"
+		data-testid="transcription-file-input"
+	/>
+	<label for="language">Language</label>
+	<select name="language" id="language" value={whisperLanguages['English']} class="select">
+		{#each Object.entries(whisperLanguages) as [name, abbreviation]}
+			<option value={abbreviation}>{name}</option>
+		{/each}
+	</select>
+	<button
+		data-testid="transcription-submit-button"
+		type="submit"
+		class="btn variant-filled-primary"
+	>
+		Submit
+	</button>
 </FormActionPage>

@@ -4,15 +4,24 @@
 	import LoadingBar from '$lib/components/LoadingBar.svelte';
 	import NoBaaBanner from '$lib/components/banners/NoBaaBanner.svelte';
 	import HasBaaBanner from '$lib/components/banners/HasBaaBanner.svelte';
+	import type { Snippet } from 'svelte';
 
-	export let title: string;
-	export let description: string;
-	export let isLoading = false;
-
-	export let hasBusinessAssociateAgreemment = false;
+	let {
+		title,
+		description,
+		hasBusinessAssociateAgreemment,
+		children,
+		isLoading = $bindable(false)
+	}: {
+		title: string;
+		description: string;
+		hasBusinessAssociateAgreemment: boolean;
+		children?: Snippet;
+		isLoading?: boolean;
+	} = $props();
 
 	const toastStore = getToastStore();
-	$: {
+	$effect(() => {
 		if ($page.status >= 400) {
 			const toast: ToastSettings = {
 				message: $page.form.message,
@@ -20,7 +29,7 @@
 			};
 			toastStore.trigger(toast);
 		}
-	}
+	});
 </script>
 
 <svelte:head>
@@ -36,6 +45,6 @@
 <h3 class="h3">{title}</h3>
 <p>{description}</p>
 
-<slot name="form" />
+{@render children?.()}
 
 <LoadingBar show={isLoading} />

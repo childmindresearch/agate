@@ -1,12 +1,22 @@
 <script lang="ts">
+	import type { Snippet } from 'svelte';
 	import FormBasePage from './FormBasePage.svelte';
 
-	export let title: string;
-	export let description: string;
-	export let onSubmit: () => void;
-	export let isLoading = false;
-
-	export let hasBusinessAssociateAgreemment = false;
+	let {
+		title,
+		description,
+		onSubmit,
+		children,
+		hasBusinessAssociateAgreemment = false,
+		isLoading = $bindable(false)
+	}: {
+		title: string;
+		description: string;
+		onSubmit: () => Promise<void>;
+		children: Snippet;
+		hasBusinessAssociateAgreemment?: boolean;
+		isLoading?: boolean;
+	} = $props();
 
 	async function onSubmitLoading() {
 		isLoading = true;
@@ -16,12 +26,10 @@
 </script>
 
 <FormBasePage {title} {description} {isLoading} {hasBusinessAssociateAgreemment}>
-	<svelte:fragment slot="form">
-		<form class="space-y-2" on:submit={onSubmitLoading}>
-			<slot name="form" />
-			<button type="submit" class="btn variant-filled-primary" data-testid="form-api-page-button">
-				Submit
-			</button>
-		</form>
-	</svelte:fragment>
+	<form class="space-y-2" onsubmit={onSubmitLoading}>
+		{@render children()}
+		<button type="submit" class="btn variant-filled-primary" data-testid="form-api-page-button">
+			Submit
+		</button>
+	</form>
 </FormBasePage>

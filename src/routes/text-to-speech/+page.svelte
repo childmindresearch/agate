@@ -41,39 +41,37 @@
 </script>
 
 <FormApiPage {title} {description} {onSubmit}>
-	<svelte:fragment slot="form">
-		<label for="text">Text</label>
-		<textarea
-			id="text"
-			name="text"
-			bind:value={text}
-			placeholder="Type your text here."
-			class="textarea"
-			required
-		/>
+	<label for="text">Text</label>
+	<textarea
+		id="text"
+		name="text"
+		bind:value={text}
+		placeholder="Type your text here."
+		class="textarea"
+		required
+	></textarea>
 
-		<label for="voice">Voice</label>
-		<select id="voice" name="voice" bind:value={voice} class="select">
-			<option value="alloy">Alloy</option>
-			<option value="echo">Echo</option>
-			<option value="fable">Fable</option>
-			<option value="onyx">Onyx</option>
-			<option value="nova">Nova</option>
-			<option value="shimmer">Shimmer</option>
-		</select>
+	<label for="voice">Voice</label>
+	<select id="voice" name="voice" bind:value={voice} class="select">
+		<option value="alloy">Alloy</option>
+		<option value="echo">Echo</option>
+		<option value="fable">Fable</option>
+		<option value="onyx">Onyx</option>
+		<option value="nova">Nova</option>
+		<option value="shimmer">Shimmer</option>
+	</select>
 
-		<label for="format">File Format</label>
-		<select id="format" name="format" bind:value={format} class="select">
-			<option value="mp3">mp3</option>
-			<option value="opus">opus</option>
-			<option value="aac">aac</option>
-			<option value="flac">flac</option>
-		</select>
+	<label for="format">File Format</label>
+	<select id="format" name="format" bind:value={format} class="select">
+		<option value="mp3">mp3</option>
+		<option value="opus">opus</option>
+		<option value="aac">aac</option>
+		<option value="flac">flac</option>
+	</select>
 
-		<label for="model">Quality</label>
-		<select id="model" name="model" bind:value={model} class="select">
-			<option value="tts-1">Standard Quality</option>
-			<option value="tts-1-hd">High Quality</option>
-		</select>
-	</svelte:fragment>
+	<label for="model">Quality</label>
+	<select id="model" name="model" bind:value={model} class="select">
+		<option value="tts-1">Standard Quality</option>
+		<option value="tts-1-hd">High Quality</option>
+	</select>
 </FormApiPage>

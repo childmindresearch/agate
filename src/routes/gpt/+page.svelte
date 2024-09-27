@@ -1,19 +1,19 @@
 <script lang="ts">
 	import FormBasePage from '$lib/components/PageTemplates/FormBasePage.svelte';
-	import { Chat } from '$lib/chat';
+	import { Chat } from '$lib/chat.svelte';
 	import ChatInterface from './Chat/ChatInterface.svelte';
 	import SystemPrompt from './SystemPrompt.svelte';
 	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 	import { browser } from '$app/environment';
 	import ChatHistory from './ChatHistory.svelte';
 
-	let systemPrompt = '';
-	let model = 'anthropic.claude-3-5-sonnet-20240620-v1:0';
-	let chat: Chat | null = null;
+	let systemPrompt = $state('');
+	let model = $state('anthropic.claude-3-5-sonnet-20240620-v1:0');
+	let chat: Chat | null = $state(null);
 
-	let priorChats = browser
-		? Object.keys({ ...localStorage }).filter((key) => key.startsWith('agate-chat'))
-		: [];
+	let priorChats = $state(
+		browser ? Object.keys({ ...localStorage }).filter((key) => key.startsWith('agate-chat')) : []
+	);
 
 	const LLM_MODELS = [
 		{
@@ -84,7 +84,7 @@
 			{/key}
 		</div>
 	</div>
-	<button class="btn variant-filled-primary" on:click={startChat}> Start Chat </button>
+	<button class="btn variant-filled-primary" onclick={startChat}> Start Chat </button>
 </div>
 
 {#if chat !== null}

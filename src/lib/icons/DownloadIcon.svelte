@@ -1,1 +1,1 @@
-<i class={`fas fa-download ${$$props.class}`} />
+<i class={`fas fa-download ${$$props.class}`}></i>

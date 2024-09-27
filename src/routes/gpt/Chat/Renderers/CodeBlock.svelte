@@ -3,9 +3,11 @@
 	import hljs from 'highlight.js';
 	import { onMount } from 'svelte';
 
-	export let text = '';
-	export let lang = '';
-	export let doNotHighlight = true; // We highlight when all code blocks are loaded.
+	let {
+		text,
+		lang,
+		doNotHighlight = true
+	}: { text: string; lang: string; doNotHighlight: boolean } = $props();
 
 	onMount(() => {
 		if (doNotHighlight) return;
