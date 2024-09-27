@@ -1,12 +1,15 @@
 <script lang="ts">
 	import { modeCurrent } from '@skeletonlabs/skeleton';
 
-	type Props = {
+	let {
+		title,
+		message,
+		variant
+	}: {
 		title: string;
 		message: string;
 		variant: 'success' | 'error' | 'warning';
-	};
-	let { title, message, variant }: Props = $props();
+	} = $props();
 
 	const colorLightClass = `alert variant-soft-${variant}`;
 	const colorDarkClass = `alert variant-filled-${variant}`;
