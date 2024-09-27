@@ -44,16 +44,14 @@
 </script>
 
 <FormApiPage {title} {description} {onSubmit} hasBusinessAssociateAgreemment>
-	<svelte:fragment slot="form">
-		<input
-			type="file"
-			id="file"
-			name="file"
-			class="input block max-w-64"
-			accept=".pdf, .jpg, .jpeg, .png, .bmp, .tiff, .heif, .docx, .xlsx, .pptx, .html"
-			required
-			data-testid="document-intelligence-file-input"
-			bind:files
-		/>
-	</svelte:fragment>
+	<input
+		type="file"
+		id="file"
+		name="file"
+		class="input block max-w-64"
+		accept=".pdf, .jpg, .jpeg, .png, .bmp, .tiff, .heif, .docx, .xlsx, .pptx, .html"
+		required
+		data-testid="document-intelligence-file-input"
+		bind:files
+	/>
 </FormApiPage>

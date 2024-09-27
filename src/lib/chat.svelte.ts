@@ -11,8 +11,8 @@ export type chatOptions = {
 
 export class Chat {
 	readonly id: string;
-	public title: string;
-	public messages: Message[];
+	public title: string = $state('');
+	public messages: Message[] = $state([]);
 	private _last_modified: Date;
 
 	get last_modified() {

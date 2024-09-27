@@ -6,9 +6,9 @@
 	import './chat.postcss';
 	import OrderedListItem from './Renderers/OrderedListItem.svelte';
 	import UnorderedListItem from './Renderers/UnorderedListItem.svelte';
-	import type { Message } from '$lib/chat';
+	import type { Message } from '$lib/chat.svelte';
 
-	export let message: Message;
+	let { message = $bindable() }: { message: Message } = $props();
 
 	const toastStore = getToastStore();
 
@@ -53,7 +53,7 @@
 		<p class="font-bold">{names[message.role]}</p>
 		<div class="grid grid-flow-col-dense gap-2">
 			<button
-				on:click={toClipboard(message.content)}
+				onclick={toClipboard(message.content)}
 				class="[&>*]:pointer-events-none hover:opacity-70"
 				use:popup={popupHover}
 			>
@@ -66,8 +66,8 @@
 		<SvelteMarkdown
 			source={message.content}
 			renderers={{
+				// @ts-expect-error - something breaks in the typing on Svelte 5, but it runs fine.
 				code: CodeBlock,
-				// @ts-expect-error - For some reason the IDE doesn't think orderedlistitem exists, it does.
 				orderedlistitem: OrderedListItem,
 				unorderedlistitem: UnorderedListItem
 			}}

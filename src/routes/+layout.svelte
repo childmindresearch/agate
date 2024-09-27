@@ -16,6 +16,9 @@
 	import typescript from 'highlight.js/lib/languages/typescript';
 	import xml from 'highlight.js/lib/languages/xml';
 	import 'highlight.js/styles/github.css';
+	import type { Snippet } from 'svelte';
+
+	let { children }: { children: Snippet } = $props();
 
 	hljs.registerLanguage('bash', bash);
 	hljs.registerLanguage('css', css);
@@ -49,7 +52,7 @@
 			<Navigation />
 		</div>
 		<div class="px-5 mt-5 w-auto min-w-[332px] min-h-[90%]">
-			<slot />
+			{@render children()}
 		</div>
 	</div>
 </div>

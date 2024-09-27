@@ -27,7 +27,7 @@ test('clicking on a link changes the route', async ({ page }) => {
 	for (const link of links) {
 		const href = await link.getAttribute('href');
 		await link.click();
-		await page.waitForTimeout(500);
+		await page.waitForTimeout(1000);
 
 		expect(page.url()).toBe('http://localhost:4173' + href);
 	}

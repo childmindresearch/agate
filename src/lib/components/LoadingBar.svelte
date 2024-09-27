@@ -1,7 +1,7 @@
 <script>
 	import { ProgressRadial } from '@skeletonlabs/skeleton';
 
-	export let show = true;
+	let { show = $bindable(true) } = $props();
 </script>
 
 <div class={`flex items-center justify-center m-3 ${show ? '' : 'hidden'}`}>

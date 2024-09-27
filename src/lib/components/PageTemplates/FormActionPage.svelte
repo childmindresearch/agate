@@ -2,17 +2,27 @@
 	import { enhance } from '$app/forms';
 	import type { SubmitFunction } from '@sveltejs/kit';
 	import FormBasePage from './FormBasePage.svelte';
+	import type { Snippet } from 'svelte';
 
-	export let title: string;
-	export let description: string;
-	export let enhancer: SubmitFunction = () => {
-		return async ({ update }) => {
-			await update();
-		};
-	};
-	export let isLoading = false;
-
-	export let hasBusinessAssociateAgreemment = false;
+	let {
+		title,
+		description,
+		children,
+		hasBusinessAssociateAgreemment = false,
+		isLoading = $bindable(false),
+		enhancer = () => {
+			return async ({ update }) => {
+				await update();
+			};
+		}
+	}: {
+		title: string;
+		description: string;
+		children: Snippet;
+		hasBusinessAssociateAgreemment?: boolean;
+		isLoading?: boolean;
+		enhancer?: SubmitFunction;
+	} = $props();
 
 	const loadingEnhancer: SubmitFunction = ({
 		formElement,
@@ -43,14 +53,7 @@
 </script>
 
 <FormBasePage {title} {description} {isLoading} {hasBusinessAssociateAgreemment}>
-	<svelte:fragment slot="form">
-		<form
-			method="POST"
-			class="space-y-2"
-			use:enhance={loadingEnhancer}
-			enctype="multipart/form-data"
-		>
-			<slot name="form" />
-		</form>
-	</svelte:fragment>
+	<form method="POST" class="space-y-2" use:enhance={loadingEnhancer} enctype="multipart/form-data">
+		{@render children()}
+	</form>
 </FormBasePage>

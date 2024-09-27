@@ -1,15 +1,20 @@
 <script lang="ts">
 	import { modeCurrent } from '@skeletonlabs/skeleton';
-	export let title: string;
-	export let message: string;
 
-	export let variant: 'success' | 'error' | 'warning';
-	let currentClass: string;
+	let {
+		title,
+		message,
+		variant
+	}: {
+		title: string;
+		message: string;
+		variant: 'success' | 'error' | 'warning';
+	} = $props();
 
 	const colorLightClass = `alert variant-soft-${variant}`;
 	const colorDarkClass = `alert variant-filled-${variant}`;
 
-	$: currentClass = $modeCurrent ? colorLightClass : colorDarkClass;
+	const currentClass = $derived($modeCurrent ? colorLightClass : colorDarkClass);
 </script>
 
 <!--Ensure dynamic classes aren't purged.-->
@@ -22,7 +27,7 @@
 		variant-filled-error 
 		variant-filled-warning
 	`}
-/>
+></span>
 
 <aside class={currentClass}>
 	<div class="alert-message">

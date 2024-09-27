@@ -4,16 +4,15 @@
 	import UploadIcon from '$lib/icons/UploadIcon.svelte';
 	import hljs from 'highlight.js';
 	import { readMessage } from './messageHandling';
-	import { Chat, type Message } from '$lib/chat';
+	import { Chat, type Message } from '$lib/chat.svelte';
 
-	export let chat: Chat;
-	export let model: string;
-	export let onclose: () => void;
+	let { chat, model, onclose }: { chat: Chat; model: string; onclose: () => void } = $props();
 
-	let currentMessage = '';
+	let currentMessage = $state('');
+	let loading = $state(false);
+	let uploading = $state(false);
+
 	let elemChat: HTMLElement;
-	let loading = false;
-	let uploading = false;
 	const toastStore = getToastStore();
 
 	async function addUserMessage(event: KeyboardEvent) {
@@ -157,8 +156,8 @@
 		id="chat-container"
 		class="min-h-[70vh] max-h-[70vh] p-4 overflow-y-auto space-y-4"
 	>
-		{#each chat.messages as message}
-			<ChatBubble bind:message />
+		{#each chat.messages as _, index}
+			<ChatBubble bind:message={chat.messages[index]} />
 		{/each}
 		<p class:hidden={!uploading}>Agate is processing the document...</p>
 	</section>
@@ -166,7 +165,7 @@
 		<div
 			class="input-group input-group-divider grid-cols-[auto_1fr_auto] mx-auto max-w-[70%] rounded-container-token border-surface-700 border-2"
 		>
-			<button class="input-group-shim border-r-2" on:click={uploadFile}>
+			<button class="input-group-shim border-r-2" onclick={uploadFile}>
 				<UploadIcon class="text-lg text-black" />
 			</button>
 			<textarea
@@ -178,10 +177,10 @@
 				rows="1"
 				disabled={loading || uploading}
 				style="resize: none;"
-				on:keydown={addUserMessage}
-				on:input={resizeTextArea}
-			/>
+				onkeydown={addUserMessage}
+				oninput={resizeTextArea}
+			></textarea>
 		</div>
-		<button class="btn h-10 mt-5 variant-filled-error" on:click={onclose}> End Chat </button>
+		<button class="btn h-10 mt-5 variant-filled-error" onclick={onclose}> End Chat </button>
 	</div>
 </div>

@@ -13,7 +13,7 @@
 <AppBar data-testid="app-bar">
 	<svelte:fragment slot="lead">
 		<div class="flex items-center">
-			<button class="md:hidden btn btn-sm mr-4" on:click={drawerOpen}>
+			<button class="md:hidden btn btn-sm mr-4" onclick={drawerOpen} aria-label="Open Drawer">
 				<span>
 					<svg viewBox="0 0 100 80" class="fill-token w-4 h-4">
 						<rect width="100" height="20" />
@@ -22,7 +22,7 @@
 					</svg>
 				</span>
 			</button>
-			<a href="/" data-testid="a-cmi-logo" class="hidden md:block">
+			<a href="/" data-testid="a-cmi-logo" class="hidden md:block" aria-label="Home button">
 				<img src="/cmi.svg" alt="Agate" class="w-28" />
 			</a>
 		</div>
