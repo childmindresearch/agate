@@ -3,7 +3,7 @@ FROM node:22-alpine as builder
 WORKDIR /app
 COPY . .
 
-RUN npm ci && npm run build
+RUN npm ci --legacy-peer-deps && npm run build
 
 FROM node:22-alpine
 
