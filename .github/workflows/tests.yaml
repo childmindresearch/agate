@@ -51,5 +51,5 @@ jobs:
           cache: npm
           cache-dependency-path: package-lock.json
       - run: |
-          npm install
+          npm install --legacy-peer-deps
           npm run lint
