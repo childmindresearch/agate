@@ -21,10 +21,6 @@
 			tag: 'gpt-4o'
 		},
 		{
-			name: 'GPT-o1',
-			tag: 'o1-preview'
-		},
-		{
 			name: 'Claude 3 Opus',
 			tag: 'anthropic.claude-3-opus-20240229-v1:0'
 		},

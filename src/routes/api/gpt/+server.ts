@@ -1,7 +1,7 @@
 import { getAzureOpenAiClient } from '$lib/server/azure';
-import type { Message } from '$lib/types';
 import { logger } from '$lib/server/utils';
 import { AZURE_OPENAI_GPT_DEPLOYMENT_NAME } from '$lib/server/secrets';
+import type { Message } from '$lib/chat.svelte.js';
 
 export async function POST({ request, locals }) {
 	const data = await request.json();
