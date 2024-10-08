@@ -101,12 +101,11 @@ export class Chat {
 	}
 
 	private serialize() {
-		const serialized: { [key: string]: string | Message[] | Date } = {};
-		for (const [key, value] of Object.entries(this)) {
-			if (typeof value !== 'function') {
-				serialized[key] = value;
-			}
-		}
-		return JSON.stringify(serialized);
+		return JSON.stringify({
+			id: this.id,
+			title: this.title,
+			messages: this.messages,
+			_last_modified: this._last_modified
+		});
 	}
 }
