@@ -49,7 +49,7 @@
 	</header>
 	<section class="p-4 overflow-y-scroll max-h-96">
 		{#if editable}
-			<textarea class="input" bind:value={section.instructions} />
+			<textarea class="input" bind:value={section.instructions}></textarea>
 		{:else}
 			{#if (section.files?.length ?? 0) < section.n_required_files}
 				<aside class="alert variant-soft-error">
@@ -64,7 +64,7 @@
 			<FileDropzone name="Section Files" bind:files={section.files} />
 			{#if section.files}
 				{#each section.files as file}
-					<button class="chip variant-filled" on:click={section.files}>{file.name}</button>
+					<button class="chip variant-filled" onclick={section.files}>{file.name}</button>
 				{/each}
 			{/if}
 			<div class="whitespace-pre-wrap">
