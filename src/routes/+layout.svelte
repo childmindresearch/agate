@@ -3,7 +3,7 @@
 	import Navigation from '$lib/components/Navigation.svelte';
 	import '@cmi-dair/skeleton-themes/cmi.postcss';
 	import { arrow, autoUpdate, computePosition, flip, offset, shift } from '@floating-ui/dom';
-	import { Drawer, Toast, initializeStores, storePopup } from '@skeletonlabs/skeleton';
+	import { Drawer, Toast, initializeStores, storePopup, Modal } from '@skeletonlabs/skeleton';
 
 	import hljs from 'highlight.js/lib/core';
 	import bash from 'highlight.js/lib/languages/bash';
@@ -38,6 +38,7 @@
 	<title>Agate</title>
 </svelte:head>
 
+<Modal />
 <Toast />
 <Drawer width="w-64">
 	<h2 class="p-4 h2">Navigation</h2>
