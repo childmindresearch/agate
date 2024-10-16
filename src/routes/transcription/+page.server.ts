@@ -8,7 +8,7 @@ import { logger } from '$lib/server/utils';
 import { getAzureOpenAiClient } from '$lib/server/azure';
 import { AZURE_OPENAI_WHISPER_DEPLOYMENT_NAME } from '$lib/server/secrets';
 
-const VALID_FILE_FORMATS = ['mp3', 'mp4', 'mpeg', 'mpga', 'm4a', 'wav', 'webm'];
+const VALID_FILE_FORMATS = ['mp3', 'mp4', 'mpeg', 'mpga', 'wav', 'webm'];
 const WHISPER_MAX_SIZE = 24000000; // Whisper size limit is 25MB, but lets keep a margin.
 const LOCAL_MAX_SIZE = 500000000; // 500MB
 
