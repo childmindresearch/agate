@@ -4,8 +4,8 @@
 
 	let { systemPrompt = $bindable('') }: { systemPrompt: string } = $props();
 
-	function capitalizeFirstLetter(string: string) {
-		return string.charAt(0).toUpperCase() + string.slice(1);
+	function formatPromptTitle(string: string) {
+		return (string.charAt(0).toUpperCase() + string.slice(1)).replaceAll('-', ' ');
 	}
 
 	function onSelectionChange(e: Event) {
@@ -22,7 +22,7 @@
 <select value={null} class="select" onchange={onSelectionChange}>
 	<option value={null}>Select a system prompt</option>
 	{#each Object.keys(prompts.system) as name}
-		<option value={name}>{capitalizeFirstLetter(name)}</option>
+		<option value={name}>{formatPromptTitle(name)}</option>
 	{/each}
 </select>
 
