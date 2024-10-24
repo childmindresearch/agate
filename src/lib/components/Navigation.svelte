@@ -5,6 +5,7 @@
 	const drawerStore = getDrawerStore();
 	const pages = [
 		{ name: 'Chatbot', href: '/gpt' },
+		{ name: 'Document Generation', href: '/document-generation' },
 		{ name: 'Document Intelligence', href: '/document-intelligence' },
 		{ name: 'Diarize (Submit)', href: '/diarize-submit' },
 		{ name: 'Diarize (Retrieve)', href: '/diarize-retrieve' },
