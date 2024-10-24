@@ -1,5 +1,5 @@
 <script lang="ts">
-	import BetaBanner from '$lib/components/banners/BetaBanner.svelte';
+	import BaseBanner from '$lib/components/banners/BaseBanner.svelte';
 	import FormActionPage from '$lib/components/PageTemplates/FormActionPage.svelte';
 
 	const title = 'Diarization (Submit)';
@@ -7,7 +7,11 @@
 		'Transcribe and diarize files. This process works in batches i.e. it may take several minutes or hours before your files are processed. Once submitted, please navigate to the Diarization retrieval page to download your results. Note that results are deleted one week after finishing.';
 </script>
 
-<BetaBanner />
+<BaseBanner
+	title={'Known Bug'}
+	message={'There is a known bug where large files will crash the server and result in a JSON decode error. A fix is in the works.'}
+	variant="error"
+/>
 <FormActionPage {title} {description} hasBusinessAssociateAgreemment>
 	<input
 		class="input block max-w-64"

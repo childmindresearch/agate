@@ -20,10 +20,8 @@
 	}
 </script>
 
-<div class="space-y-2">
-	<BetaBanner />
-	<HasBaaBanner />
-</div>
+<HasBaaBanner />
+
 <span>
 	Here you may find the results of your submitted diarizations. Please note that it can take up to a
 	few hours before your diarizations are completed. Diarization results are deleted after a week.
