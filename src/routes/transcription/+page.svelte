@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import BaseBanner from '$lib/components/banners/BaseBanner.svelte';
 	import FormActionPage from '$lib/components/PageTemplates/FormActionPage.svelte';
 	import { downloadBlob } from '$lib/fileHandling';
 	import { whisperLanguages } from './whisperLanguages';
@@ -20,6 +21,11 @@
 	};
 </script>
 
+<BaseBanner
+	title={'Known Bug'}
+	message={'There is a known bug where large files will crash the server and result in a JSON decode error. A fix is in the works.'}
+	variant="error"
+/>
 <FormActionPage {title} {description} {enhancer} hasBusinessAssociateAgreemment>
 	<input
 		class="input"
