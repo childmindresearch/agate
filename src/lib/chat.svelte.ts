@@ -87,7 +87,7 @@ export class Chat {
 		if (typeof window !== 'undefined' && window.crypto) {
 			cryptoObj = window.crypto;
 		} else {
-			cryptoObj = require('crypto').webcrypto; // eslint-disable-line @typescript-eslint/no-var-requires
+			cryptoObj = require('crypto').webcrypto; // eslint-disable-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
 		}
 
 		const buffer = new Uint8Array(16);
