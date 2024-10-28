@@ -49,7 +49,6 @@ export async function readMessage(
 ): Promise<ReadableStream<string>> {
 	const queue = new MessageQueue();
 	fillBuffer(reader, queue);
-
 	const stream = new ReadableStream({
 		async start(controller) {
 			while (queue.length > 0 || !queue.closed) {

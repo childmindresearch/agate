@@ -1,4 +1,4 @@
-import { getAzureOpenAiClient } from '$lib/server/azure';
+import { getAzureOpenAiClient, modelDeployments } from '$lib/server/azure';
 import { logger } from '$lib/server/utils';
 import { AZURE_OPENAI_GPT_DEPLOYMENT_NAME } from '$lib/server/secrets';
 import type { Message } from '$lib/chat.svelte.js';
@@ -6,7 +6,7 @@ import type { Message } from '$lib/chat.svelte.js';
 export async function POST({ request, locals }) {
 	const data = await request.json();
 	const messages = data.messages as Message[];
-	const azureOpenai = getAzureOpenAiClient();
+	const azureOpenai = getAzureOpenAiClient(modelDeployments['gpt-4o']);
 
 	if (messages.length === 0) {
 		return new Response('Missing input.', { status: 422 });
@@ -23,24 +23,22 @@ export async function POST({ request, locals }) {
 		user: locals.user
 	});
 
-	const completion = await azureOpenai.streamChatCompletions(
-		AZURE_OPENAI_GPT_DEPLOYMENT_NAME,
-		messages
-	);
+	const completion = await azureOpenai.chat.completions.create({
+		model: 'gpt-4o',
+		messages,
+		stream: true
+	});
+
 	const stream = new ReadableStream({
-		start(controller) {
-			const reader = completion.getReader();
-			reader.read().then(function processText({ done, value }) {
-				if (done) {
-					controller.close();
-					return;
-				}
-				controller.enqueue(JSON.stringify({ data: value.choices[0]?.delta }) + '\n\n');
-				reader.read().then(processText);
-			});
+		async start(controller) {
+			for await (const chunk of completion) {
+				controller.enqueue(
+					JSON.stringify({ data: { content: chunk.choices[0]?.delta?.content } }) + '\n\n'
+				);
+			}
+			controller.close();
 		},
 		cancel(controller) {
-			logger.info('Stream cancelled');
 			controller.close();
 		}
 	});

@@ -1,5 +1,4 @@
 <script lang="ts">
-	import BetaBanner from '$lib/components/banners/BetaBanner.svelte';
 	import HasBaaBanner from '$lib/components/banners/HasBaaBanner.svelte';
 	import { downloadBlob } from '$lib/fileHandling';
 	import DownloadIcon from '$lib/icons/DownloadIcon.svelte';
