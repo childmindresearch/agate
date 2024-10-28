@@ -30,6 +30,7 @@
 		"@types/jsonwebtoken": "^9.0.6",
 		"@types/node": "20.12.2",
 		"@types/showdown": "^2.0.6",
+		"@types/sortablejs": "^1.15.8",
 		"@typescript-eslint/eslint-plugin": "^7.16.0",
 		"@typescript-eslint/parser": "^7.16.0",
 		"autoprefixer": "10.4.19",
@@ -60,6 +61,7 @@
 		"highlight.js": "^11.10.0",
 		"openai": "^4.52.4",
 		"pdfjs-dist": "^4.4.168",
+		"sortablejs": "^1.15.3",
 		"svelte-markdown": "^0.4.1",
 		"winston": "^3.13.0"
 	},
