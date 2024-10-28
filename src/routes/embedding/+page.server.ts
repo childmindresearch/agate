@@ -1,16 +1,15 @@
 import { diskFileToMemoryFile, memoryFileToDiskFile } from '$lib/fileHandling';
-import { getAzureOpenAiClient } from '$lib/server/azure';
-import { AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME } from '$lib/server/secrets';
+import { getAzureOpenAiClient, modelDeployments } from '$lib/server/azure';
 import { logger } from '$lib/server/utils';
-import { type Embeddings } from '@azure/openai';
 import { fail } from '@sveltejs/kit';
 import { spawnSync } from 'child_process';
 import fs from 'fs';
+import type { CreateEmbeddingResponse } from 'openai/resources/embeddings.mjs';
 import * as pdfjsLib from 'pdfjs-dist';
 
 export const actions = {
 	default: async (event) => {
-		const azureOpenai = getAzureOpenAiClient();
+		const azureOpenai = getAzureOpenAiClient(modelDeployments['text-embedding-3-large']);
 		const formData = await event.request.formData();
 		const file = formData.get('file') as File;
 		if (file.size == 0) {
@@ -29,9 +28,9 @@ export const actions = {
 			user: event.locals.user
 		});
 
-		let response: Embeddings;
+		let response: CreateEmbeddingResponse;
 		try {
-			response = await azureOpenai.getEmbeddings(AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME, [input]);
+			response = await azureOpenai.embeddings.create({ input, model: 'text-embedding-3-large' });
 		} catch (error) {
 			// @ts-expect-error as error is unknown.
 			return fail(500, { message: error.message });

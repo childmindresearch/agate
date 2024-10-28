@@ -1,6 +1,6 @@
 import { AWS_ACCESS_KEY, AWS_SECRET_ACCESS_KEY } from '$lib/server/secrets.js';
 import { logger } from '$lib/server/utils';
-import type { Message } from '$lib/chat';
+import type { Message } from '$lib/chat.svelte.ts';
 import { BedrockRuntimeClient, ConverseStreamCommand } from '@aws-sdk/client-bedrock-runtime';
 
 export async function POST({ request }) {

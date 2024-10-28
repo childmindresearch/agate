@@ -1,15 +1,27 @@
-import { AzureKeyCredential, OpenAIClient } from '@azure/openai';
+import { AzureOpenAI } from 'openai';
 import {
 	AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT,
 	AZURE_DOCUMENT_INTELLIGENCE_KEY,
 	AZURE_OPENAI_API_KEY,
-	AZURE_OPENAI_ENDPOINT
+	AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME,
+	AZURE_OPENAI_GPT_DEPLOYMENT_NAME,
+	AZURE_OPENAI_WHISPER_DEPLOYMENT_NAME
 } from '$lib/server/secrets';
 import * as fs from 'fs';
 import { logger } from '$lib/server/utils';
 
-export function getAzureOpenAiClient() {
-	return new OpenAIClient(AZURE_OPENAI_ENDPOINT, new AzureKeyCredential(AZURE_OPENAI_API_KEY));
+export const modelDeployments = {
+	'gpt-4o': AZURE_OPENAI_GPT_DEPLOYMENT_NAME,
+	'text-embedding-3-large': AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME,
+	whisper: AZURE_OPENAI_WHISPER_DEPLOYMENT_NAME
+};
+
+export function getAzureOpenAiClient(deployment: string) {
+	return new AzureOpenAI({
+		apiKey: AZURE_OPENAI_API_KEY,
+		deployment,
+		apiVersion: '2024-07-01-preview'
+	});
 }
 
 export class DocumentAnalysis {

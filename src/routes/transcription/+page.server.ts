@@ -5,8 +5,7 @@ import path from 'node:path';
 import { memoryFileToDiskFile, diskFileToMemoryFile } from '$lib/fileHandling';
 import type { whisperLanguagesTypes } from './whisperLanguages';
 import { logger } from '$lib/server/utils';
-import { getAzureOpenAiClient } from '$lib/server/azure';
-import { AZURE_OPENAI_WHISPER_DEPLOYMENT_NAME } from '$lib/server/secrets';
+import { getAzureOpenAiClient, modelDeployments } from '$lib/server/azure';
 
 const VALID_FILE_FORMATS = ['mp3', 'mp4', 'mpeg', 'mpga', 'wav', 'webm'];
 const WHISPER_MAX_SIZE = 24000000; // Whisper size limit is 25MB, but lets keep a margin.
@@ -14,7 +13,7 @@ const LOCAL_MAX_SIZE = 500000000; // 500MB
 
 export const actions = {
 	default: async (event) => {
-		const azureOpenai = getAzureOpenAiClient();
+		const azureOpenai = getAzureOpenAiClient(modelDeployments['whisper']);
 		const formData = await event.request.formData();
 		let files = [formData.get('file')] as File[];
 		const language = formData.get('language') as whisperLanguagesTypes;
@@ -52,14 +51,11 @@ export const actions = {
 		const transcription = (
 			await Promise.all(
 				files.map(async (file) => {
-					const content = new Uint8Array(await file.arrayBuffer());
-					return azureOpenai.getAudioTranscription(AZURE_OPENAI_WHISPER_DEPLOYMENT_NAME, content, {
-						language
-					});
+					return azureOpenai.audio.transcriptions.create({ file, model: 'whisper-1', language });
 				})
 			)
 		)
-			.map((transcript) => transcript.text)
+			.map((transcript: { text: string }) => transcript.text)
 			.join(' ');
 
 		return { text: transcription };
