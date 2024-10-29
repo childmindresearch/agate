@@ -1,7 +1,7 @@
 import type { modelTags } from './constants';
 
-const BASE_CHARACTER_DELAY = 100;
-const DELAY_EXPONENT = 1.5;
+const BASE_CHARACTER_DELAY = 50;
+const DELAY_EXPONENT = 5;
 
 export type Message = {
 	role: 'user' | 'system' | 'assistant';
@@ -200,27 +200,25 @@ class MessageQueue {
 }
 
 async function fillBuffer(reader: ReadableStreamDefaultReader<string>, buffer: MessageQueue) {
-	if (buffer.closed) return;
-
-	const { done, value } = await reader.read();
-	if (done) {
-		buffer.closed = true;
-		return;
+	while (!buffer.closed) {
+		const { done, value } = await reader.read();
+		if (done) {
+			buffer.closed = true;
+			return;
+		}
+		const chunks = value.split('\n\n');
+		for (const chunk of chunks) {
+			if (!chunk) continue;
+			const item = JSON.parse(chunk);
+			if (!item?.data?.content) continue;
+			buffer.push(item.data.content);
+		}
 	}
-	const chunks = value.split('\n\n');
-	for (const chunk of chunks) {
-		if (!chunk) continue;
-		const item = JSON.parse(chunk);
-		if (!item?.data?.content) continue;
-		buffer.push(item.data.content);
-	}
-	fillBuffer(reader, buffer);
 }
 
 async function consumeBuffer(buffer: MessageQueue) {
-	if (buffer.length === 0 && !buffer.closed) {
+	while (buffer.length === 0 && !buffer.closed) {
 		await new Promise((resolve) => setTimeout(resolve, 100));
-		return consumeBuffer(buffer);
 	}
 	return buffer.shift();
 }
@@ -235,12 +233,19 @@ export async function readMessage(
 			while (queue.length > 0 || !queue.closed) {
 				const value = await consumeBuffer(queue);
 				if (!value) continue;
-				const delay = queue.closed
-					? 0
-					: BASE_CHARACTER_DELAY / (queue.length + 1) ** DELAY_EXPONENT;
-				for (const char of value) {
-					controller.enqueue(char);
-					await new Promise((resolve) => setTimeout(resolve, delay));
+
+				if (queue.closed) {
+					controller.enqueue(value);
+					while (queue.length > 0) {
+						controller.enqueue(queue.shift()!);
+					}
+				} else {
+					console.log(queue.length);
+					const delay = BASE_CHARACTER_DELAY / (queue.length + 1) ** DELAY_EXPONENT;
+					for (const char of value) {
+						controller.enqueue(char);
+						await new Promise((resolve) => setTimeout(resolve, delay));
+					}
 				}
 			}
 			controller.close();

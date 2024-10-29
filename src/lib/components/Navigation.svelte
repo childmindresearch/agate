@@ -4,12 +4,12 @@
 
 	const drawerStore = getDrawerStore();
 	const pages = [
-		{ name: 'Chatbot', href: '/chat' },
+		{ name: 'Chat', href: '/chat' },
 		{ name: 'Document Intelligence', href: '/document-intelligence' },
 		{ name: 'Diarize (Submit)', href: '/diarize-submit' },
 		{ name: 'Diarize (Retrieve)', href: '/diarize-retrieve' },
 		{ name: 'Embedding', href: '/embedding' },
-		{ name: 'Image Generation', href: '/dalle' },
+		{ name: 'Image Generation', href: '/image-generation' },
 		{ name: 'Text To Speech', href: '/text-to-speech' },
 		{ name: 'Transcription', href: '/transcription' }
 	];

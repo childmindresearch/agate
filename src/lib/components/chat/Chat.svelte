@@ -43,7 +43,9 @@
 		{#if !chat}
 			<SystemPrompts onPromptSubmit={(prompt) => (chat = new Chat({ systemPrompt: prompt }))} />
 		{:else}
-			<div class="mb-4"><ChatMessages {chat} /></div>
+			<div class="mb-4 min-h-[calc(100vh-280px)] max-h-[calc(100vh-280px)]">
+				<ChatMessages {chat} />
+			</div>
 			<div class="fixed bottom-2 right-0 w-full md:w-[calc(100vw-240px)] px-2">
 				<ChatInput {onsend} />
 			</div>

@@ -3,12 +3,12 @@
 	import { getToastStore, popup, type PopupSettings } from '@skeletonlabs/skeleton';
 	import SvelteMarkdown from 'svelte-markdown';
 	import CodeBlock from './Renderers/CodeBlock.svelte';
-	import './chat.postcss';
 	import OrderedListItem from './Renderers/OrderedListItem.svelte';
 	import UnorderedListItem from './Renderers/UnorderedListItem.svelte';
+	import './chat.postcss';
 	import type { Message } from './messageHandling.svelte';
 
-	let { message = $bindable() }: { message: Message } = $props();
+	let { message }: { message: Message } = $props();
 
 	const toastStore = getToastStore();
 

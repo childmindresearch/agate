@@ -7,7 +7,7 @@ test('an image shows up after an API request', async ({ page }) => {
 		status: 200,
 		type: 'success'
 	};
-	await page.route('**/dalle', async (route, request) => {
+	await page.route('**/image-generation', async (route, request) => {
 		if (request.method() === 'POST') {
 			await route.fulfill({
 				status: 200,
@@ -18,7 +18,7 @@ test('an image shows up after an API request', async ({ page }) => {
 		}
 	});
 
-	await page.goto('/dalle');
+	await page.goto('/image-generation');
 	page.getByTestId('dalle-text-input').fill('a test prompt');
 	page.getByTestId('dalle-size-select').selectOption('1792x1024');
 	page.getByTestId('dalle-n-select').selectOption('1');

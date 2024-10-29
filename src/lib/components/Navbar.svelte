@@ -1,7 +1,7 @@
 <script lang="ts">
 	import EnvelopeIcon from '$lib/icons/EnvelopeIcon.svelte';
 	import GithubIcon from '$lib/icons/GithubIcon.svelte';
-	import { AppBar, LightSwitch, getDrawerStore } from '@skeletonlabs/skeleton';
+	import { AppBar, getDrawerStore } from '@skeletonlabs/skeleton';
 
 	const drawerStore = getDrawerStore();
 
@@ -45,6 +45,5 @@
 				<span>Contact</span>
 			</a>
 		</button>
-		<LightSwitch />
 	</svelte:fragment>
 </AppBar>

@@ -7,6 +7,14 @@
 	};
 	let { onPromptSubmit: onPromptSubmit }: Props = $props();
 	let prompt = $state('');
+
+	function submitWithDefault() {
+		if (prompt === '') {
+			onPromptSubmit(prompts.system.Chat);
+		} else {
+			onPromptSubmit(prompt);
+		}
+	}
 </script>
 
 <div class="space-y-2">
@@ -15,16 +23,14 @@
 		{#each Object.keys(prompts.system) as title}
 			<button
 				class="card p-4 hover:variant-ghost-primary"
-				onclick={(prompt = prompts.system[title])}
+				onclick={() => onPromptSubmit(prompts.system[title])}
 			>
 				{title}
 			</button>
 		{/each}
 	</div>
 	<h3 class="h3 text-center">Or write your own.</h3>
-	<textarea class="input" rows="12" placeholder="Custom Instructions" bind:value={prompt}
-	></textarea>
-	<button onclick={() => onPromptSubmit(prompt)} class="btn variant-soft-primary">
-		Start Chat
-	</button>
+	<textarea class="input" rows="12" placeholder="Custom Instructions" bind:value={prompt}>
+	</textarea>
+	<button onclick={submitWithDefault} class="btn variant-soft-primary"> Start Chat </button>
 </div>

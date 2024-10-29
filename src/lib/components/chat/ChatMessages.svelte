@@ -1,12 +1,15 @@
 <script lang="ts">
 	import ChatBubble from './ChatBubble.svelte';
 	import type { Chat } from './messageHandling.svelte';
+	import hljs from 'highlight.js';
 
 	type Props = {
 		chat: Chat;
 	};
 	let { chat }: Props = $props();
 	let elemChat: HTMLElement | undefined = $state();
+
+	let debounceTimeout: ReturnType<typeof setTimeout>;
 
 	function scrollChatBottom(force: boolean = false): void {
 		if (!elemChat) return;
@@ -20,13 +23,13 @@
 		void chat.messages[chat.messages.length - 1].content; //  Needed as an explicit dependency.
 		const force = chat.messages[chat.messages.length - 1].role === 'user';
 		scrollChatBottom(force);
+
+		clearTimeout(debounceTimeout);
+		debounceTimeout = setTimeout(hljs.highlightAll, 100);
 	});
 </script>
 
-<div
-	class="pt-2 space-y-2 overflow-y-auto min-h-[calc(100vh-280px)] max-h-[calc(100vh-280px)] bg-surface-100"
-	bind:this={elemChat}
->
+<div class="pt-2 space-y-2 overflow-y-auto bg-surface-100 h-full rounded-lg" bind:this={elemChat}>
 	{#each chat.messages as message}
 		{#if message.role !== 'system'}
 			<div class="px-2">
