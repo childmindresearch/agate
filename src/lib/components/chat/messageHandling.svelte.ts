@@ -56,7 +56,7 @@ export class Chat {
 	public async addMessage(role: 'assistant' | 'user', content: string, files: File[] = []) {
 		let fileText = '';
 		if (files.length > 0) {
-			let responses = files.map(async (file) => {
+			const responses = files.map(async (file) => {
 				const formData = new FormData();
 				formData.append('file', file);
 				const response = await fetch('/api/document-intelligence', {
