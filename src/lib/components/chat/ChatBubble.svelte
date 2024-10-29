@@ -6,7 +6,7 @@
 	import './chat.postcss';
 	import OrderedListItem from './Renderers/OrderedListItem.svelte';
 	import UnorderedListItem from './Renderers/UnorderedListItem.svelte';
-	import type { Message } from '$lib/chat.svelte';
+	import type { Message } from './messageHandling.svelte';
 
 	let { message = $bindable() }: { message: Message } = $props();
 
@@ -48,7 +48,7 @@
 	<p>Copy</p>
 </div>
 
-<div class={`${roleCss[message.role]} card p-4 rounded-tl-none space-y-2 `}>
+<div class={`${roleCss[message.role]} card p-4 rounded-xl space-y-2 `}>
 	<header class="flex justify-between items-center">
 		<p class="font-bold">{names[message.role]}</p>
 		<div class="grid grid-flow-col-dense gap-2">

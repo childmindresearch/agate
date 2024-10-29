@@ -51,7 +51,7 @@
 		<div class="h-max w-max md:flex hidden">
 			<Navigation />
 		</div>
-		<div class="px-5 mt-5 w-auto min-w-[332px] min-h-[90%]">
+		<div class="w-auto min-w-[332px] min-h-[90%]">
 			{@render children()}
 		</div>
 	</div>

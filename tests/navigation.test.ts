@@ -34,18 +34,18 @@ test('clicking on a link changes the route', async ({ page }) => {
 });
 
 test('current page has a distinct class', async ({ page }) => {
-	await page.goto('/gpt');
+	await page.goto('/chat');
 	const locator = page.getByTestId('a-navigation');
 	const links = await locator.all();
-	const gptLink = links.filter(async (link) => {
+	const chatLink = links.filter(async (link) => {
 		const href = await link.getAttribute('href');
-		return href === '/gpt';
+		return href === '/chat';
 	})[0];
-	const gptClass = await gptLink.getAttribute('class');
+	const chatClass = await chatLink.getAttribute('class');
 
 	for (const link of links) {
-		if (link !== gptLink) {
-			expect(await link.getAttribute('class')).not.toBe(gptClass);
+		if (link !== chatLink) {
+			expect(await link.getAttribute('class')).not.toBe(chatClass);
 		}
 	}
 });

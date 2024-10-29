@@ -1,8 +1,11 @@
 <script lang="ts">
-	import { Chat } from '$lib/chat.svelte';
+	import { browser } from '$app/environment';
+	import { Chat } from './messageHandling.svelte';
 
-	let { chatIds, onclick }: { chatIds: string[]; onclick: (chat: Chat) => void } = $props();
-	let searchString: string = $state('');
+	let { onclick }: { onclick: (chat: Chat) => void } = $props();
+	let chatIds = $state(
+		browser ? Object.keys({ ...localStorage }).filter((key) => key.startsWith('agate-chat')) : []
+	);
 
 	const chatOptions = chatIds
 		.map((id) => {
@@ -20,16 +23,7 @@
 	}
 </script>
 
-<input
-	class="input max-h-10"
-	type="search"
-	name="autocomplete-search"
-	placeholder="Search..."
-	autocomplete="off"
-	bind:value={searchString}
-/>
-
-<div class="max-h-64 p-4 overflow-y-auto border-2 bg-white">
+<div class="p-4 overflow-y-auto max-h-[calc(100vh-260px)] border-2 bg-white">
 	<ul class="w-full">
 		{#each chatOptions as option}
 			<li class="w-full">
