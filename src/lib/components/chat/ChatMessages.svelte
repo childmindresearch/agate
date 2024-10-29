@@ -17,7 +17,7 @@
 	}
 
 	$effect(() => {
-		chat.messages[chat.messages.length - 1].content; // Needed as an explicit dependency.
+		void chat.messages[chat.messages.length - 1].content; //  Needed as an explicit dependency.
 		const force = chat.messages[chat.messages.length - 1].role === 'user';
 		scrollChatBottom(force);
 	});
