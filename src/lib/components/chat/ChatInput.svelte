@@ -1,6 +1,7 @@
 <script lang="ts">
 	import DeleteIcon from '$lib/icons/DeleteIcon.svelte';
 	import UploadIcon from '$lib/icons/UploadIcon.svelte';
+	import { getToastStore } from '@skeletonlabs/skeleton';
 
 	type Props = {
 		onsend: (arg0: string, arg1?: File[]) => Promise<void>;
@@ -11,6 +12,8 @@
 	let currentMessage = $state('');
 	let files: File[] = $state([]);
 	let disabled = $state(false);
+
+	const toastStore = getToastStore();
 
 	function resizeTextArea(event: Event) {
 		const target = event.target as HTMLTextAreaElement;
@@ -41,6 +44,10 @@
 				files = [];
 				await promise;
 				disabled = false;
+			} else {
+				toastStore.trigger({
+					message: 'Please wait until Agate is done responding.'
+				});
 			}
 		}
 	}

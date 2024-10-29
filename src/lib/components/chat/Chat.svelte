@@ -9,12 +9,10 @@
 	import { type modelTags } from './constants';
 	import { Chat } from './messageHandling.svelte';
 	import SystemPrompts from './SystemPrompts.svelte';
-	import type { SvelteComponent } from 'svelte';
 
-	let model: modelTags = $state('anthropic.claude-3-5-sonnet-20240620-v1:0');
+	let model: modelTags = $state('anthropic.claude-3-5-sonnet-20241022-v2:0');
 	let chat: Chat | null = $state(null);
 	let openHistory = $state(false);
-	let elem: SvelteComponent | undefined = $state();
 
 	async function onsend(content: string, files?: File[]) {
 		if (!chat) {
@@ -45,7 +43,7 @@
 		{#if !chat}
 			<SystemPrompts onPromptSubmit={(prompt) => (chat = new Chat({ systemPrompt: prompt }))} />
 		{:else}
-			<div class="mb-4"><ChatMessages bind:this={elem} {chat} /></div>
+			<div class="mb-4"><ChatMessages {chat} /></div>
 			<div class="fixed bottom-2 right-0 w-full md:w-[calc(100vw-240px)] px-2">
 				<ChatInput {onsend} />
 			</div>
