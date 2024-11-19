@@ -1,4 +1,5 @@
 <script lang="ts">
+	import DeprecationBanner from '$lib/components/banners/DeprecationBanner.svelte';
 	import FormActionPage from '$lib/components/PageTemplates/FormActionPage.svelte';
 	import type { SubmitFunction } from '@sveltejs/kit';
 
@@ -14,6 +15,9 @@
 	};
 </script>
 
+<div class="mb-2">
+	<DeprecationBanner />
+</div>
 <FormActionPage {title} {description} {enhancer}>
 	<label for="file">Prompt</label>
 	<textarea

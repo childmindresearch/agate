@@ -7,11 +7,10 @@
 		'Transcribe and diarize files. This process works in batches i.e. it may take several minutes or hours before your files are processed. Once submitted, please navigate to the Diarization retrieval page to download your results. Note that results are deleted one week after finishing.';
 </script>
 
-<BaseBanner
-	title={'Known Bug'}
-	message={'There is a known bug where large files will crash the server and result in a JSON decode error. A fix is in the works.'}
-	variant="error"
-/>
+<BaseBanner title={'Known Bug'} variant="error">
+	There is a known bug where large files will crash the server and result in a JSON decode error. A
+	fix is in the works.
+</BaseBanner>
 <FormActionPage {title} {description} hasBusinessAssociateAgreemment>
 	<input
 		class="input block max-w-64"
