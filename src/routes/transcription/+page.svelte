@@ -21,11 +21,10 @@
 	};
 </script>
 
-<BaseBanner
-	title={'Known Bug'}
-	message={'There is a known bug where large files will crash the server and result in a JSON decode error. A fix is in the works.'}
-	variant="error"
-/>
+<BaseBanner title={'Known Bug'} variant="error">
+	There is a known bug where large files will crash the server and result in a JSON decode error. A
+	fix is in the works.
+</BaseBanner>
 <FormActionPage {title} {description} {enhancer} hasBusinessAssociateAgreemment>
 	<input
 		class="input"

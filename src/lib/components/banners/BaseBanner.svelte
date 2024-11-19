@@ -1,14 +1,15 @@
 <script lang="ts">
 	import { modeCurrent } from '@skeletonlabs/skeleton';
+	import type { Snippet, SvelteComponent } from 'svelte';
 
 	let {
 		title,
-		message,
-		variant
+		variant,
+		children
 	}: {
 		title: string;
-		message: string;
 		variant: 'success' | 'error' | 'warning';
+		children: Snippet;
 	} = $props();
 
 	const colorLightClass = `alert variant-soft-${variant}`;
@@ -32,6 +33,6 @@
 <aside class={currentClass}>
 	<div class="alert-message">
 		<h3 class="h3">{title}</h3>
-		<p>{message}</p>
+		{@render children?.()}
 	</div>
 </aside>

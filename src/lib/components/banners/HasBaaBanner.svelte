@@ -2,8 +2,6 @@
 	import BaseBanner from './BaseBanner.svelte';
 </script>
 
-<BaseBanner
-	title="Business Associate Agreement"
-	message="Our Business Associate Agreement(s) cover(s) this service. It is safe to upload protected data."
-	variant="success"
-/>
+<BaseBanner title="Business Associate Agreement" variant="success">
+	Our Business Associate Agreement(s) cover(s) this service. It is safe to upload protected data.
+</BaseBanner>
