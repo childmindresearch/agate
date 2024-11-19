@@ -2,7 +2,7 @@
 	import BaseBanner from './BaseBanner.svelte';
 </script>
 
-<BaseBanner title="Beta Feature" variant="error">
+<BaseBanner title="Deprecated" variant="error">
 	This feature has been deprecated and will no longer be maintained. Please use
 	<a
 		href="https://docbot.childmind.org"
