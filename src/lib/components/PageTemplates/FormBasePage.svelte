@@ -5,6 +5,7 @@
 	import NoBaaBanner from '$lib/components/banners/NoBaaBanner.svelte';
 	import HasBaaBanner from '$lib/components/banners/HasBaaBanner.svelte';
 	import type { Snippet } from 'svelte';
+	import TerminationBanner from '$lib/components/banners/TerminationBanner.svelte';
 
 	let {
 		title,
@@ -36,6 +37,7 @@
 	<title>Agate | {title}</title>
 </svelte:head>
 
+<TerminationBanner />
 {#if hasBusinessAssociateAgreemment}
 	<HasBaaBanner />
 {:else}

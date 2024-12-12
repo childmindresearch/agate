@@ -6,7 +6,6 @@
 	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 	import { browser } from '$app/environment';
 	import ChatHistory from './ChatHistory.svelte';
-	import DeprecationBanner from '$lib/components/banners/DeprecationBanner.svelte';
 
 	let systemPrompt = $state('');
 	let model = $state('anthropic.claude-3-5-sonnet-20240620-v1:0');
@@ -59,7 +58,6 @@
 </script>
 
 <div hidden={chat !== null} class="space-y-2">
-	<DeprecationBanner />
 	<FormBasePage {title} {description} hasBusinessAssociateAgreemment />
 	<div class="grid grid-cols-2 gap-4">
 		<div>

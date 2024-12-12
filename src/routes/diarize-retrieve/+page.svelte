@@ -1,5 +1,6 @@
 <script lang="ts">
 	import HasBaaBanner from '$lib/components/banners/HasBaaBanner.svelte';
+	import TerminationBanner from '$lib/components/banners/TerminationBanner.svelte';
 	import { downloadBlob } from '$lib/fileHandling';
 	import DownloadIcon from '$lib/icons/DownloadIcon.svelte';
 	import type { Transcription, TranscriptionResponse } from './types';
@@ -19,6 +20,7 @@
 	}
 </script>
 
+<TerminationBanner />
 <HasBaaBanner />
 
 <span>
